@@ -149,5 +149,14 @@ namespace MinhaAgendaDeContatos.Exceptions {
                 return ResourceManager.GetString("TELEFONE_CONTATO_INVALIDO", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nenhum contato encontrado com esse telefone.
+        /// </summary>
+        public static string TELEFONE_NAO_ENCONTRADO {
+            get {
+                return ResourceManager.GetString("TELEFONE_NAO_ENCONTRADO", resourceCulture);
+            }
+        }
     }
 }

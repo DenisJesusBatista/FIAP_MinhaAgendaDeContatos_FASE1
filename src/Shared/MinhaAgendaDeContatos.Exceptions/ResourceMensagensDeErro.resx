@@ -147,4 +147,7 @@
   <data name="TELEFONE_CONTATO_INVALIDO" xml:space="preserve">
     <value>O telefone do contato é inválido.</value>
   </data>
+  <data name="TELEFONE_NAO_ENCONTRADO" xml:space="preserve">
+    <value>Nenhum contato encontrado com esse telefone</value>
+  </data>
 </root>

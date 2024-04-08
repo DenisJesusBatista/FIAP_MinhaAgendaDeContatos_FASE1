@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\MinhaAgendaDeContatos.Comunicacao\MinhaAgendaDeContatos.Comunicacao.csproj" />
+    <ProjectReference Include="..\..\Shared\MinhaAgendaDeContatos.Exceptions\MinhaAgendaDeContatos.Exceptions.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Application\MinhaAgendaDeContatos.Application.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Infraestrutura\MinhaAgendaDeContatos.Infraestrutura.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\MinhaAgendaDeContatos.Comunicacao\MinhaAgendaDeContatos.Comunicacao.csproj" />
+    <ProjectReference Include="..\..\Shared\MinhaAgendaDeContatos.Exceptions\MinhaAgendaDeContatos.Exceptions.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Domain\MinhaAgendaDeContatos.Domain.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Infraestrutura\MinhaAgendaDeContatos.Infraestrutura.csproj" />
+  </ItemGroup>
+
+</Project>

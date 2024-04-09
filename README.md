@@ -20,7 +20,7 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
 
 # Instalação
   
-## Pacotes ( Plugin )
+## Pacotes ( Plugins )
 
 ### Projeto InfraEstrutura
   * Dapper
@@ -32,7 +32,7 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
   * Microsoft.AspNetCore.Http.Abstractions
   * Microsoft.Extensions.Logging
 
-### Projeto API (Plugin)
+### Projeto API 
   * AutoMapper.Extensions.Microsoft.DependencyInjection
   * ConfigurationManager
 

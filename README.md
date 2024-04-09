@@ -1,4 +1,4 @@
-## Sobre o projeto MinhaAgendaDeContatos
+# Sobre o projeto MinhaAgendaDeContatos
 
 Este projeto é uma API implementada em .NET Core que foi construída utilizando a arquitetura Domain Drive Design.
 
@@ -12,17 +12,17 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
 - Deletar contato;
 
 
-  # Requisitos
+# Requisitos
   
 * Visual Studio 2022
 * PostGres 16.2-1 ou mais
 
 
-  # Instalação
+# Instalação
   
-  ## Pacotes ( Plugin )
+## Pacotes ( Plugin )
 
-  ### Projeto InfraEstrutura
+### Projeto InfraEstrutura
   * Dapper
   * NpgSql (7.0.6)
   * NpgSql.EntityFrameworkCore
@@ -32,10 +32,10 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
   * Microsoft.AspNetCore.Http.Abstractions
   * Microsoft.Extensions.Logging
 
-  ### Projeto API (Plugin)
+### Projeto API (Plugin)
   * AutoMapper.Extensions.Microsoft.DependencyInjection
   * ConfigurationManager
 
-  ### Projeto Application
+### Projeto Application
   * AutoMapper
   * FluentValidation

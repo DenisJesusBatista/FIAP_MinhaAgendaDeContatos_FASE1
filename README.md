@@ -57,6 +57,8 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
 
   ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/e486068c-1dae-487d-b428-7c2a88ef1698)
 
+## Persistência de dados
+
 * Criando a tabela no banco com as colunas e ColunasPadrões, arquivo `Versao0000001` que se encontra em: MinhaAgendaDeContatos.Infraestrutura\Migrations\Versoes
 
   ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/8452b12d-1f45-4c80-b4d1-3ae271bebe17)

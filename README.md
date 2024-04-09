@@ -40,5 +40,5 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
   * AutoMapper
   * FluentValidation
 
-#Configuração
+# Configuração
 * Ao realizar a instalação do postgre, definir o usuário e senha, conforme definido no arquivo `appsettings.Development.json` na propriedade `ConnectionStrings`.

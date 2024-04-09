@@ -41,7 +41,7 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
   * FluentValidation
 
 # Configuração
-* Ao realizar a instalação do postgres, definir o usuário e senha, conforme definido no arquivo `appsettings.Development.json` na propriedade `ConnectionStrings`.
+* Ao realizar a instalação do postgres, definir o usuário e senha conforme arquivo `appsettings.Development.json` na propriedade `ConnectionStrings`.
 * Foram configurados os EndPoints `RegistrarContato`, `RecuperarPorPrefixo`, `RecuperarTodosContatos`, `Deletar` e `UpdateContato` na ContatoController.
 
 ## Configuração de Injeção de Dependência

@@ -42,3 +42,10 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
 
 # Configuração
 * Ao realizar a instalação do postgre, definir o usuário e senha, conforme definido no arquivo `appsettings.Development.json` na propriedade `ConnectionStrings`.
+* Foram configurados os EndPoints `RegistrarContato`, `RecuperarPorPrefixo`, `RecuperarTodosContatos`, `Deletar` e `UpdateContato` na ContatoController.
+
+## Configuração de Injeção de Dependência
+* Os registros da injeção de dependência estão sendo feitas na classe `Bootstrapper.cs`, conforme imagem abaixo:
+
+  ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/2153ec77-f4ea-4912-a712-3043ec918610)
+

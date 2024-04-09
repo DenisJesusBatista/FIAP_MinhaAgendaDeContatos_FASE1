@@ -58,7 +58,7 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
   ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/8452b12d-1f45-4c80-b4d1-3ae271bebe17)
 
 
- * Migrations que faz a chada d UP da criação da tabela acima.
+ * Migrations que faz a chamada d UP da criação da tabela acima.
 
    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/6d6b6d07-b1f2-4638-b1ba-1f27a5823b10)
 

@@ -13,18 +13,19 @@ namespace MinhaAgendaDeContatos.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class ContatoController : ControllerBase
-{
+{ 
+
     [HttpPost]
-    [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status201Created)] 
     public async Task<IActionResult> RegistrarContato(
-        [FromServices] IRegistrarContatoUseCase useCase,
-        [FromBody] RequisicaoRegistrarContatoJson request)
+    [FromServices] IRegistrarContatoUseCase useCase,
+    [FromBody] RequisicaoRegistrarContatoJson request)
     {
-        var resultado = await useCase.Executar(request);
+        // Aguardar a execução do método Executar
+        await useCase.Executar(request);
 
-        return Created(string.Empty, resultado);
-
+        return Created(string.Empty, null);
     }
+
 
     [HttpGet]
     [Route("{prefixo}")]

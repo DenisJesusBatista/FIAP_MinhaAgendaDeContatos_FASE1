@@ -22,9 +22,7 @@ public class Versao0000001 : Migration
 
     public override void Up()
     {
-        CustomLogger.Arquivo = true;
-
-      
+        CustomLogger.Arquivo = true;      
 
         var tabela = VersaoBase.InserirColunasPadrao(Create.Table("Contatos"));
 

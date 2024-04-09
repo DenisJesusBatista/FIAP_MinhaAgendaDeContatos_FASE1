@@ -45,6 +45,10 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
 * Foram configurados os EndPoints `RegistrarContato`, `RecuperarPorPrefixo`, `RecuperarTodosContatos`, `Deletar` e `UpdateContato` na ContatoController.
 
 ## Configuração de Injeção de Dependência
+* Configuração feita na `Program.cs`
+
+  ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/4cacdb4e-10dd-475c-baf3-a7b356be78f8)
+
 * Os registros da injeção de dependência para os useCase estão sendo feitas na classe `Bootstrapper.cs`, conforme imagem abaixo:
 
   ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/2153ec77-f4ea-4912-a712-3043ec918610)

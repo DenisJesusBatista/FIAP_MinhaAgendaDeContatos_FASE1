@@ -57,7 +57,7 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
 
   ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/e486068c-1dae-487d-b428-7c2a88ef1698)
 
-## Persistência de dados
+## Criação de tabela
 
 * Criando a tabela no banco com as colunas e ColunasPadrões, arquivo `Versao0000001` que se encontra em: MinhaAgendaDeContatos.Infraestrutura\Migrations\Versoes
 
@@ -67,6 +67,20 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
  * Migrations que faz a chamada d UP da criação da tabela acima.
 
    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/6d6b6d07-b1f2-4638-b1ba-1f27a5823b10)
+
+## Persistência dos dados
+* Criado no projeto `MinhaAgendaDeContatos.Domain` a pasta repositorio onde consta os arquivo que serão responsavéis em deletar, alterar, inserir e excluir.
+
+  ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/c6db1c2e-fe33-484d-a3e9-aa9aa94857b2)
+
+* No projeto `MinhaAgendaDeContatos.Application` e na pasta UseCases consta toda a regra de negócio separadas por responsabilidade.
+ 
+    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/c2540ebe-6a73-4283-bcf1-0dd8afdace41)
+
+* Exemplo do metódo de alteração
+  ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/a2b3461a-c897-4dad-9a14-f5f645848f59)
+
+ 
 
 
    

@@ -84,7 +84,19 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
 
   ## Documentação da API
 
+  * Configuração necessária no projeto
+ 
+    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/fa3ffc24-ee6f-448c-a950-03f577f74fc5)
+
+
   * Realizado a documentação na API.
+ 
+    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/747d04aa-94ab-4d43-86a7-70d76f2170c9)
+
+  * EndPoint
+ 
+    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/5c272d23-3eca-4979-bde2-bdd0d252c2eb)
+
   
 
  

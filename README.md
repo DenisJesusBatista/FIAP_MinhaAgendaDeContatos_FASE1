@@ -81,6 +81,12 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
   
   ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/a2b3461a-c897-4dad-9a14-f5f645848f59)
 
+
+  ## Documentação da API
+
+  * Realizado a documentação na API.
+  
+
  
 
 

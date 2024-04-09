@@ -14,7 +14,12 @@ namespace MinhaAgendaDeContatos.Api.Controllers;
 [ApiController]
 public class ContatoController : ControllerBase
 { 
-
+    /// <summary>
+    /// Registrar contato no banco de dados
+    /// </summary>
+    /// <param name="useCase"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> RegistrarContato(
     [FromServices] IRegistrarContatoUseCase useCase,
@@ -27,6 +32,12 @@ public class ContatoController : ControllerBase
     }
 
 
+    /// <summary>
+    /// Retorna os contatos de acordo com o prefixo informado.
+    /// </summary>
+    /// <param name="useCase"></param>
+    /// <param name="prefixo"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("{prefixo}")]
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
@@ -39,6 +50,11 @@ public class ContatoController : ControllerBase
         return Ok(resposta);
     }
 
+    /// <summary>
+    /// Retornar todos os contatos.
+    /// </summary>
+    /// <param name="useCase"></param>
+    /// <returns></returns>
     [HttpGet]    
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarTodosContatos(
@@ -50,6 +66,12 @@ public class ContatoController : ControllerBase
 
     }
 
+    /// <summary>
+    /// Deletar contato do banco de dados através do email informado.
+    /// </summary>
+    /// <param name="useCase"></param>
+    /// <param name="email"></param>
+    /// <returns></returns>
     [HttpDelete]
     [Route("{email:}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -63,6 +85,12 @@ public class ContatoController : ControllerBase
 
     }
 
+    /// <summary>
+    /// Atualizar o telefone ou email do contato.
+    /// </summary>
+    /// <param name="useCase"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPut]   
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> UpdateContato(

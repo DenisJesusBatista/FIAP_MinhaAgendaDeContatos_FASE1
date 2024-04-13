@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 
@@ -12,29 +13,27 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
         _contexto = contexto;
 
     }
-    public async Task Adicionar(Contato contato)
-    {
-        await _contexto.Contatos.AddAsync(contato);
-    }
+    public async Task Adicionar(Contato contato) => await _contexto.Contatos.AddAsync(contato);
+
 
     public async Task Deletar(string email)
     {
-        var contato = await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email == email);  
+        var contato = await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email == email);
         _contexto.Contatos.Remove(contato);
     }
 
-    public async Task<bool> ExisteUsuarioComEmail(string email)
+    public async Task<bool> ExisteUsuarioComEmail(RequisicaoRegistrarContatoJson requisicao)
     {
-        return await _contexto.Contatos.AnyAsync(c => c.Email.Equals(email));
+        return await _contexto.Contatos.AnyAsync(c => c.Email.Equals(requisicao.Email));
     }
 
     public async Task<Contato> RecuperarPorEmail(string email)
-    {        
+    {
         return await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email.Equals(email));
     }
 
     public async Task<IList<Contato>> RecuperarPorPrefixo(string prefixo)
-    {   
+    {
         return await _contexto.Contatos.AsNoTracking()
         .Where(x => x.Prefixo == prefixo)
         .ToListAsync();
@@ -42,7 +41,7 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
 
     public async Task<IList<Contato>> RecuperarTodosContatos()
     {
-        return await _contexto.Contatos.AsNoTracking().ToListAsync();            
+        return await _contexto.Contatos.AsNoTracking().ToListAsync();
     }
 
     public void Update(Contato contato)
@@ -52,6 +51,6 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
 
     async Task IContatoWriteOnlyRepositorio.Update(Contato contato)
     {
-        _contexto.Contatos.Update(contato);        
+        _contexto.Contatos.Update(contato);
     }
 }

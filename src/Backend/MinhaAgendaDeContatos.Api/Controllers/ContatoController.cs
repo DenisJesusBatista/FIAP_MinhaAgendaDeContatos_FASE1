@@ -6,6 +6,7 @@ using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
+using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using System.Reflection.Metadata.Ecma335;
 
@@ -13,18 +14,19 @@ namespace MinhaAgendaDeContatos.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class ContatoController : ControllerBase
-{ 
+{
 
     [HttpPost]
+    [Produces("application/json")]
     public async Task<IActionResult> RegistrarContato(
-    [FromServices] IRegistrarContatoUseCase useCase,
-    [FromBody] RequisicaoRegistrarContatoJson request)
+   [FromServices] IRegistrarContatoUseCase useCase,
+   [FromBody] RequisicaoRegistrarContatoJson request)
     {
         // Aguardar a execução do método Executar
-        await useCase.Executar(request);
-
-        return Created(string.Empty, null);
+        bool result = await useCase.Executar(request);
+        return Created(string.Empty,new { success = result, request });
     }
+
 
 
     [HttpGet]
@@ -39,7 +41,7 @@ public class ContatoController : ControllerBase
         return Ok(resposta);
     }
 
-    [HttpGet]    
+    [HttpGet]
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarTodosContatos(
         [FromServices] IRecuperarTodosContatosUseCase useCase)
@@ -63,7 +65,7 @@ public class ContatoController : ControllerBase
 
     }
 
-    [HttpPut]   
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> UpdateContato(
        [FromServices] IUpdateContatoUseCase useCase,

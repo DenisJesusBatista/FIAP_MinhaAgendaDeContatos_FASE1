@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using MinhaAgendaDeContatos.Domain.Entidades;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Application.Servicoes.AutoMapper;
 
 /*Realizar a configuração do AutoMapper*/
+[ExcludeFromCodeCoverage]
 public class AutoMapperConfiguracao: Profile
 {
     public AutoMapperConfiguracao()

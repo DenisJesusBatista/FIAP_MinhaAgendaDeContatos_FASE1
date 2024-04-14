@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 
 namespace MinhaAgendaDeContatos.UnitTest
 {
-    public class RecuperarTodosUseCaseTest
+    public class RecuperarTodosUseCaseTests
     {
         private readonly Mock<IContatoReadOnlyRepositorio> _repositorioReadOnly;
         private readonly Mock<IMapper> _mapper;
         private readonly IRecuperarTodosContatosUseCase _useCase;
-        public RecuperarTodosUseCaseTest()
+        public RecuperarTodosUseCaseTests()
         {
             _repositorioReadOnly = new Mock<IContatoReadOnlyRepositorio>();
             _mapper = new Mock<IMapper>();

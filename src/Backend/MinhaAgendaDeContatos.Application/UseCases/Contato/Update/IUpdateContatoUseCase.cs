@@ -9,6 +9,4 @@ namespace MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
 public interface IUpdateContatoUseCase
 {
     Task Executar(RequisicaoAlterarContatoJson requisicao);
-
-    Task<Domain.Entidades.Contato> RecuperarPorEmail(string email);
 }

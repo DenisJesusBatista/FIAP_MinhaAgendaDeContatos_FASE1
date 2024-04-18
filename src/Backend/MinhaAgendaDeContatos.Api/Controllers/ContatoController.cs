@@ -15,8 +15,6 @@ namespace MinhaAgendaDeContatos.Api.Controllers;
 [ApiController]
 public class ContatoController : ControllerBase
 {
-    private static int id = 0;
-
     /// <summary>
     /// Registrar contato no banco de dados
     /// </summary>

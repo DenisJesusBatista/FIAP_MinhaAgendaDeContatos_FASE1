@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using MinhaAgendaDeContatos.Api.Filtros;
 using MinhaAgendaDeContatos.Application;
 using MinhaAgendaDeContatos.Application.Servicoes.AutoMapper;
@@ -5,6 +6,7 @@ using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Infraestrutura;
 using MinhaAgendaDeContatos.Infraestrutura.Logging;
 using MinhaAgendaDeContatos.Infraestrutura.Migrations;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,21 @@ builder.Services.AddRouting(option => option.LowercaseUrls = true);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+
+//Registar a documentação no Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    // Defina a versão como uma string
+    string version = "1.0";
+
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha agenda de contato", Version = version });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);  
+});
 
 builder.Services.AddRepositorio(builder.Configuration);
 

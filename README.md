@@ -41,7 +41,7 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
   * FluentValidation
 
 # Configuração
-* Ao realizar a instalação do postgres, definir o usuário e senha conforme arquivo `appsettings.Development.json` na propriedade `ConnectionStrings`.
+* Ao realizar a instalação do postgres será necessário definir o usuário e senha, conforme arquivo `appsettings.Development.json` na propriedade `ConnectionStrings`.
 * Foram configurados os EndPoints `RegistrarContato`, `RecuperarPorPrefixo`, `RecuperarTodosContatos`, `Deletar` e `UpdateContato` na ContatoController.
 
 ## Configuração de Injeção de Dependência
@@ -80,6 +80,24 @@ Este projeto é uma API implementada em .NET Core que foi construída utilizando
 * Exemplo do metódo de alteração
   
   ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/a2b3461a-c897-4dad-9a14-f5f645848f59)
+
+
+  ## Documentação da API
+
+  * Configuração necessária no projeto
+ 
+    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/fa3ffc24-ee6f-448c-a950-03f577f74fc5)
+
+
+  * Realizado a documentação na API.
+ 
+    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/747d04aa-94ab-4d43-86a7-70d76f2170c9)
+
+  * EndPoint
+ 
+    ![image](https://github.com/DenisJesusBatista/FIAP_MinhaAgendaDeContatos_FASE1/assets/52789764/5c272d23-3eca-4979-bde2-bdd0d252c2eb)
+
+  
 
  
 

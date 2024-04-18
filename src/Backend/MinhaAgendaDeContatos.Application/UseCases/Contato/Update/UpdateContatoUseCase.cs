@@ -10,26 +10,19 @@ using Microsoft.EntityFrameworkCore;
 namespace MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
 public class UpdateContatoUseCase: IUpdateContatoUseCase
 {
-    private readonly MinhaAgendaDeContatosContext _contexto;
     private readonly IContatoReadOnlyRepositorio _repositorioReadOnly;
     private readonly IContatoWriteOnlyRepositorio _repositorioWriteOnly;
     private readonly IUnidadeDeTrabalho _unidadeDeTrabalho;
-    private readonly IContatoUpdateOnlyRepositorio _repositorioUpdateOnly;
-
 
     public UpdateContatoUseCase(
        IContatoReadOnlyRepositorio repositorioReadOnly,
        IContatoWriteOnlyRepositorio repositorioWriteOnly,
-       IUnidadeDeTrabalho unidadeDeTrabalho,
-       IContatoUpdateOnlyRepositorio repositorioUpdateOnly)
+       IUnidadeDeTrabalho unidadeDeTrabalho)
     
     {
         _repositorioReadOnly = repositorioReadOnly;
         _repositorioWriteOnly = repositorioWriteOnly;
         _unidadeDeTrabalho = unidadeDeTrabalho;
-        _repositorioUpdateOnly = repositorioUpdateOnly;
-       
-        
     }  
 
     public async Task Executar(RequisicaoAlterarContatoJson requisicao)
@@ -55,10 +48,5 @@ public class UpdateContatoUseCase: IUpdateContatoUseCase
         {
             throw new ErrosDeValidacaoException(new List<string> { ResourceMensagensDeErro.CONTATO_NAO_ENCONTRADO });
         }       
-    }
-
-    public async Task<Domain.Entidades.Contato> RecuperarPorEmail(string email)
-    {
-        return await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email.Equals(email));
     }
 }

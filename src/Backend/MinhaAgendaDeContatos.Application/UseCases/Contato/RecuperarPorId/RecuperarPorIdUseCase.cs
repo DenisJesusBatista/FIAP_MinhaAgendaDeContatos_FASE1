@@ -35,4 +35,5 @@ public class RecuperarPorIdUseCase : IRecuperarPorIdUseCase
             throw new ErrosDeValidacaoException(new List<string> { ResourceMensagensDeErro.CONTATO_NAO_ENCONTRADO });
         }
     }
+
 }

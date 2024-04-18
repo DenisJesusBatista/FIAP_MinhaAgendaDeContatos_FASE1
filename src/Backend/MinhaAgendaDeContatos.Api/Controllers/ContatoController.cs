@@ -43,7 +43,7 @@ public class ContatoController : ControllerBase
     /// <param name="prefixo"></param>
     /// <returns></returns>
     [HttpGet]
-    [Route("{prefixo}")]
+    [Route("prefixo/{prefixo}")]
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarPorPrefixo(
     [FromServices] IRecuperarPorPrefixoUseCase useCase,
@@ -62,7 +62,7 @@ public class ContatoController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    [Route("{id}")]
+    [Route("id/{id}")]
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarPorId(
     [FromServices] IRecuperarPorIdUseCase useCase,

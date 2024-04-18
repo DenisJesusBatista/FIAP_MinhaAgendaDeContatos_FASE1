@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Deletar;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorId;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorPrefixo;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarTodos;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
@@ -22,6 +23,7 @@ public static class Bootstrapper
     {
         services.AddScoped<IRegistrarContatoUseCase, RegistrarContatoUseCase>()
             .AddScoped<IRecuperarPorPrefixoUseCase, RecuperarPorPrefixoUseCase>()
+            .AddScoped<IRecuperarPorIdUseCase, RecuperarPorIdUseCase>() 
             .AddScoped<IRecuperarTodosContatosUseCase, RecuperarTodosContatosUseCase>()
             .AddScoped<IUpdateContatoUseCase, UpdateContatoUseCase>()                      
             .AddScoped<IDeletarContatoUseCase, DeletarContatoUseCase>();

@@ -53,7 +53,6 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
     }
 
 
-
     public void Update(Contato contato)
     {
         _contexto.Contatos.Update(contato);
@@ -62,5 +61,5 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
     async Task IContatoWriteOnlyRepositorio.Update(Contato contato)
     {
         _contexto.Contatos.Update(contato);        
-    }
+    } 
 }

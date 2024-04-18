@@ -48,12 +48,16 @@ namespace MinhaAgendaDeContatos.UnitTest
             var request = new AutoFaker<RequisicaoRegistrarContatoJson>().Generate();
 
             //Act
-            var result = (CreatedResult)await _controller.RegistrarContato(_registrarUseCase.Object, request);
+            var result = await _controller.RegistrarContato(_registrarUseCase.Object, request);
 
             //Assert
+            var createdResult = Assert.IsType<CreatedAtActionResult>(result);
+            createdResult.ActionName.Should().Be(nameof(Application.UseCases.Contato.RecuperarPorId));
+            createdResult.RouteValues["id"].Should().Be(request.Id);
+
             _registrarUseCase.Verify(x => x.Executar(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Once);
-            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
         }
+
 
         [Fact]
         public async Task RecuperarPorPrefixo_Deve_Chamar_UseCase_E_Retornar_Ok_Com_Tipo_Correto()

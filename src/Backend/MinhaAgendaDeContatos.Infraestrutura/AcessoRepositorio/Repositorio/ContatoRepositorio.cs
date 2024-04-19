@@ -45,6 +45,14 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
         return await _contexto.Contatos.AsNoTracking().ToListAsync();            
     }
 
+    public async Task<IList<Contato>> RecuperarPorId(int id)
+    {
+        return await _contexto.Contatos.AsNoTracking()
+        .Where(x => x.Id == id)
+        .ToListAsync();
+    }
+
+
     public void Update(Contato contato)
     {
         _contexto.Contatos.Update(contato);
@@ -53,5 +61,5 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
     async Task IContatoWriteOnlyRepositorio.Update(Contato contato)
     {
         _contexto.Contatos.Update(contato);        
-    }
+    } 
 }

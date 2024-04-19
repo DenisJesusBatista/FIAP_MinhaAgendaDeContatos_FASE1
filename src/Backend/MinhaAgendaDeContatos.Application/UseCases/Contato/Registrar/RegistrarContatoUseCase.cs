@@ -25,24 +25,8 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
         _unidadeDeTrabalho = unidadeDeTrabalho; 
         _contatoReadOnlyRepositorio = contatoReadOnlyRepositorio;
     }
-
-    //public async Task Executar(RequisicaoRegistrarContatoJson requisicao)
-    //{
-    //    await Validar(requisicao);
-
-    //    //Conversão requisicao para entidade AutoMap
-    //    //-Pluggin: AutoMapper na Application
-    //    //-Pluggin: AutoMapper.Extensions.Microsoft.DependencyInjection na API para configurar para funcionar como injecao de dependencia
-
-    //    var entidade = _mapper.Map<Domain.Entidades.Contato>(requisicao);
-
-    //    //Salvar no banco de dados
-
-    //    await _contatoWriteOnlyRepositorio.Adicionar(entidade);
-
-    //    await _unidadeDeTrabalho.Commit(); 
-    //}
-    public async Task Executar(RequisicaoRegistrarContatoJson requisicao)
+    
+    public async Task<long> Executar(RequisicaoRegistrarContatoJson requisicao)
     {
         await Validar(requisicao);
 
@@ -56,10 +40,9 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
 
         await _contatoWriteOnlyRepositorio.Adicionar(entidade);
 
-        await _unidadeDeTrabalho.Commit();
+        await _unidadeDeTrabalho.Commit();  
 
-        // Se não precisar retornar nada, você pode adicionar um return Task.CompletedTask;
-        // return Task.CompletedTask;
+        return entidade.Id;
     }
 
 

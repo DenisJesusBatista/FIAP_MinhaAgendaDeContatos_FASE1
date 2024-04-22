@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\MinhaAgendaDeContatos.Comunicacao\MinhaAgendaDeContatos.Comunicacao.csproj" />
     <ProjectReference Include="..\MinhaAgendaDeContatos.Domain\MinhaAgendaDeContatos.Domain.csproj" />
   </ItemGroup>
 

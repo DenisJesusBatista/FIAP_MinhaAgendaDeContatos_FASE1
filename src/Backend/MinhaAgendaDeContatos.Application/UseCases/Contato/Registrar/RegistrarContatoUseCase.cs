@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using MinhaAgendaDeContatos.Domain.Repositorios;
@@ -42,9 +43,23 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
 
     //    await _unidadeDeTrabalho.Commit(); 
     //}
-    public async Task Executar(RequisicaoRegistrarContatoJson requisicao)
+    public async Task<bool> Executar(RequisicaoRegistrarContatoJson requisicao)
     {
-        await Validar(requisicao);
+        bool result = true;
+        var resultadoValidacao = await Validar(requisicao);
+        result = resultadoValidacao.IsValid;
+
+
+        //Resultado inválido retorna throw
+        if (!result)
+        {
+            throw new ErrosDeValidacaoException(resultadoValidacao
+                                                            .Errors
+                                                            .Select(x => x.ErrorMessage)
+                                                            .Distinct()
+                                                            .ToList());
+
+        }
 
         //Conversão requisicao para entidade AutoMap
         //-Pluggin: AutoMapper na Application
@@ -60,13 +75,14 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
 
         // Se não precisar retornar nada, você pode adicionar um return Task.CompletedTask;
         // return Task.CompletedTask;
+        return result;
     }
 
 
-    private async Task Validar(RequisicaoRegistrarContatoJson requisicao)
+    private async Task<ValidationResult> Validar(RequisicaoRegistrarContatoJson requisicao)
     {
         var validator = new RegistrarContatoValidator();
-        var resultado = validator.Validate(requisicao);
+        ValidationResult? resultado = validator.Validate(requisicao);
 
         var existeContatoComEmail = await _contatoReadOnlyRepositorio.ExisteUsuarioComEmail(requisicao.Email);
 
@@ -75,10 +91,12 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
             resultado.Errors.Add(new FluentValidation.Results.ValidationFailure("email", ResourceMensagensDeErro.EMAIL_JA_REGISTRADO));
         }
 
-        if (!resultado.IsValid)
-        {
-            var mensagensDeErro = resultado.Errors.Select(error => error.ErrorMessage).ToList();
-            throw new ErrosDeValidacaoException(mensagensDeErro);
-        }
+        return resultado;
+
+        //if (!resultado.IsValid)
+        //{
+        //    var mensagensDeErro = resultado.Errors.Select(error => error.ErrorMessage).ToList();
+        //    throw new ErrosDeValidacaoException(mensagensDeErro);
+        //}
     }
 }

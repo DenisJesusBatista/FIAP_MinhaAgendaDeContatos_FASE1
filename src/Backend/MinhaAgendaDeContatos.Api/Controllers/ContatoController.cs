@@ -27,7 +27,7 @@ public class ContatoController : ControllerBase
     [FromBody] RequisicaoRegistrarContatoJson request)
     {
         // Aguardar a execução do método Executar
-        await useCase.Executar(request);
+        bool result = await useCase.Executar(request);
 
         return CreatedAtAction(nameof(RecuperarPorId), new {id = request.Id}, 
             request);

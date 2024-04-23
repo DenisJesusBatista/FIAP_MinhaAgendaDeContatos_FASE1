@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FluentValidation.Results;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using MinhaAgendaDeContatos.Domain.Repositorios;
@@ -26,40 +25,10 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
         _unidadeDeTrabalho = unidadeDeTrabalho; 
         _contatoReadOnlyRepositorio = contatoReadOnlyRepositorio;
     }
-
-    //public async Task Executar(RequisicaoRegistrarContatoJson requisicao)
-    //{
-    //    await Validar(requisicao);
-
-    //    //Conversão requisicao para entidade AutoMap
-    //    //-Pluggin: AutoMapper na Application
-    //    //-Pluggin: AutoMapper.Extensions.Microsoft.DependencyInjection na API para configurar para funcionar como injecao de dependencia
-
-    //    var entidade = _mapper.Map<Domain.Entidades.Contato>(requisicao);
-
-    //    //Salvar no banco de dados
-
-    //    await _contatoWriteOnlyRepositorio.Adicionar(entidade);
-
-    //    await _unidadeDeTrabalho.Commit(); 
-    //}
-    public async Task<bool> Executar(RequisicaoRegistrarContatoJson requisicao)
+    
+    public async Task<Domain.Entidades.Contato> Executar(RequisicaoRegistrarContatoJson requisicao)
     {
-        bool result = true;
-        var resultadoValidacao = await Validar(requisicao);
-        result = resultadoValidacao.IsValid;
-
-
-        //Resultado inválido retorna throw
-        if (!result)
-        {
-            throw new ErrosDeValidacaoException(resultadoValidacao
-                                                            .Errors
-                                                            .Select(x => x.ErrorMessage)
-                                                            .Distinct()
-                                                            .ToList());
-
-        }
+        await Validar(requisicao);
 
         //Conversão requisicao para entidade AutoMap
         //-Pluggin: AutoMapper na Application
@@ -71,18 +40,16 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
 
         await _contatoWriteOnlyRepositorio.Adicionar(entidade);
 
-        await _unidadeDeTrabalho.Commit();
+        await _unidadeDeTrabalho.Commit();  
 
-        // Se não precisar retornar nada, você pode adicionar um return Task.CompletedTask;
-        // return Task.CompletedTask;
-        return result;
+        return entidade;
     }
 
 
-    private async Task<ValidationResult> Validar(RequisicaoRegistrarContatoJson requisicao)
+    private async Task Validar(RequisicaoRegistrarContatoJson requisicao)
     {
         var validator = new RegistrarContatoValidator();
-        ValidationResult? resultado = validator.Validate(requisicao);
+        var resultado = validator.Validate(requisicao);
 
         var existeContatoComEmail = await _contatoReadOnlyRepositorio.ExisteUsuarioComEmail(requisicao.Email);
 
@@ -91,12 +58,10 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
             resultado.Errors.Add(new FluentValidation.Results.ValidationFailure("email", ResourceMensagensDeErro.EMAIL_JA_REGISTRADO));
         }
 
-        return resultado;
-
-        //if (!resultado.IsValid)
-        //{
-        //    var mensagensDeErro = resultado.Errors.Select(error => error.ErrorMessage).ToList();
-        //    throw new ErrosDeValidacaoException(mensagensDeErro);
-        //}
+        if (!resultado.IsValid)
+        {
+            var mensagensDeErro = resultado.Errors.Select(error => error.ErrorMessage).ToList();
+            throw new ErrosDeValidacaoException(mensagensDeErro);
+        }
     }
 }

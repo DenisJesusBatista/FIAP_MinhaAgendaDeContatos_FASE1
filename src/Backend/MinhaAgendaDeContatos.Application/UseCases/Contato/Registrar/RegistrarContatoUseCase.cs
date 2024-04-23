@@ -26,7 +26,7 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
         _contatoReadOnlyRepositorio = contatoReadOnlyRepositorio;
     }
     
-    public async Task<long> Executar(RequisicaoRegistrarContatoJson requisicao)
+    public async Task<Domain.Entidades.Contato> Executar(RequisicaoRegistrarContatoJson requisicao)
     {
         await Validar(requisicao);
 
@@ -42,7 +42,7 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
 
         await _unidadeDeTrabalho.Commit();  
 
-        return entidade.Id;
+        return entidade;
     }
 
 

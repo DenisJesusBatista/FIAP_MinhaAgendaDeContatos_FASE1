@@ -4,5 +4,5 @@ using MinhaAgendaDeContatos.Comunicacao.Resposta;
 namespace MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 public interface IRegistrarContatoUseCase
 {    
-    Task<long> Executar(RequisicaoRegistrarContatoJson requisicao);
+    Task<Domain.Entidades.Contato> Executar(RequisicaoRegistrarContatoJson requisicao);
 }

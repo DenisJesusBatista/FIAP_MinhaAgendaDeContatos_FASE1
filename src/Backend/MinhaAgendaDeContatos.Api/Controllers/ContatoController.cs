@@ -27,13 +27,14 @@ public class ContatoController : ControllerBase
     [FromBody] RequisicaoRegistrarContatoJson request)
     {
         // Chamar o caso de uso para registrar o contato
-        var id = await useCase.Executar(request);
+        var entidade = await useCase.Executar(request);
 
-        // Converte o ID para int
-        request.Id = (int)id;
+        // Converte o ID para int 
+
+        return Ok(entidade);
 
         // Retornar o ID gerado para o cliente
-        return CreatedAtAction(nameof(RecuperarPorId), new { id }, request);
+        //return CreatedAtAction(nameof(RecuperarPorId), new { id }, request);
     }
 
 

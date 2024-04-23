@@ -36,7 +36,7 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
 
         var entidade = _mapper.Map<Domain.Entidades.Contato>(requisicao);
 
-        //Salvar no banco de dados
+        //Salvar no banco de dados.
 
         await _contatoWriteOnlyRepositorio.Adicionar(entidade);
 

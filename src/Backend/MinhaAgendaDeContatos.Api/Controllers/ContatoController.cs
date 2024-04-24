@@ -29,12 +29,8 @@ public class ContatoController : ControllerBase
         // Chamar o caso de uso para registrar o contato
         var entidade = await useCase.Executar(request);
 
-        // Converte o ID para int 
-
+        // Converte o ID para int. 
         return Ok(entidade);
-
-        // Retornar o ID gerado para o cliente
-        //return CreatedAtAction(nameof(RecuperarPorId), new { id }, request);
     }
 
 

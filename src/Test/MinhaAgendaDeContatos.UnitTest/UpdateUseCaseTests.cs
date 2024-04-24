@@ -57,7 +57,7 @@ namespace MinhaAgendaDeContatos.UnitTest
             //Act
             var action = async() => await _useCase.Executar(requisicao);
 
-            //Assert
+            //Assert.
             await action.Should().ThrowAsync<ErrosDeValidacaoException>();
             _repositorioReadOnly.Verify(x => x.RecuperarPorEmail(It.IsAny<string>()), Times.Once);
             _repositorioWriteOnly.Verify(x => x.Update(It.IsAny<Contato>()), Times.Never);

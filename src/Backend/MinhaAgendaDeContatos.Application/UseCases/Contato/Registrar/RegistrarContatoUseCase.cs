@@ -60,7 +60,7 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
 
         // Se não precisar retornar nada, você pode adicionar um return Task.CompletedTask;
         // return Task.CompletedTask;
-        return result;
+        return entidade;
     }
 
 

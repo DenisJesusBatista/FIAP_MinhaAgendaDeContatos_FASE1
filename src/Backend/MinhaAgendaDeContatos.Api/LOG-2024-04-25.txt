@@ -1,0 +1,21 @@
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\Projetos\1.FIAP\repos\Agenda_contatos_v3\src\Backend\MinhaAgendaDeContatos.Api
+Log de Execução Information: Microsoft.EntityFrameworkCore.Database.Command.CommandExecuted - Executed DbCommand (19ms) [Parameters=[@__email_0='?'], CommandType='Text', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Contatos" AS c
+    WHERE c."Email" = @__email_0)
+Log de Execução Information: Microsoft.EntityFrameworkCore.Database.Command.CommandExecuted - Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?', @p3='?', @p4='?'], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Contatos" ("DataCriacao", "Email", "Nome", "Prefixo", "Telefone")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "Id";
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\Projetos\1.FIAP\repos\Agenda_contatos_v3\src\Backend\MinhaAgendaDeContatos.Api

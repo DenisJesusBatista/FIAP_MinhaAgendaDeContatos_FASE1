@@ -34,7 +34,7 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
     }
 
     public async Task<IList<Contato>> RecuperarPorPrefixo(string prefixo)
-    {   
+    {
         return await _contexto.Contatos.AsNoTracking()
         .Where(x => x.Prefixo == prefixo)
         .ToListAsync();

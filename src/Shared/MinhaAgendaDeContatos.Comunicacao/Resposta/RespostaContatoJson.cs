@@ -12,4 +12,5 @@ public class ContatoJson
     public string Email { get; set; } = string.Empty;
     public string Telefone { get; set; } = string.Empty;
     public string Prefixo { get; set; } = string.Empty;
+    public DDDRegiaoJson DDDRegiao { get; set; }
 }

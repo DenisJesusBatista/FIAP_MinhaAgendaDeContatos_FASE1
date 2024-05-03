@@ -141,6 +141,9 @@
   <data name="NOME_CONTATO_EMBRANCO" xml:space="preserve">
     <value>O nome do contato deve ser informado.</value>
   </data>
+  <data name="PREFIXO_CONTATO_EMBRANCO" xml:space="preserve">
+    <value>O prefixo do contato está em branco</value>
+  </data>
   <data name="TELEFONE_CONTATO_EMBRANCO" xml:space="preserve">
     <value>O telefone do contato deve ser informado.</value>
   </data>

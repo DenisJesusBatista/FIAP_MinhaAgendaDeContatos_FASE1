@@ -6,6 +6,7 @@ using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorPrefixo;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarTodos;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
+using MinhaAgendaDeContatos.Application.UseCases.DDDRegiao.RecuperarPorPrefixo;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
 
@@ -23,6 +24,7 @@ public static class Bootstrapper
     {
         services.AddScoped<IRegistrarContatoUseCase, RegistrarContatoUseCase>()
             .AddScoped<IRecuperarPorPrefixoUseCase, RecuperarPorPrefixoUseCase>()
+            .AddScoped<IRecuperarDDDRegiaoPorPrefixoUseCase, RecuperarDDDRegiaoPorPrefixoUseCase>()
             .AddScoped<IRecuperarPorIdUseCase, RecuperarPorIdUseCase>() 
             .AddScoped<IRecuperarTodosContatosUseCase, RecuperarTodosContatosUseCase>()
             .AddScoped<IUpdateContatoUseCase, UpdateContatoUseCase>()                      

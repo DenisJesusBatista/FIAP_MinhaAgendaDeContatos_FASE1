@@ -18,6 +18,12 @@ public class AutoMapperConfiguracao: Profile
         
         CreateMap<Contato, ContatoJson>();
 
+        // Mapeamento de RequisicaoRegistrarDDDRegiaoJson para DDDRegiao
+        //CreateMap<Comunicacao.Requisicoes.RequisicaoRegistrarContatoJson, Domain.Entidades.Contato>();
+
+        CreateMap<DDDRegiao, DDDRegiaoJson>();
+
+
         CreateMap<Comunicacao.Requisicoes.RequisicaoRegistrarContatoJson, Domain.Entidades.Contato>()
           .ForMember(destino => destino.Prefixo, config => config.MapFrom(requisicao => requisicao.Prefixo));
     }

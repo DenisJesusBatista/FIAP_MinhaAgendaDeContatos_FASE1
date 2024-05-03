@@ -133,6 +133,15 @@ namespace MinhaAgendaDeContatos.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to O prefixo do contato está em branco.
+        /// </summary>
+        public static string PREFIXO_CONTATO_EMBRANCO {
+            get {
+                return ResourceManager.GetString("PREFIXO_CONTATO_EMBRANCO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O telefone do contato deve ser informado..
         /// </summary>
         public static string TELEFONE_CONTATO_EMBRANCO {

@@ -8,6 +8,7 @@ using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
 using Microsoft.EntityFrameworkCore;
+using MinhaAgendaDeContatos.Domain.Entidades;
 
 namespace MinhaAgendaDeContatos.Infraestrutura;
 
@@ -47,6 +48,7 @@ public static class Bootstrapper
     {
         services.AddScoped<IContatoWriteOnlyRepositorio, ContatoRepositorio>()
             .AddScoped<IContatoReadOnlyRepositorio, ContatoRepositorio>()
+            .AddScoped<IDDDRegiao, DDDRegiaoRepositorio>()
          .AddScoped<IContatoUpdateOnlyRepositorio, ContatoRepositorio>();
     }
 }

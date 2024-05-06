@@ -19,13 +19,26 @@ public class RecuperarPorIdUseCase : IRecuperarPorIdUseCase
 
     public async Task<RespostaContatoJson> Executar(int id)
     {
-        var contato = await _repositorioReadOnly.RecuperarPorId(id);
+        //var contato = await _repositorioReadOnly.RecuperarPorId(id);
+        var (contatos, regioes) = await _repositorioReadOnly.RecuperarPorId(id);
 
-        var resultado = contato.Select(c => _mapper.Map<ContatoJson>(c)).ToList();
+        //var resultado = contato.Select(c => _mapper.Map<ContatoJson>(c)).ToList();
+        var contatosJson = contatos.Select(c => new ContatoJson
+        {
+            Id = (int)c.Id,
+            DataCriacao = c.DataCriacao,
+            Nome = c.Nome,
+            Email = c.Email,
+            Telefone = c.Telefone,
+            Prefixo = c.Prefixo,
+            // Mapeia a região correspondente ao prefixo do contato
+            DDDRegiao = _mapper.Map<DDDRegiaoJson>(regioes.FirstOrDefault(r => r.prefixo == c.Prefixo))
+        }).ToList();
 
-        Validar(contato);
+        //Validar(contato);
 
-        return new RespostaContatoJson { Contatos = resultado };
+        //return new RespostaContatoJson { Contatos = resultado };
+        return new RespostaContatoJson { Contatos = contatosJson };
     }
 
     public static void Validar(IList<Domain.Entidades.Contato> contatos)

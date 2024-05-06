@@ -12,8 +12,7 @@ public class Versao0000001 : Migration
     public Versao0000001(ILogger<Migration> logger)
     {
         _logger = logger;
-        CustomLogger.Arquivo = true;
-        //Up();
+        CustomLogger.Arquivo = true;        
     }
 
     public override void Down()

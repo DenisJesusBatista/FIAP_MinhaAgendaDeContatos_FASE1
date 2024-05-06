@@ -33,23 +33,42 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
         return await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email.Equals(email));
     }
 
-    public async Task<IList<Contato>> RecuperarPorPrefixo(string prefixo)
+    public async Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarPorPrefixo(string prefixo)
     {
-        return await _contexto.Contatos.AsNoTracking()
-        .Where(x => x.Prefixo == prefixo)
-        .ToListAsync();
+        var resultado = await (from contato in _contexto.Contatos.AsNoTracking()
+                               join regiao in _contexto.DDDRegiao.AsNoTracking()
+                               on contato.Prefixo equals regiao.prefixo
+                               where contato.Prefixo == prefixo
+                               select new { Contato = contato, Regiao = regiao })
+                                .ToListAsync();
+
+        return (resultado.Select(r => r.Contato).ToList(), resultado.Select(r => r.Regiao).ToList());
     }
 
-    public async Task<IList<Contato>> RecuperarTodosContatos()
-    {
-        return await _contexto.Contatos.AsNoTracking().ToListAsync();            
+
+    public async Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarTodosContatos()
+    {                  
+        var resultado = await (from contato in _contexto.Contatos.AsNoTracking()
+                           join regiao in _contexto.DDDRegiao.AsNoTracking()
+                           on contato.Prefixo equals regiao.prefixo                           
+                           select new { Contato = contato, Regiao = regiao })
+                               .ToListAsync();
+
+        return (resultado.Select(r => r.Contato).ToList(), resultado.Select(r => r.Regiao).ToList());
     }
 
-    public async Task<IList<Contato>> RecuperarPorId(int id)
+    public async Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarPorId(int id)
     {
-        return await _contexto.Contatos.AsNoTracking()
-        .Where(x => x.Id == id)
-        .ToListAsync();
+        var resultado = await (from contato in _contexto.Contatos.AsNoTracking()
+                               join regiao in _contexto.DDDRegiao.AsNoTracking()
+                               on contato.Prefixo equals regiao.prefixo
+                               where contato.Id == id
+                               select new { Contato = contato, Regiao = regiao })
+                                .ToListAsync();
+
+
+        return (resultado.Select(r => r.Contato).ToList(), resultado.Select(r => r.Regiao).ToList());
+      
     }
 
 
@@ -61,5 +80,6 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
     async Task IContatoWriteOnlyRepositorio.Update(Contato contato)
     {
         _contexto.Contatos.Update(contato);        
-    } 
+    }
+
 }

@@ -21,8 +21,7 @@ public class RecuperarDDDRegiaoPorPrefixoUseCase: IRecuperarDDDRegiaoPorPrefixoU
     public async Task<RespostaDDDRegiaoJson> Executar(string prefixo)
     {
         var dddRegiao = await _repositorio.RecuperarPorPrefixo(prefixo);
-
-        //var resultado = dddRegiao.Select(c => new DDDRegiaoJson { regiao = c.regiao, estado = c.estado }).ToList();
+        
         var resultado = dddRegiao.Select(c => _mapper.Map<DDDRegiaoJson>(c)).ToList();
 
         return new RespostaDDDRegiaoJson { DDDRegiao = resultado };

@@ -26,9 +26,7 @@ public class RespostaContatoRegistradoJson
     public string Token { get; set; } = string.Empty;
 
     public RespostaContatoRegistradoJson(string dddRegiao /* Outros tipos e campos necessários */)
-    {
-        //DDDRegiao = dddRegiao;
-        // Inicialize outros campos, se necessário
+    {   
     }
 
 

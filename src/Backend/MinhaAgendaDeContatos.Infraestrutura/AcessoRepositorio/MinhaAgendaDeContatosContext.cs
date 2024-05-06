@@ -6,11 +6,7 @@ namespace MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 public class MinhaAgendaDeContatosContext : DbContext
 {
     public MinhaAgendaDeContatosContext(DbContextOptions<MinhaAgendaDeContatosContext> options) : base(options) { }
-
-    //private static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder => {
-    //    builder.AddConsole();
-    //});
-
+    
     //Variavel
     public DbSet<Contato> Contatos { get; set; }
 

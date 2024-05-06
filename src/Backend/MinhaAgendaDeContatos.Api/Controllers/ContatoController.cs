@@ -8,9 +8,6 @@ using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
 using MinhaAgendaDeContatos.Application.UseCases.DDDRegiao.RecuperarPorPrefixo;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
-using MinhaAgendaDeContatos.Domain.Entidades;
-using System.Linq;
-using System;
 
 
 
@@ -60,31 +57,12 @@ public class ContatoController : ControllerBase
     [ProducesResponseType(typeof(RespostaCombinadaJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarPorPrefixo(
     [FromServices] IRecuperarPorPrefixoUseCase useCase,
-    IRecuperarDDDRegiaoPorPrefixoUseCase useCaseDDDRegiao,
     string prefixo)
     {
         var respostaContato = await useCase.Executar(prefixo);
-        var dddRegioes = await useCaseDDDRegiao.Executar(prefixo);
+       
 
-        // Mapeando os contatos para adicionar o DDD correspondente
-        var contatosComDDD = respostaContato.Contatos.Select(contato =>
-        {
-            // Encontrando o DDD correspondente ao prefixo do contato
-            var dddCorrespondente = dddRegioes.DDDRegiao.FirstOrDefault(ddd => ddd.prefixo == contato.Prefixo);
-
-            return new ContatoJson // Alterado para ContatoJson
-            {
-                Id = contato.Id,
-                DataCriacao = contato.DataCriacao,
-                Nome = contato.Nome,
-                Email = contato.Email,
-                Telefone = contato.Telefone,
-                Prefixo = contato.Prefixo,
-                DDDRegiao = dddCorrespondente
-            };
-        }).ToList();        
-
-        return Ok(contatosComDDD);
+        return Ok(respostaContato);
     }
 
 
@@ -104,32 +82,7 @@ public class ContatoController : ControllerBase
     {
         var resposta = await useCase.Executar(id);
 
-        // Obter o prefixo do contato
-        var prefixo = resposta.Contatos.FirstOrDefault()?.Prefixo;
-
-
-        var dddRegioes = await useCaseDDDRegiao.Executar(prefixo);
-
-        // Mapeando os contatos para adicionar o DDD correspondente
-        var contatosComDDD = resposta.Contatos.Select(contato =>
-        {
-            // Encontrando o DDD correspondente ao prefixo do contato
-            var dddCorrespondente = dddRegioes.DDDRegiao.FirstOrDefault(ddd => ddd.prefixo == contato.Prefixo);
-
-
-            return new ContatoJson // Alterado para ContatoJson
-            {
-                Id = contato.Id,
-                DataCriacao = contato.DataCriacao,
-                Nome = contato.Nome,
-                Email = contato.Email,
-                Telefone = contato.Telefone,
-                Prefixo = contato.Prefixo,
-                DDDRegiao = dddCorrespondente
-            };
-        }).ToList();
-
-        return Ok(contatosComDDD);
+        return Ok(resposta);
 
 
     }
@@ -143,49 +96,11 @@ public class ContatoController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarTodosContatos(
-    [FromServices] IRecuperarTodosContatosUseCase useCase,
-    IRecuperarDDDRegiaoPorPrefixoUseCase useCaseDDDRegiao)
+    [FromServices] IRecuperarTodosContatosUseCase useCase)
     {
-        var resposta = await useCase.Executar();
-        var prefixos = resposta.Contatos.Select(x => x.Prefixo).Distinct().ToList();
+        var resposta = await useCase.Executar();       
 
-        // Lista para armazenar todos os contatos com DDD correspondente não nulo
-        var contatosComDDD = new List<ContatoJson>();
-
-        // Iterar sobre os prefixos
-        foreach (var prefixo in prefixos)
-        {
-            // Executar o caso de uso para obter as informações do DDD correspondente ao prefixo atual
-            var dddRegioes = await useCaseDDDRegiao.Executar(prefixo);
-
-            // Iterar sobre os contatos e encontrar o DDD correspondente ao prefixo atual
-            foreach (var contato in resposta.Contatos)
-            {
-                // Encontrando o DDD correspondente ao prefixo do contato
-                var dddCorrespondente = dddRegioes.DDDRegiao.FirstOrDefault(ddd => ddd.prefixo == contato.Prefixo);
-
-                // Verificar se o DDD correspondente não é nulo
-                if (dddCorrespondente != null)
-                {
-                    // Criando um objeto ContatoJson com as informações do contato e do DDD correspondente
-                    var contatoComDDD = new ContatoJson
-                    {
-                        Id = contato.Id,
-                        DataCriacao = contato.DataCriacao,
-                        Nome = contato.Nome,
-                        Email = contato.Email,
-                        Telefone = contato.Telefone,
-                        Prefixo = contato.Prefixo,
-                        DDDRegiao = dddCorrespondente
-                    };
-
-                    // Adicionando o contato com DDD correspondente à lista de contatosComDDD
-                    contatosComDDD.Add(contatoComDDD);
-                }
-            }
-        }
-
-        return Ok(contatosComDDD);
+        return Ok(resposta);
     }
 
 

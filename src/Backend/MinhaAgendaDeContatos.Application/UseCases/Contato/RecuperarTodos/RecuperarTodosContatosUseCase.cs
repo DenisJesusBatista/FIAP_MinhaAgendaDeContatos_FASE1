@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using MinhaAgendaDeContatos.Domain.Repositorios;
-using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
-using MinhaAgendaDeContatos.Exceptions;
-using MinhaAgendaDeContatos.Domain.Entidades;
 
 namespace MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarTodos;
 public class RecuperarTodosContatosUseCase : IRecuperarTodosContatosUseCase
@@ -19,9 +16,19 @@ public class RecuperarTodosContatosUseCase : IRecuperarTodosContatosUseCase
 
     public async Task<RespostaContatoJson> Executar()
     {
-        var contato = await _repositorioReadOnly.RecuperarTodosContatos();
-
-        var contatosJson = contato.Select(c => _mapper.Map<ContatoJson>(c)).ToList();
+        var (contatos, regioes) = await _repositorioReadOnly.RecuperarTodosContatos();
+                
+        var contatosJson = contatos.Select(c => new ContatoJson
+        {
+            Id = (int)c.Id,
+            DataCriacao = c.DataCriacao,
+            Nome = c.Nome,
+            Email = c.Email,
+            Telefone = c.Telefone,
+            Prefixo = c.Prefixo,
+            // Mapeia a região correspondente ao prefixo do contato
+            DDDRegiao = _mapper.Map<DDDRegiaoJson>(regioes.FirstOrDefault(r => r.prefixo == c.Prefixo))
+        }).ToList();
 
         return new RespostaContatoJson { Contatos = contatosJson };
        

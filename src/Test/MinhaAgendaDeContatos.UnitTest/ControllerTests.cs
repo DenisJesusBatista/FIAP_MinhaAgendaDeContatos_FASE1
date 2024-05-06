@@ -83,7 +83,7 @@ namespace MinhaAgendaDeContatos.UnitTest
             _recuperarDDDRegiaoUseCase.Setup(x => x.Executar(It.IsAny<string>())).ReturnsAsync(useCaseDDDRegiaoResult);
 
             //Act
-            var result = (OkObjectResult)await _controller.RecuperarPorPrefixo(_recuperarUseCase.Object, _recuperarDDDRegiaoUseCase.Object, prefixo);
+            var result = (OkObjectResult)await _controller.RecuperarPorPrefixo(_recuperarUseCase.Object, prefixo);
 
             //Assert
             _recuperarUseCase.Verify(x => x.Executar(It.IsAny<string>()), Times.Once);
@@ -130,7 +130,7 @@ namespace MinhaAgendaDeContatos.UnitTest
             _recuperarDDDRegiaoUseCase.Setup(x => x.Executar(It.IsAny<string>())).ReturnsAsync(useCaseDDDRegiaoResult);
 
             // Act
-            var result = (OkObjectResult)await _controller.RecuperarTodosContatos(_recuperarTodosUseCase.Object, _recuperarDDDRegiaoUseCase.Object);
+            var result = (OkObjectResult)await _controller.RecuperarTodosContatos(_recuperarTodosUseCase.Object);
 
             // Assert
             _recuperarTodosUseCase.Verify(x => x.Executar(), Times.Once);

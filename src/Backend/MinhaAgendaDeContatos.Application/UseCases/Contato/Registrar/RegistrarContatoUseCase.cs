@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
-using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Exceptions;
 using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
-using System;
 
 namespace MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 public class RegistrarContatoUseCase: IRegistrarContatoUseCase

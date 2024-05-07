@@ -133,7 +133,7 @@ namespace MinhaAgendaDeContatos.Exceptions {
         }
 
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do contato deve ser informado..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Prefixo do contato inválido ou não informado.
         /// </summary>
         public static string PREFIXO_CONTATO_EMBRANCO {
             get {
@@ -142,7 +142,7 @@ namespace MinhaAgendaDeContatos.Exceptions {
         }
 
         /// <summary>      
-        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do contato deve ser informado..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Telefone do contato inválido ou não informado.
         /// </summary>
         public static string TELEFONE_CONTATO_EMBRANCO {
             get {

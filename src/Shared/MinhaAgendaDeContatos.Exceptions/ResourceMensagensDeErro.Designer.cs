@@ -142,7 +142,7 @@ namespace MinhaAgendaDeContatos.Exceptions {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to O telefone do contato deve ser informado..
+        ///   Looks up a localized string similar to Prefixo do contato inválido ou não informado.
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do contato deve ser informado..
         /// </summary>
         public static string TELEFONE_CONTATO_EMBRANCO {

@@ -140,9 +140,10 @@ namespace MinhaAgendaDeContatos.Exceptions {
                 return ResourceManager.GetString("PREFIXO_CONTATO_EMBRANCO", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to O telefone do contato deve ser informado..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do contato deve ser informado..
         /// </summary>
         public static string TELEFONE_CONTATO_EMBRANCO {
             get {

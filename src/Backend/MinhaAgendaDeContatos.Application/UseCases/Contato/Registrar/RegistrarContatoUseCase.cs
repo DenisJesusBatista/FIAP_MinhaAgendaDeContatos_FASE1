@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
-using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Exceptions;
 using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
@@ -35,6 +34,8 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
         //-Pluggin: AutoMapper.Extensions.Microsoft.DependencyInjection na API para configurar para funcionar como injecao de dependencia
 
         var entidade = _mapper.Map<Domain.Entidades.Contato>(requisicao);
+
+        entidade.DataCriacao = DateTime.UtcNow;
 
         //Salvar no banco de dados.
 

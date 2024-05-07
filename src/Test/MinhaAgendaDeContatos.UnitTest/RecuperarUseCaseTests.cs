@@ -34,7 +34,10 @@ namespace MinhaAgendaDeContatos.UnitTest
             //Arrange
             var prefixo = new Faker().Random.String();
             var repositorioResult = new AutoFaker<Contato>().Generate(new Faker().Random.Int(1,1000));
-            _repositorioReadOnly.Setup(x => x.RecuperarPorPrefixo(It.IsAny<string>())).ReturnsAsync(repositorioResult);
+            var repositorioDDDRegiaoResult = new AutoFaker<DDDRegiao>().Generate(new Faker().Random.Int(1, 1000));            
+            _repositorioReadOnly.Setup(x => x.RecuperarPorPrefixo(It.IsAny<string>())).ReturnsAsync((repositorioResult, repositorioDDDRegiaoResult));
+            
+
 
             //Act
             var result = await _useCase.Executar(prefixo);
@@ -50,7 +53,9 @@ namespace MinhaAgendaDeContatos.UnitTest
             //Arrange
             var prefixo = new Faker().Random.String();
             var repositorioResult = new AutoFaker<Contato>().Generate(0);
-            _repositorioReadOnly.Setup(x => x.RecuperarPorPrefixo(It.IsAny<string>())).ReturnsAsync(repositorioResult);
+            var repositorioDDDRegiaoResult = new AutoFaker<DDDRegiao>().Generate(new Faker().Random.Int(1, 1000));
+            _repositorioReadOnly.Setup(x => x.RecuperarPorPrefixo(It.IsAny<string>())).ReturnsAsync((repositorioResult, repositorioDDDRegiaoResult));
+
 
             //Act
             var action = async() => await _useCase.Executar(prefixo);

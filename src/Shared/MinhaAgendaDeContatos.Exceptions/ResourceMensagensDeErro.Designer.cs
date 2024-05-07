@@ -122,7 +122,7 @@ namespace MinhaAgendaDeContatos.Exceptions {
                 return ResourceManager.GetString("ERRO_DESCONHECIDO", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do contato deve ser informado..
         /// </summary>

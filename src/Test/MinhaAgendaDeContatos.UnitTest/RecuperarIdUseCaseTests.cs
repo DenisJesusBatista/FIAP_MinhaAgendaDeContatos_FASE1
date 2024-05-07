@@ -3,17 +3,11 @@ using AutoMapper;
 using Bogus;
 using FluentAssertions;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorId;
-using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorPrefixo;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MinhaAgendaDeContatos.UnitTest
 {
@@ -35,7 +29,9 @@ namespace MinhaAgendaDeContatos.UnitTest
             //Arrange
             int id = new Faker().Random.Int();
             var repositorioResult = new AutoFaker<Contato>().Generate(new Faker().Random.Int(1,1000));
-            _repositorioReadOnly.Setup(x => x.RecuperarPorId(It.IsAny<int>())).ReturnsAsync(repositorioResult);
+            var repositorioDDDRegiaoResult = new AutoFaker<DDDRegiao>().Generate(new Faker().Random.Int(1, 1000));            
+            _repositorioReadOnly.Setup(x => x.RecuperarPorId(It.IsAny<int>())).ReturnsAsync((repositorioResult, repositorioDDDRegiaoResult));
+
 
             //Act
             var result = await _useCase.Executar(id);
@@ -51,7 +47,9 @@ namespace MinhaAgendaDeContatos.UnitTest
             //Arrange
             int id = new Faker().Random.Int();
             var repositorioResult = new AutoFaker<Contato>().Generate(0);
-            _repositorioReadOnly.Setup(x => x.RecuperarPorId(It.IsAny<int>())).ReturnsAsync(repositorioResult);
+            var repositorioDDDRegiaoResult = new AutoFaker<DDDRegiao>().Generate(0);            
+            _repositorioReadOnly.Setup(x => x.RecuperarPorId(It.IsAny<int>())).ReturnsAsync((repositorioResult, repositorioDDDRegiaoResult));
+
 
             //Act
             var action = async() => await _useCase.Executar(id);

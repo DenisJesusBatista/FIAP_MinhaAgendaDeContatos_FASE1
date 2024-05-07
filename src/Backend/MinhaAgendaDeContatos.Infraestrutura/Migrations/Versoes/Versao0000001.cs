@@ -12,8 +12,7 @@ public class Versao0000001 : Migration
     public Versao0000001(ILogger<Migration> logger)
     {
         _logger = logger;
-        CustomLogger.Arquivo = true;
-        //Up();
+        CustomLogger.Arquivo = true;        
     }
 
     public override void Down()
@@ -22,8 +21,15 @@ public class Versao0000001 : Migration
 
     public override void Up()
     {
-        CustomLogger.Arquivo = true;      
+        CustomLogger.Arquivo = true;
 
+        CriarTabelaContatos();
+        CriarTabelaDDDRegiao();
+
+    }
+
+    private void CriarTabelaContatos()
+    {
         var tabela = VersaoBase.InserirColunasPadrao(Create.Table("Contatos"));
 
         tabela
@@ -32,7 +38,21 @@ public class Versao0000001 : Migration
             .WithColumn("Telefone").AsString(14).NotNullable()
             .WithColumn("Prefixo").AsString(14).NotNullable();
 
-        _logger.LogInformation("Teste de Log do tipo information");
-
+        _logger.LogInformation("Tabela 'Contatos' criada com sucesso.");
     }
+
+    private void CriarTabelaDDDRegiao()
+    {
+        var tabela = VersaoBase.InserirColunasPadrao(Create.Table("DDDRegiao"));
+
+        tabela
+            .WithColumn("prefixo").AsString().NotNullable()
+            .WithColumn("estado").AsString().NotNullable()
+            .WithColumn("regiao").AsString().NotNullable();
+
+        _logger.LogInformation("Tabela 'DDDRegiao' criada com sucesso.");
+    }
+
+
+
 }

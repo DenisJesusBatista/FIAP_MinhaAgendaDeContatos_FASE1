@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
+using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Exceptions;
 using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
@@ -18,14 +19,32 @@ public class RecuperarPorPrefixoUseCase: IRecuperarPorPrefixoUseCase
 
     public async Task<RespostaContatoJson> Executar(string prefixo)
     {
-        var contato = await _repositorioReadOnly.RecuperarPorPrefixo(prefixo);
+        // Recupera contatos e regiões por prefixo
+        var (contatos, regioes) = await _repositorioReadOnly.RecuperarPorPrefixo(prefixo);      
 
-        var resultado = contato.Select(c => _mapper.Map<ContatoJson>(c)).ToList();
+    
+        // Mapeia os contatos para ContatoJson
+        var contatosJson = contatos.Select(c => new ContatoJson
+        {
+            Id = (int)c.Id,
+            DataCriacao = c.DataCriacao,
+            Nome = c.Nome,
+            Email = c.Email,
+            Telefone = c.Telefone,
+            Prefixo = c.Prefixo,
 
-        Validar(contato);     
+            // Mapeia a região correspondente ao prefixo do contato
+            DDDRegiao = _mapper.Map<DDDRegiaoJson>(regioes.FirstOrDefault(r => r.prefixo == c.Prefixo))
+        }).ToList();
 
-        return new RespostaContatoJson { Contatos = resultado };
+        //// Valida os contatos e regiões, se necessário
+        //Validar(contatosJson);      
+
+        return new RespostaContatoJson { Contatos = contatosJson};
     }
+
+
+
 
     public static void Validar(IList<Domain.Entidades.Contato> contatos)
     {

@@ -32,7 +32,10 @@ namespace MinhaAgendaDeContatos.UnitTest
         {
             //Arrange
             var repositorioResult = new AutoFaker<Contato>().Generate(new Faker().Random.Int(0, 1000));
-            _repositorioReadOnly.Setup(x => x.RecuperarTodosContatos()).ReturnsAsync(repositorioResult);
+            var repositorioDDDRegiaoResult = new AutoFaker<DDDRegiao>().Generate(new Faker().Random.Int(0, 1000));
+            
+            _repositorioReadOnly.Setup(x => x.RecuperarTodosContatos()).ReturnsAsync((repositorioResult, repositorioDDDRegiaoResult));
+
             //Act
             var result = await _useCase.Executar();
 

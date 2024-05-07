@@ -5,10 +5,13 @@ using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorPrefixo;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarTodos;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
+using MinhaAgendaDeContatos.Application.UseCases.DDDRegiao.RecuperarPorPrefixo;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
-using MinhaAgendaDeContatos.Domain.Repositorios;
-using System.Reflection.Metadata.Ecma335;
+
+
+
+using static MinhaAgendaDeContatos.Comunicacao.Resposta.RespostaContatoRegistradoJson;
 
 namespace MinhaAgendaDeContatos.Api.Controllers;
 [Route("api/[controller]")]
@@ -24,51 +27,64 @@ public class ContatoController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> RegistrarContato(
     [FromServices] IRegistrarContatoUseCase useCase,
-    [FromBody] RequisicaoRegistrarContatoJson request)
+    [FromBody] RequisicaoRegistrarContatoJson request,
+    IRecuperarDDDRegiaoPorPrefixoUseCase useCaseDDDRegiao)
     {
         // Chamar o caso de uso para registrar o contato
         var entidade = await useCase.Executar(request);
 
-        // Converte o ID para int. 
-        return Ok(entidade);
+        var dddRegioes = await useCaseDDDRegiao.Executar(request.Prefixo);
+
+        // Criar um objeto ContatoJson com as informações do contato e do DDD correspondente
+        var contatoComDDD = new ContatoJson
+        {   
+            DataCriacao = entidade.DataCriacao,
+            Nome = entidade.Nome,
+            Email = entidade.Email,
+            Telefone = entidade.Telefone,
+            Prefixo = entidade.Prefixo,
+            DDDRegiao = dddRegioes.DDDRegiao.FirstOrDefault()
+        };
+  
+
+        return Ok(contatoComDDD);
     }
 
 
-    /// <summary>
-    /// Retorna os contatos de acordo com o prefixo informado.
-    /// </summary>
-    /// <param name="useCase"></param>
-    /// <param name="prefixo"></param>
-    /// <returns></returns>
+
     [HttpGet]
     [Route("prefixo/{prefixo}")]
-    [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(RespostaCombinadaJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarPorPrefixo(
     [FromServices] IRecuperarPorPrefixoUseCase useCase,
     string prefixo)
     {
-        var resposta = await useCase.Executar(prefixo);
+        var respostaContato = await useCase.Executar(prefixo);
+       
 
-        return Ok(resposta);
+        return Ok(respostaContato);
     }
 
 
     /// <summary>
     /// Retorna os contatos de acordo com o id informado.
     /// </summary>
-    /// <param name="useCase"></param>
-    /// <param name="id"></param>
+    /// <param name = "useCase" ></ param >
+    /// < param name="id"></param>
     /// <returns></returns>
     [HttpGet]
     [Route("id/{id}")]
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarPorId(
     [FromServices] IRecuperarPorIdUseCase useCase,
+    IRecuperarDDDRegiaoPorPrefixoUseCase useCaseDDDRegiao,
     int id)
     {
         var resposta = await useCase.Executar(id);
 
         return Ok(resposta);
+
+
     }
 
     /// <summary>
@@ -76,16 +92,18 @@ public class ContatoController : ControllerBase
     /// </summary>
     /// <param name="useCase"></param>
     /// <returns></returns>
+
     [HttpGet]
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarTodosContatos(
-        [FromServices] IRecuperarTodosContatosUseCase useCase)
+    [FromServices] IRecuperarTodosContatosUseCase useCase)
     {
-        var resposta = await useCase.Executar();
+        var resposta = await useCase.Executar();       
 
         return Ok(resposta);
-
     }
+
+
 
     /// <summary>
     /// Deletar contato do banco de dados através do email informado.

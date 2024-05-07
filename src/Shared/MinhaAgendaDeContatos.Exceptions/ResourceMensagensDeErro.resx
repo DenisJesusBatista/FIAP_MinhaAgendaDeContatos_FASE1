@@ -139,7 +139,7 @@
     <value>Erro desconhecido.</value>
   </data>
   <data name="NOME_CONTATO_EMBRANCO" xml:space="preserve">
-    <value>O nome do contato deve ser informado.</value>
+    <value>Prefixo do contato inválido ou não informado</value>
   </data>
   <data name="PREFIXO_CONTATO_EMBRANCO" xml:space="preserve">
     <value>Prefixo do contato inválido ou não informado</value>

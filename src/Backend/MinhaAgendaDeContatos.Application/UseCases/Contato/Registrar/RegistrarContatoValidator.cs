@@ -39,5 +39,20 @@ public class RegistrarContatoValidator : AbstractValidator<RequisicaoRegistrarCo
         {
             RuleFor(c => c.Email).EmailAddress().WithMessage(ResourceMensagensDeErro.EMAIL_CONTATO_INVALIDO);
         });
+
+
+        //Validando telefone por regex
+        //When(c => !string.IsNullOrWhiteSpace(c.Telefone), () =>
+        //{
+        //    RuleFor(c => c.Telefone).Custom((telefone, contexto) =>
+        //    {
+        //        string padraoTelefone = "[0-9]{2} [1-9]{1} [0-9]{4}-[0-9]{4}";
+        //        var isValid = Regex.IsMatch(telefone, padraoTelefone);
+        //        if(!isValid) 
+        //        {
+        //            contexto.AddFailure(new FluentValidation.Results.ValidationFailure(nameof(telefone), ResourceMensagensDeErro.TELEFONE_CONTATO_INVALIDO));
+        //        }
+        //    }); 
+        //});
     }
 }

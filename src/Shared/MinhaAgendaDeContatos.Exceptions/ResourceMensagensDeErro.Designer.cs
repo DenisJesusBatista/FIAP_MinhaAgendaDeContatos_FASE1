@@ -122,9 +122,9 @@ namespace MinhaAgendaDeContatos.Exceptions {
                 return ResourceManager.GetString("ERRO_DESCONHECIDO", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Prefixo do contato inválido ou não informado.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do contato deve ser informado..
         /// </summary>
         public static string NOME_CONTATO_EMBRANCO {
             get {

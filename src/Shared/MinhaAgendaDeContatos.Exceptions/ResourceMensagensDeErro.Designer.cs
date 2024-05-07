@@ -134,6 +134,7 @@ namespace MinhaAgendaDeContatos.Exceptions {
 
         /// <summary>
         ///   Looks up a localized string similar to O prefixo do contato está em branco.
+        ///   
         ///   Consulta uma cadeia de caracteres localizada semelhante a Prefixo do contato inválido ou não informado.
         /// </summary>
         public static string PREFIXO_CONTATO_EMBRANCO {
@@ -143,6 +144,7 @@ namespace MinhaAgendaDeContatos.Exceptions {
         }
 
         /// <summary>
+        /// 
         ///   Looks up a localized string similar to O telefone do contato deve ser informado..
         ///   Consulta uma cadeia de caracteres localizada semelhante a Telefone do contato inválido ou não informado.
         /// </summary>

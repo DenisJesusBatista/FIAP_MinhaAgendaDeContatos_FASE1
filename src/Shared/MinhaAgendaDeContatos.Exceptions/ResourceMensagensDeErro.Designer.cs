@@ -141,7 +141,7 @@ namespace MinhaAgendaDeContatos.Exceptions {
             }
         }
 
-        /// <summary>      
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Telefone do contato inválido ou não informado.
         /// </summary>
         public static string TELEFONE_CONTATO_EMBRANCO {

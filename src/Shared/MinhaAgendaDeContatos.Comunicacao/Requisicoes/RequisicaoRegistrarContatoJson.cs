@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using System;
 
 namespace MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 public class RequisicaoRegistrarContatoJson

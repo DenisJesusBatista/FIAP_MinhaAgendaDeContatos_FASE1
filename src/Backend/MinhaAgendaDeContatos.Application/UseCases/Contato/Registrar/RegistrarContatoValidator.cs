@@ -28,8 +28,8 @@ public class RegistrarContatoValidator : AbstractValidator<RequisicaoRegistrarCo
             .WithMessage(ResourceMensagensDeErro.TELEFONE_CONTATO_EMBRANCO);
 
         RuleFor(c => c.PrefixoProxy)
-            .Must(x => prefixosValidos.Contains((int)x))
-            .WithMessage(ResourceMensagensDeErro.PREFIXO_CONTATO_EMBRANCO);
+            .Must(x => prefixosValidos.Contains((int)x));
+            //.WithMessage(ResourceMensagensDeErro.PREFIXO_CONTATO_EMBRANCO);
 
 
 

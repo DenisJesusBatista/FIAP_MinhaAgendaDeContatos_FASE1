@@ -124,7 +124,7 @@ namespace MinhaAgendaDeContatos.Exceptions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O nome do contato deve ser informado..
+        ///   Looks up a localized string similar to Prefixo do contato inválido ou não informado.
         /// </summary>
         public static string NOME_CONTATO_EMBRANCO {
             get {
@@ -133,20 +133,16 @@ namespace MinhaAgendaDeContatos.Exceptions {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to O prefixo do contato está em branco.
-        ///   
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Prefixo do contato inválido ou não informado.
+        ///   Looks up a localized string similar to O telefone do contato deve ser informado..
         /// </summary>
         public static string PREFIXO_CONTATO_EMBRANCO {
             get {
                 return ResourceManager.GetString("PREFIXO_CONTATO_EMBRANCO", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        /// 
         ///   Looks up a localized string similar to O telefone do contato deve ser informado..
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Telefone do contato inválido ou não informado.
         /// </summary>
         public static string TELEFONE_CONTATO_EMBRANCO {
             get {

@@ -40,7 +40,7 @@ public class RegistrarContatoValidator : AbstractValidator<RequisicaoRegistrarCo
             RuleFor(c => c.Email).EmailAddress().WithMessage(ResourceMensagensDeErro.EMAIL_CONTATO_INVALIDO);
         });
 
-
+        //telefone numérico 
         //Validando telefone por regex
         //When(c => !string.IsNullOrWhiteSpace(c.Telefone), () =>
         //{

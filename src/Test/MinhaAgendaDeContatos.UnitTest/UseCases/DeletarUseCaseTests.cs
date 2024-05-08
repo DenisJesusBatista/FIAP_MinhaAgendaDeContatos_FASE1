@@ -1,60 +1,59 @@
 ﻿using AutoBogus;
+using Bogus;
 using FluentAssertions;
-using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
-using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.Deletar;
 using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
 using Moq;
 
-namespace MinhaAgendaDeContatos.UnitTest
+namespace MinhaAgendaDeContatos.UnitTest.UseCases
 {
-    public class UpdateUseCaseTests
+    public class DeletarUseCaseTests
     {
         private readonly Mock<IContatoReadOnlyRepositorio> _repositorioReadOnly;
         private readonly Mock<IContatoWriteOnlyRepositorio> _repositorioWriteOnly;
         private readonly Mock<IUnidadeDeTrabalho> _unidadeDeTrabalho;
-        private readonly IUpdateContatoUseCase _useCase;
-
-        public UpdateUseCaseTests()
+        private readonly IDeletarContatoUseCase _useCase;
+        public DeletarUseCaseTests()
         {
             _repositorioReadOnly = new Mock<IContatoReadOnlyRepositorio>();
             _repositorioWriteOnly = new Mock<IContatoWriteOnlyRepositorio>();
             _unidadeDeTrabalho = new Mock<IUnidadeDeTrabalho>();
-            _useCase = new UpdateContatoUseCase(_repositorioReadOnly.Object, _repositorioWriteOnly.Object, _unidadeDeTrabalho.Object);
+            _useCase = new DeletarContatoUseCase(_repositorioReadOnly.Object, _repositorioWriteOnly.Object, _unidadeDeTrabalho.Object);
         }
 
         [Fact]
-        public async Task Executar_Deve_Alterar_Com_Sucesso()
+        public async Task Executar_Deve_Deletar_Com_Sucesso()
         {
-            //Arrage
-            var requisicao = new AutoFaker<RequisicaoAlterarContatoJson>().Generate();
+            //Arrange
+            var email = new Faker().Random.String();
             var repositorioResult = new AutoFaker<Contato>().Generate();
             _repositorioReadOnly.Setup(x => x.RecuperarPorEmail(It.IsAny<string>())).ReturnsAsync(repositorioResult);
 
             //Act
-            await _useCase.Executar(requisicao);
+            await _useCase.Executar(email);
 
             //Assert
             _repositorioReadOnly.Verify(x => x.RecuperarPorEmail(It.IsAny<string>()), Times.Once);
-            _repositorioWriteOnly.Verify(x => x.Update(It.IsAny<Contato>()), Times.Once);
+            _repositorioWriteOnly.Verify(x => x.Deletar(It.IsAny<string>()), Times.Once);
             _unidadeDeTrabalho.Verify(x => x.Commit(), Times.Once);
         }
 
         [Fact]
-        public async Task Executar_Deve_Retornar_Erro_Quando_Contato_Nao_Existente()
+        public async Task Executar_Deve_Retornar_Erro_Quando_Contato_Nao_Existe()
         {
-            //Arrage
-            var requisicao = new AutoFaker<RequisicaoAlterarContatoJson>().Generate();
+            //Arrange
+            var email = new Faker().Random.String();
             _repositorioReadOnly.Setup(x => x.RecuperarPorEmail(It.IsAny<string>())).ReturnsAsync(null as Contato);
 
             //Act
-            var action = async () => await _useCase.Executar(requisicao);
+            var action = async () => await _useCase.Executar(email);
 
-            //Assert.
+            //Assert
             await action.Should().ThrowAsync<ErrosDeValidacaoException>();
             _repositorioReadOnly.Verify(x => x.RecuperarPorEmail(It.IsAny<string>()), Times.Once);
-            _repositorioWriteOnly.Verify(x => x.Update(It.IsAny<Contato>()), Times.Never);
+            _repositorioWriteOnly.Verify(x => x.Deletar(It.IsAny<string>()), Times.Never);
             _unidadeDeTrabalho.Verify(x => x.Commit(), Times.Never);
         }
     }

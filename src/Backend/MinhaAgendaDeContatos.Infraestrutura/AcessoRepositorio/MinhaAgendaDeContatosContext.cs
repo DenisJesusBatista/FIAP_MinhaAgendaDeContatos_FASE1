@@ -6,7 +6,7 @@ namespace MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 public class MinhaAgendaDeContatosContext : DbContext
 {
     public MinhaAgendaDeContatosContext(DbContextOptions<MinhaAgendaDeContatosContext> options) : base(options) { }
-    
+
     //Variavel
     public DbSet<Contato> Contatos { get; set; }
 
@@ -17,7 +17,11 @@ public class MinhaAgendaDeContatosContext : DbContext
     {
         /*Responsavel em fazer a configuraçoes necessaria para fazer a 
          * conexão da variavel com a tabela usuario*/
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MinhaAgendaDeContatosContext).Assembly);
+        modelBuilder.Entity<Contato>()
+            .HasOne(r => r.Regiao)
+            .WithMany(c => c.Contatos)
+            .HasForeignKey(c => c.Prefixo)
+            .HasPrincipalKey(r => r.Prefixo);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -27,7 +31,8 @@ public class MinhaAgendaDeContatosContext : DbContext
             .EnableSensitiveDataLogging(); // Opcional: inclui parâmetros de consulta na saída do log            
     }
 
-    private static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder => {
+    private static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder =>
+    {
         builder.AddFilter((category, level) =>
             category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information)
             .AddConsole();

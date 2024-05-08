@@ -12,7 +12,7 @@ public class Versao0000001 : Migration
     public Versao0000001(ILogger<Migration> logger)
     {
         _logger = logger;
-        CustomLogger.Arquivo = true;        
+        CustomLogger.Arquivo = true;
     }
 
     public override void Down()
@@ -46,9 +46,9 @@ public class Versao0000001 : Migration
         var tabela = VersaoBase.InserirColunasPadrao(Create.Table("DDDRegiao"));
 
         tabela
-            .WithColumn("prefixo").AsString().NotNullable()
-            .WithColumn("estado").AsString().NotNullable()
-            .WithColumn("regiao").AsString().NotNullable();
+            .WithColumn("Prefixo").AsString().NotNullable()
+            .WithColumn("Estado").AsString().NotNullable()
+            .WithColumn("Regiao").AsString().NotNullable();
 
         _logger.LogInformation("Tabela 'DDDRegiao' criada com sucesso.");
     }

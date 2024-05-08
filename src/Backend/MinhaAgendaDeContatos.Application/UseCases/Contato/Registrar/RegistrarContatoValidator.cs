@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Exceptions;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System;
 
 namespace MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 public class RegistrarContatoValidator : AbstractValidator<RequisicaoRegistrarContatoJson>
@@ -23,13 +20,13 @@ public class RegistrarContatoValidator : AbstractValidator<RequisicaoRegistrarCo
             ,48,49,51,53,54,55,61,62,63,64,65,66,67,68,69,71,73,74,75,77,79,81,82,83,84,85,86,87,88,89,91,92,93,94,95,96,97,98,99 };
 
 
-        RuleFor(c => c.TelefoneProxy)
-            .Must(x => x > 9999999 && x < 999999999)
+        RuleFor(c => c.Telefone)
+            .Must(x => x.Length > 7 && x.Length < 9)
             .WithMessage(ResourceMensagensDeErro.TELEFONE_CONTATO_EMBRANCO);
 
         RuleFor(c => c.PrefixoProxy)
             .Must(x => prefixosValidos.Contains((int)x));
-            //.WithMessage(ResourceMensagensDeErro.PREFIXO_CONTATO_EMBRANCO);
+        //.WithMessage(ResourceMensagensDeErro.PREFIXO_CONTATO_EMBRANCO);
 
 
 

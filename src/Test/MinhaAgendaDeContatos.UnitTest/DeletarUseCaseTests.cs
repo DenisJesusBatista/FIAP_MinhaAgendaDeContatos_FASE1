@@ -6,11 +6,6 @@ using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MinhaAgendaDeContatos.UnitTest
 {
@@ -53,7 +48,7 @@ namespace MinhaAgendaDeContatos.UnitTest
             _repositorioReadOnly.Setup(x => x.RecuperarPorEmail(It.IsAny<string>())).ReturnsAsync(null as Contato);
 
             //Act
-            var action = async() => await _useCase.Executar(email);
+            var action = async () => await _useCase.Executar(email);
 
             //Assert
             await action.Should().ThrowAsync<ErrosDeValidacaoException>();

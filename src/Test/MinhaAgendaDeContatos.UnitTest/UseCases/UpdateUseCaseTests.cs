@@ -7,7 +7,7 @@ using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
 using Moq;
 
-namespace MinhaAgendaDeContatos.UnitTest
+namespace MinhaAgendaDeContatos.UnitTest.UseCases
 {
     public class UpdateUseCaseTests
     {

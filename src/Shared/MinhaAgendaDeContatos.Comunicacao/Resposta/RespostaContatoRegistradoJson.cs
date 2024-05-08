@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
+﻿namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
 
 public class RespostaContatoRegistradoJson
 {
@@ -26,7 +24,7 @@ public class RespostaContatoRegistradoJson
     public string Token { get; set; } = string.Empty;
 
     public RespostaContatoRegistradoJson(string dddRegiao /* Outros tipos e campos necessários */)
-    {   
+    {
     }
 
 

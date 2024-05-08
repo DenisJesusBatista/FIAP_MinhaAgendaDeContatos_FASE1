@@ -29,7 +29,7 @@ public class RequisicaoRegistrarContatoJson
         }
     }
 
-    public ulong TelefoneProxy { get; set; } = 0;
+    public int TelefoneProxy { get; set; } = 0;
     [JsonIgnore]
     public string Prefixo
     {
@@ -39,5 +39,5 @@ public class RequisicaoRegistrarContatoJson
         }
     }
 
-    public ulong PrefixoProxy { get; set; } = 0;
+    public int PrefixoProxy { get; set; } = 0;
 }

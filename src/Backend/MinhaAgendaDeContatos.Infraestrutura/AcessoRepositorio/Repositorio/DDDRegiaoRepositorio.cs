@@ -12,12 +12,12 @@ public class DDDRegiaoRepositorio : IDDDRegiao
         _contexto = contexto;
 
     }
-   
+
     public async Task<IList<DDDRegiao>> RecuperarPorPrefixo(string prefixo)
     {
         return await _contexto.DDDRegiao.AsNoTracking()
-        .Where(x => x.prefixo == prefixo)
+        .Where(x => x.Prefixo == prefixo)
         .ToListAsync();
-        
+
     }
 }

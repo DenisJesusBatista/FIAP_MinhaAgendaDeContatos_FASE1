@@ -14,7 +14,7 @@ public class RespostaErroJson
     public RespostaErroJson(List<string> mensagem)
     {
         Mensagens = mensagem;
-        
+
     }
 
 }

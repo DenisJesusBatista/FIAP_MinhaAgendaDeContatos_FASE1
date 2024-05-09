@@ -15,7 +15,7 @@ using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using Moq;
 using System.Net;
 
-namespace MinhaAgendaDeContatos.UnitTest
+namespace MinhaAgendaDeContatos.UnitTest.Controllers
 {
     public class ControllerTests
     {
@@ -25,6 +25,7 @@ namespace MinhaAgendaDeContatos.UnitTest
         private readonly Mock<IRecuperarTodosContatosUseCase> _recuperarTodosUseCase;
         private readonly Mock<IDeletarContatoUseCase> _deletarUseCase;
         private readonly Mock<IUpdateContatoUseCase> _updateUseCase;
+        private readonly Mock<IRecuperarDDDRegiaoPorPrefixoUseCase> _recuperarRegiaoUseCase;
         private readonly ContatoController _controller;
 
         public ControllerTests()
@@ -35,6 +36,7 @@ namespace MinhaAgendaDeContatos.UnitTest
             _recuperarTodosUseCase = new Mock<IRecuperarTodosContatosUseCase>();
             _deletarUseCase = new Mock<IDeletarContatoUseCase>();
             _updateUseCase = new Mock<IUpdateContatoUseCase>();
+            _recuperarRegiaoUseCase = new Mock<IRecuperarDDDRegiaoPorPrefixoUseCase>();
             _controller = new ContatoController();
         }
 
@@ -45,8 +47,7 @@ namespace MinhaAgendaDeContatos.UnitTest
             var request = new AutoFaker<RequisicaoRegistrarContatoJson>().Generate();
 
             //Act
-
-            var result = (OkObjectResult)await _controller.RegistrarContato(_registrarUseCase.Object, request);
+            var result = await _controller.RegistrarContato(_registrarUseCase.Object, request);
 
             //Assert
             _registrarUseCase.Verify(x => x.Executar(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Once);
@@ -60,9 +61,6 @@ namespace MinhaAgendaDeContatos.UnitTest
             var prefixo = new Faker().Random.String();
 
             var useCaseResult = new AutoFaker<RespostaContatoJson>().Generate();
-            var useCaseDDDRegiaoResult = new AutoFaker<RespostaDDDRegiaoJson>().Generate();
-
-
             _recuperarUseCase.Setup(x => x.Executar(It.IsAny<string>())).ReturnsAsync(useCaseResult);
 
             //Act
@@ -87,8 +85,6 @@ namespace MinhaAgendaDeContatos.UnitTest
             var result = (OkObjectResult)await _controller.RecuperarPorId(_recuperarIdUseCase.Object, id);
 
 
-
-
             //Assert
             _recuperarIdUseCase.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
@@ -98,20 +94,18 @@ namespace MinhaAgendaDeContatos.UnitTest
         [Fact]
         public async Task RecuperarTodosContatos_Deve_Chamar_UseCase_E_Retornar_Ok_Com_Tipo_Correto()
         {
-            // Arrange
+            //Arrange
             var useCaseResult = new AutoFaker<RespostaContatoJson>().Generate();
-
             _recuperarTodosUseCase.Setup(x => x.Executar()).ReturnsAsync(useCaseResult);
 
-            // Act
+            //Act
             var result = (OkObjectResult)await _controller.RecuperarTodosContatos(_recuperarTodosUseCase.Object);
 
-            // Assert
+            //Assert
             _recuperarTodosUseCase.Verify(x => x.Executar(), Times.Once);
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             result.Value.Should().BeOfType<RespostaContatoJson>();
         }
-
 
         [Fact]
         public async Task Deletar_Deve_Chamar_UseCase_E_Retornar_NoContent()

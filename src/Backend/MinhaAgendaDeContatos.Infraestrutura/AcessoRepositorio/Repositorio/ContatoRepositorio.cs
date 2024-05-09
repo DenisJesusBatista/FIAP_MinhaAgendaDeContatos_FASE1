@@ -19,7 +19,7 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
 
     public async Task Deletar(string email)
     {
-        var contato = await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email == email);  
+        var contato = await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email == email);
         _contexto.Contatos.Remove(contato);
     }
 
@@ -29,48 +29,35 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
     }
 
     public async Task<Contato> RecuperarPorEmail(string email)
-    {        
-        return await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email.Equals(email));
-    }
-
-    public async Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarPorPrefixo(string prefixo)
     {
-        var resultado = await (from contato in _contexto.Contatos.AsNoTracking()
-                               join regiao in _contexto.DDDRegiao.AsNoTracking()
-                               on contato.Prefixo equals regiao.prefixo
-                               where contato.Prefixo == prefixo
-                               select new { Contato = contato, Regiao = regiao })
-                                .ToListAsync();
-
-        return (resultado.Select(r => r.Contato).ToList(), resultado.Select(r => r.Regiao).ToList());
+        return await _contexto.Contatos
+            .Include(c => c.Regiao)
+            .FirstOrDefaultAsync(c => c.Email.Equals(email));
     }
 
-
-    public async Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarTodosContatos()
-    {                  
-        var resultado = await (from contato in _contexto.Contatos.AsNoTracking()
-                           join regiao in _contexto.DDDRegiao.AsNoTracking()
-                           on contato.Prefixo equals regiao.prefixo                           
-                           select new { Contato = contato, Regiao = regiao })
-                               .ToListAsync();
-
-        return (resultado.Select(r => r.Contato).ToList(), resultado.Select(r => r.Regiao).ToList());
-    }
-
-    public async Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarPorId(int id)
+    public async Task<IEnumerable<Contato>> RecuperarPorPrefixo(string prefixo)
     {
-        var resultado = await (from contato in _contexto.Contatos.AsNoTracking()
-                               join regiao in _contexto.DDDRegiao.AsNoTracking()
-                               on contato.Prefixo equals regiao.prefixo
-                               where contato.Id == id
-                               select new { Contato = contato, Regiao = regiao })
-                                .ToListAsync();
-
-
-        return (resultado.Select(r => r.Contato).ToList(), resultado.Select(r => r.Regiao).ToList());
-      
+        return await _contexto.Contatos
+            .Where(c => c.Prefixo == prefixo)
+            .Include(c => c.Regiao)
+            .ToListAsync();
     }
 
+
+    public async Task<IEnumerable<Contato>> RecuperarTodosContatos()
+    {
+        return await _contexto.Contatos
+            .Include(c => c.Regiao)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Contato>> RecuperarPorId(int id)
+    {
+        return await _contexto.Contatos
+            .Where(x => x.Id == id)
+            .Include(x => x.Regiao)
+            .ToListAsync();
+    }
 
     public void Update(Contato contato)
     {
@@ -79,7 +66,7 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
 
     async Task IContatoWriteOnlyRepositorio.Update(Contato contato)
     {
-        _contexto.Contatos.Update(contato);        
+        _contexto.Contatos.Update(contato);
     }
 
 }

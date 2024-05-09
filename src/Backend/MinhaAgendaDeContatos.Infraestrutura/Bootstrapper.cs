@@ -1,14 +1,13 @@
 ﻿#region Pluglins
 using FluentMigrator.Runner;
-using MinhaAgendaDeContatos.Domain.Extension;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
-using Microsoft.EntityFrameworkCore;
-using MinhaAgendaDeContatos.Domain.Entidades;
+using System.Reflection;
 
 namespace MinhaAgendaDeContatos.Infraestrutura;
 
@@ -16,7 +15,7 @@ namespace MinhaAgendaDeContatos.Infraestrutura;
 public static class Bootstrapper
 {
     public static void AddRepositorio(this IServiceCollection services, IConfiguration configurationManager)
-    {        
+    {
         AddFluentMigratorPostgres(services, configurationManager);
         AddUnidadeDeTrabalho(services);
         AddRepositorios(services);
@@ -31,7 +30,7 @@ public static class Bootstrapper
     private static void AddContexto(IServiceCollection services, IConfiguration configurationManager)
     {
         var connectionString = configurationManager.GetConexaoCompleta();
-        
+
         services.AddDbContext<MinhaAgendaDeContatosContext>(dbCobtextoOpcoes =>
         {
             dbCobtextoOpcoes.UseNpgsql(connectionString);

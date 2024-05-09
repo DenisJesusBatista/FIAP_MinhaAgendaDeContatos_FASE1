@@ -7,11 +7,11 @@ using System.Net;
 
 namespace MinhaAgendaDeContatos.Api.Filtros;
 
-public class FiltroDasExceptions: IExceptionFilter
+public class FiltroDasExceptions : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-        if(context.Exception is MinhaAgendaDeContatosExceptions)
+        if (context.Exception is MinhaAgendaDeContatosExceptions)
         {
             TratarMinhaAgendaContatoException(context);
         }
@@ -23,15 +23,15 @@ public class FiltroDasExceptions: IExceptionFilter
 
     private void TratarMinhaAgendaContatoException(ExceptionContext context)
     {
-        if(context.Exception is ErrosDeValidacaoException)
+        if (context.Exception is ErrosDeValidacaoException)
         {
-            TratarErroDeValidacaoException(context);    
-        }       
+            TratarErroDeValidacaoException(context);
+        }
     }
 
     private void TratarErroDeValidacaoException(ExceptionContext context)
     {
-        var erroDeValidacaoException = context.Exception as ErrosDeValidacaoException;  
+        var erroDeValidacaoException = context.Exception as ErrosDeValidacaoException;
         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         context.Result = new ObjectResult(new RespostaErroJson(erroDeValidacaoException.MensagensDeErro));
 

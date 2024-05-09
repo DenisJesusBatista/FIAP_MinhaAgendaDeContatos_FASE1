@@ -9,10 +9,10 @@ public interface IContatoReadOnlyRepositorio
      */
 
     /*Verificar se existe usuario com email*/
-    Task<bool> ExisteUsuarioComEmail(string email);    
-    Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarPorPrefixo(string prefixo);
-    Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarPorId(int id);
-    Task<(IList<Contato> Contatos, IList<DDDRegiao> Regioes)> RecuperarTodosContatos();
+    Task<bool> ExisteUsuarioComEmail(string email);
+    Task<IEnumerable<Contato>> RecuperarPorPrefixo(string prefixo);
+    Task<IEnumerable<Contato>> RecuperarPorId(int id);
+    Task<IEnumerable<Contato>> RecuperarTodosContatos();
     Task<Entidades.Contato> RecuperarPorEmail(string email);
 }
 /*

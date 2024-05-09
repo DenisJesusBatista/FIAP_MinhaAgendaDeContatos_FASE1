@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Linq;
-
-namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
+﻿namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
 public class RespostaDDDRegiaoJson
 {
     public List<DDDRegiaoJson> DDDRegiao { get; set; }
@@ -13,9 +6,9 @@ public class RespostaDDDRegiaoJson
 
 public class DDDRegiaoJson
 {
-    public int id { get; set; }
-    public string prefixo { get; set; }
-    public string regiao { get; set; }
-    public string estado { get; set; }
+    public long Id { get; set; }
+    public string Prefixo { get; set; }
+    public string Regiao { get; set; }
+    public string Estado { get; set; }
 }
 

@@ -5,7 +5,7 @@ using MinhaAgendaDeContatos.Exceptions;
 using MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
 
 namespace MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
-public class RegistrarContatoUseCase: IRegistrarContatoUseCase
+public class RegistrarContatoUseCase : IRegistrarContatoUseCase
 {
     //Variavel readonly só pode ser atribuido valor nela, apenas no construtor da classe ( public RegistrarContatoUseCase(IContatoWriteOnlyRepositorio repositorio) )
     private readonly IContatoReadOnlyRepositorio _contatoReadOnlyRepositorio;
@@ -19,13 +19,13 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
        IContatoReadOnlyRepositorio contatoReadOnlyRepositorio
         )
     {
-        _contatoWriteOnlyRepositorio = contatoWriteOnlyRepositorio; 
+        _contatoWriteOnlyRepositorio = contatoWriteOnlyRepositorio;
         _mapper = mapper;
-        _unidadeDeTrabalho = unidadeDeTrabalho; 
+        _unidadeDeTrabalho = unidadeDeTrabalho;
         _contatoReadOnlyRepositorio = contatoReadOnlyRepositorio;
     }
-    
-    public async Task<Domain.Entidades.Contato> Executar(RequisicaoRegistrarContatoJson requisicao)
+
+    public async Task Executar(RequisicaoRegistrarContatoJson requisicao)
     {
         await Validar(requisicao);
 
@@ -41,9 +41,7 @@ public class RegistrarContatoUseCase: IRegistrarContatoUseCase
 
         await _contatoWriteOnlyRepositorio.Adicionar(entidade);
 
-        await _unidadeDeTrabalho.Commit();  
-
-        return entidade;
+        await _unidadeDeTrabalho.Commit();
     }
 
 

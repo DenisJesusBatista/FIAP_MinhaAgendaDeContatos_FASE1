@@ -1,0 +1,21 @@
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 (not applied)
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrating
+Log de Execução Information: FluentMigrator.Runner - Beginning Transaction
+Log de Execução Information: 0 - Tabela 'Contatos' criada com sucesso.
+Log de Execução Information: 0 - Tabela 'DDDRegiao' criada com sucesso.
+Log de Execução Information: FluentMigrator.Runner - CreateTable Contatos
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+Log de Execução Information: FluentMigrator.Runner - => 0,0113677s
+Log de Execução Information: FluentMigrator.Runner - CreateTable DDDRegiao
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."DDDRegiao" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "prefixo" text NOT NULL, "estado" text NOT NULL, "regiao" text NOT NULL, CONSTRAINT "PK_DDDRegiao" PRIMARY KEY ("Id"));
+Log de Execução Information: FluentMigrator.Runner - => 0,0086701s
+Log de Execução Information: FluentMigrator.Runner - INSERT INTO "public"."VersionInfo" ("Version","AppliedOn","Description") VALUES (1,'2024-05-05T01:53:35','Cria tabela contato');
+Log de Execução Information: FluentMigrator.Runner - Committing Transaction
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrated
+Log de Execução Information: FluentMigrator.Runner - => 0,0156623s
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\Users\jessi\Desktop\Alexandre\Warmup Pos\FIAP_MinhaAgendaDeContatos_FASE1\src\Backend\MinhaAgendaDeContatos.Api
+Log de Execução Error: UnhandledException - An unhandled exception has occurred while executing the request.

@@ -8,7 +8,7 @@ using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using Moq;
 
-namespace MinhaAgendaDeContatos.UnitTest
+namespace MinhaAgendaDeContatos.UnitTest.UseCases
 {
     public class RecuperarUseCaseTests
     {
@@ -28,10 +28,8 @@ namespace MinhaAgendaDeContatos.UnitTest
             //Arrange
             var prefixo = new Faker().Random.String();
             var repositorioResult = new AutoFaker<Contato>().Generate(new Faker().Random.Int(1, 1000));
-            var repositorioDDDRegiaoResult = new AutoFaker<DDDRegiao>().Generate(new Faker().Random.Int(1, 1000));
+            var repositorioResult2 = new AutoFaker<DDDRegiao>().Generate(new Faker().Random.Int(1, 1000));
             _repositorioReadOnly.Setup(x => x.RecuperarPorPrefixo(It.IsAny<string>())).ReturnsAsync(repositorioResult);
-
-
 
             //Act
             var result = await _useCase.Executar(prefixo);

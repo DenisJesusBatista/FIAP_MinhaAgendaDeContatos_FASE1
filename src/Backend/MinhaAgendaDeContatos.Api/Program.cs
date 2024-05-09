@@ -5,7 +5,6 @@ using MinhaAgendaDeContatos.Application.Servicoes.AutoMapper;
 using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Infraestrutura;
 using MinhaAgendaDeContatos.Infraestrutura.Logging;
-using MinhaAgendaDeContatos.Infraestrutura.Migrations;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +30,7 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);  
+    c.IncludeXmlComments(xmlPath);
 });
 
 builder.Services.AddRepositorio(builder.Configuration);
@@ -40,7 +39,8 @@ builder.Services.AddApplication(builder.Configuration);
 
 
 //Registrar o filtro para qualquer excessao chamar a classe
-builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltroDasExceptions)));
+builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltroDasExceptions)))
+    .AddJsonOptions(options => options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull);
 
 //Configurando AutoMapper na injeção de dependência
 builder.Services.AddScoped(provider => new AutoMapper.MapperConfiguration(cfg =>
@@ -80,5 +80,5 @@ void AtualizarBaseDeDados()
 
     //Database.CriarDatabase(conexao, nomeDatabase);
 
-    app.MigrateBancoDados();
+    //app.MigrateBancoDados();
 }

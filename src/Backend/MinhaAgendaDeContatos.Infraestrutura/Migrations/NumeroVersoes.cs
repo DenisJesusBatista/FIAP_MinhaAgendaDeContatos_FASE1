@@ -2,5 +2,5 @@
 public enum NumeroVersoes
 {
     CriarTabelaContato = 1
- 
+
 }

@@ -7,7 +7,7 @@ namespace MinhaAgendaDeContatos.Application.Servicoes.AutoMapper;
 
 /*Realizar a configuração do AutoMapper*/
 [ExcludeFromCodeCoverage]
-public class AutoMapperConfiguracao: Profile
+public class AutoMapperConfiguracao : Profile
 {
     public AutoMapperConfiguracao()
     {
@@ -15,7 +15,7 @@ public class AutoMapperConfiguracao: Profile
 
         // Mapeamento de RequisicaoRegistrarContatoJson para Contato
         CreateMap<Comunicacao.Requisicoes.RequisicaoRegistrarContatoJson, Domain.Entidades.Contato>();
-        
+
         CreateMap<Contato, ContatoJson>();
 
         // Mapeamento de RequisicaoRegistrarDDDRegiaoJson para DDDRegiao

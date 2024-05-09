@@ -1,4 +1,4 @@
 ﻿namespace MinhaAgendaDeContatos.Exceptions.ExceptionsBase;
-public class MinhaAgendaDeContatosExceptions: SystemException
+public class MinhaAgendaDeContatosExceptions : SystemException
 {
 }

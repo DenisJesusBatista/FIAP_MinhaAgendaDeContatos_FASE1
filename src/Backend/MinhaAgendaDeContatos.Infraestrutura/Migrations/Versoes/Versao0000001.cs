@@ -4,7 +4,7 @@ using MinhaAgendaDeContatos.Infraestrutura.Logging;
 
 namespace MinhaAgendaDeContatos.Infraestrutura.Migrations.Versoes;
 
-[Migration((long)NumeroVersoes.CriarTabelaContato, "Cria tabela contato")]
+[Migration((long)NumeroVersoes.CriarPopularTabelas, "Cria e popular tabelas")]
 public class Versao0000001 : Migration
 {
     private readonly ILogger<Migration> _logger;
@@ -58,7 +58,7 @@ public class Versao0000001 : Migration
     {
         // Instrução SQL para inserir múltiplos registros
         var sqlInsert = @"
-        INSERT INTO public.""DDDRegiao""(""DataCriacao"",""prefixo"", ""estado"", ""regiao"") 
+        INSERT INTO public.""DDDRegiao""(""DataCriacao"",""Prefixo"", ""Estado"", ""Regiao"") 
         VALUES 
             (CURRENT_DATE,'11','São Paulo','Região Metropolitana de São Paulo/Região Metropolitana de Jundiaí/Região Geográfica Imediata de Bragança Paulista'),
             (CURRENT_DATE,'12','São Paulo','Região Metropolitana do Vale do Paraíba e Litoral Norte'),

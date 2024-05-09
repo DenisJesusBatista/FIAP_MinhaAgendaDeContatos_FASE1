@@ -5,6 +5,7 @@ using MinhaAgendaDeContatos.Application.Servicoes.AutoMapper;
 using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Infraestrutura;
 using MinhaAgendaDeContatos.Infraestrutura.Logging;
+using MinhaAgendaDeContatos.Infraestrutura.Migrations;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -78,7 +79,18 @@ void AtualizarBaseDeDados()
     var conexao = builder.Configuration.GetConexao();
     var nomeDatabase = builder.Configuration.GetNomeDataBase();
 
-    //Database.CriarDatabase(conexao, nomeDatabase);
+    // Verifica se o banco de dados existe
+    bool bancoExiste = Database.VerificarExistenciaDatabase(conexao, nomeDatabase);
 
-    //app.MigrateBancoDados();
+    if (bancoExiste == true)
+    {
+        app.MigrateBancoDados();
+    }
+    else
+    {
+        Database.CriarDatabase(conexao, nomeDatabase);
+        app.MigrateBancoDados();
+    }
+
+        
 }

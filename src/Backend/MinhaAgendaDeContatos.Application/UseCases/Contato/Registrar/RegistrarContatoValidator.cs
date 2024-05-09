@@ -31,12 +31,12 @@ public class RegistrarContatoValidator : AbstractValidator<RequisicaoRegistrarCo
 
 
         RuleFor(c => c.Telefone)
-            .Must(x => x.Length > 7 && x.Length < 9)
+            .Must(x => x.Length > 7 && x.Length <= 9)
             .WithMessage(ResourceMensagensDeErro.TELEFONE_CONTATO_EMBRANCO);
 
         RuleFor(c => c.PrefixoProxy)
-            .Must(x => prefixosValidos.Contains((int)x));
-        //.WithMessage(ResourceMensagensDeErro.PREFIXO_CONTATO_EMBRANCO);
+            .Must(x => prefixosValidos.Contains((int)x))
+        .WithMessage(ResourceMensagensDeErro.PREFIXO_CONTATO_EMBRANCO);
 
 
 
@@ -45,21 +45,6 @@ public class RegistrarContatoValidator : AbstractValidator<RequisicaoRegistrarCo
         When(c => !string.IsNullOrWhiteSpace(c.Email), () =>
         {
             RuleFor(c => c.Email).EmailAddress().WithMessage(ResourceMensagensDeErro.EMAIL_CONTATO_INVALIDO);
-        });
-
-        //telefone numérico 
-        //Validando telefone por regex
-        //When(c => !string.IsNullOrWhiteSpace(c.Telefone), () =>
-        //{
-        //    RuleFor(c => c.Telefone).Custom((telefone, contexto) =>
-        //    {
-        //        string padraoTelefone = "[0-9]{2} [1-9]{1} [0-9]{4}-[0-9]{4}";
-        //        var isValid = Regex.IsMatch(telefone, padraoTelefone);
-        //        if(!isValid) 
-        //        {
-        //            contexto.AddFailure(new FluentValidation.Results.ValidationFailure(nameof(telefone), ResourceMensagensDeErro.TELEFONE_CONTATO_INVALIDO));
-        //        }
-        //    }); 
-        //});
+        });    
     }
 }

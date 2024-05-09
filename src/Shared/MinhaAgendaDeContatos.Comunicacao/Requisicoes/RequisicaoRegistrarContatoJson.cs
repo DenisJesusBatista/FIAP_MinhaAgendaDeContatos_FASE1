@@ -4,10 +4,8 @@ namespace MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 public class RequisicaoRegistrarContatoJson
 {
     [JsonIgnore]
-    public int Id { get; set; }
-    //public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
+    public int Id { get; set; }    
     public string Nome { get; set; } = string.Empty;
-
     private string _email = string.Empty;
     public string Email
     {

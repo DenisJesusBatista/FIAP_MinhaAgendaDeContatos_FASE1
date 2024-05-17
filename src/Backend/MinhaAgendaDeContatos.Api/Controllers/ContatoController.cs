@@ -91,11 +91,11 @@ public class ContatoController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Deletar(
         [FromServices] IDeletarContatoUseCase useCase,
-        [FromBody] string email)
+        string email)
     {
         await useCase.Executar(email);
 
-        return NoContent();
+        return Ok(ResponseMessages.ContatoApagado);
     }
 
     /// <summary>

@@ -120,11 +120,11 @@ namespace MinhaAgendaDeContatos.UnitTest
             var email = new Faker().Random.String();
 
             //Act
-            var result = (NoContentResult)await _controller.Deletar(_deletarUseCase.Object, email);
+            var result = (OkObjectResult)await _controller.Deletar(_deletarUseCase.Object, email);
 
             //Assert
             _deletarUseCase.Verify(x => x.Executar(It.IsAny<string>()), Times.Once);
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
         }
 
         [Fact]

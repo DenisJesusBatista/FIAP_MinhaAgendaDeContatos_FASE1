@@ -1,5 +1,7 @@
-﻿namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
+[ExcludeFromCodeCoverage]
 public class RespostaContatoRegistradoJson
 {
     /*Token que identifica o usuário, quando faz login da aplicação*/

@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
+[ExcludeFromCodeCoverage]
 public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnlyRepositorio, IContatoUpdateOnlyRepositorio
 {
     private readonly MinhaAgendaDeContatosContext _contexto;

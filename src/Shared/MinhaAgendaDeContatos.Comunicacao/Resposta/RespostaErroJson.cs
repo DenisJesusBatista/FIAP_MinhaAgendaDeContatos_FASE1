@@ -1,4 +1,7 @@
-﻿namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
+[ExcludeFromCodeCoverage]
 public class RespostaErroJson
 {
     public List<string> Mensagens { get; set; }

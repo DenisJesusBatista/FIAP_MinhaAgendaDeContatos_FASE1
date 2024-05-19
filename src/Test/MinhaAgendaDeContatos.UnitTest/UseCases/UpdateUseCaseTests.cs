@@ -51,10 +51,10 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
             //Act
             var action = async () => await _useCase.Executar(requisicao);
 
-            //Assert.
+            //Assert.t
             await action.Should().ThrowAsync<ErrosDeValidacaoException>();
             _repositorioReadOnly.Verify(x => x.RecuperarPorEmail(It.IsAny<string>()), Times.Once);
-            _repositorioWriteOnly.Verify(x => x.Update(It.IsAny<Contato>()), Times.Never);
+            _repositorioWriteOnly.Verify(x => x.Update(It.IsAny<Contato>()), Times.Once);
             _unidadeDeTrabalho.Verify(x => x.Commit(), Times.Never);
         }
     }

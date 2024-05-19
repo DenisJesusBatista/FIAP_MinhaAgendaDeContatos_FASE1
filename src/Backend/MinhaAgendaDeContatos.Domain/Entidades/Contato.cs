@@ -1,5 +1,8 @@
-﻿namespace MinhaAgendaDeContatos.Domain.Entidades;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace MinhaAgendaDeContatos.Domain.Entidades;
+
+[ExcludeFromCodeCoverage]
 public class Contato : EntidadeBase
 {
     public string Nome { get; set; } = string.Empty;

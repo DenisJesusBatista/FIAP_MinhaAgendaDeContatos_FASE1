@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Domain.Extension;
+[ExcludeFromCodeCoverage]
 public static class RepositorioExtension
 {
     public static string GetNomeDataBase(this IConfiguration configurationManager)

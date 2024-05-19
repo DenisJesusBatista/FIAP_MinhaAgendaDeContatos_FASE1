@@ -1,6 +1,8 @@
 ﻿using MinhaAgendaDeContatos.Domain.Entidades;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Comunicacao.Resposta;
+[ExcludeFromCodeCoverage]
 public class RespostaContatoJson
 {
     public IEnumerable<ContatoJson> Contatos { get; set; }
@@ -11,6 +13,7 @@ public class RespostaContatoJson
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class ContatoJson
 {
     public long Id { get; set; }

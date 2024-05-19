@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using Npgsql;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Infraestrutura.Migrations;
+[ExcludeFromCodeCoverage]
 public static class Database
 {   
     public static void CriarDatabase(string conexaoComBancoDeDados, string nomeDatabase)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Infraestrutura.Logging;
+[ExcludeFromCodeCoverage]
 public class CustomLoggerProvider : ILoggerProvider
 {
     private readonly CustomLoggerProviderConfiguration _loggerConfig;

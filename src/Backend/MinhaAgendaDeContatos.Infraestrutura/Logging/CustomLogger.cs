@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Infraestrutura.Logging;
+[ExcludeFromCodeCoverage]
 public class CustomLogger : ILogger
 {
     private readonly string loggerName;

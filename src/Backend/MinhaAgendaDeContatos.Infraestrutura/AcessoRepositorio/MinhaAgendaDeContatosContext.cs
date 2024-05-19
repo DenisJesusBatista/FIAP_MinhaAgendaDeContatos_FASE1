@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MinhaAgendaDeContatos.Domain.Entidades;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
+[ExcludeFromCodeCoverage]
 public class MinhaAgendaDeContatosContext : DbContext
 {
     public MinhaAgendaDeContatosContext(DbContextOptions<MinhaAgendaDeContatosContext> options) : base(options) { }

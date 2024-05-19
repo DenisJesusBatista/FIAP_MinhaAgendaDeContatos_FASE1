@@ -1,8 +1,10 @@
 ﻿using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinhaAgendaDeContatos.Infraestrutura.Migrations;
+[ExcludeFromCodeCoverage]
 public static class MigrationExtension
 {
     public static void MigrateBancoDados(this IApplicationBuilder app)

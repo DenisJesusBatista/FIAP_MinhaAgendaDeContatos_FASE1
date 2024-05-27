@@ -3,12 +3,14 @@
 
 name: .NET
 
+#Definindo quando o WorkFlow será disparado
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
+#Definindo os jobs que o workFlow executará
 jobs:
   build:
 

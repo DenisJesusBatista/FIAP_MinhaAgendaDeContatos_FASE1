@@ -42,7 +42,12 @@ namespace MinhaAgendaDeContatos.IntegrationTest
     public class PostgreSQLFakeDatabase : IAsyncLifetime
     {
         public readonly PostgreSqlContainer _database = new PostgreSqlBuilder()
-            .WithImage("postgres:15-alpine")
+            .WithImage("postgres")
+            .WithDatabase("minhaagenda")
+            .WithUsername("postgres")
+            .WithPassword("postgres")
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilCommandIsCompleted("pg_isready"))
+            .WithCleanUp(true)
             .Build();
         public Task DisposeAsync()
         {

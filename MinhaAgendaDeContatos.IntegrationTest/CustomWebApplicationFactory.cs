@@ -25,15 +25,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            var teste = new List<KeyValuePair<string, string?>>()
-            {
-                new KeyValuePair<string, string?>("ConnectionStrings:Database", _fixture._database.GetConnectionString())
-            };
-            builder.ConfigureAppConfiguration((context, config) =>
-            {
-                config
-                .AddInMemoryCollection(teste);
-            });
             builder.ConfigureServices(s =>
             {
                 s.AddDbContext<MinhaAgendaDeContatosContext>(ctx =>
@@ -49,14 +40,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
     {
         public readonly PostgreSqlContainer _database = new PostgreSqlBuilder()
             .WithImage("testcontainers/helloworld:1.1.0")
-            .WithPortBinding(8080, true)
-            .WithExposedPort(5432)
-            .WithEnvironment(new Dictionary<string, string>()
-            {
-                {"POSTGRES_USER", "postgres"},
-                {"POSTGRES_PASSWORD", "postgres"}
-            })
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5432))
             .WithCleanUp(true)
             .Build();
         public Task DisposeAsync()

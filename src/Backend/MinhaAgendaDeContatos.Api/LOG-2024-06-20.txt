@@ -1,0 +1,12 @@
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\Users\jessi\Desktop\Alexandre\Warmup Pos\FIAP_MinhaAgendaDeContatos_FASE1\src\Backend\MinhaAgendaDeContatos.Api
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\Users\jessi\Desktop\Alexandre\Warmup Pos\FIAP_MinhaAgendaDeContatos_FASE1\src\Backend\MinhaAgendaDeContatos.Api

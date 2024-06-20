@@ -42,6 +42,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
     public class PostgreSQLFakeDatabase : IAsyncLifetime
     {
         public readonly PostgreSqlContainer _database = new PostgreSqlBuilder()
+            .WithImage("postgres:15-alpine")
             .Build();
         public Task DisposeAsync()
         {
@@ -50,8 +51,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
         public Task InitializeAsync()
         {
-            Console.WriteLine("Iniciando container");
-            Console.WriteLine(_database.GetConnectionString());
             return _database.StartAsync();
         }
     }

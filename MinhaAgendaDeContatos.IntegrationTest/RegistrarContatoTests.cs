@@ -27,6 +27,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
         public void Dispose()
         {
+            GC.SuppressFinalize(this);
             _factory.Dispose();
         }
 

@@ -27,6 +27,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         {
             builder.ConfigureServices(s =>
             {
+                s.Remove(s.SingleOrDefault(service => typeof(MinhaAgendaDeContatosContext) == service.ServiceType));
                 s.AddDbContext<MinhaAgendaDeContatosContext>(ctx =>
                 {
                     ctx.UseNpgsql(_fixture._database.GetConnectionString());
@@ -39,8 +40,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
     public class PostgreSQLFakeDatabase : IAsyncLifetime
     {
         public readonly PostgreSqlContainer _database = new PostgreSqlBuilder()
-            .WithImage("testcontainers/helloworld:1.1.0")
-            .WithCleanUp(true)
             .Build();
         public Task DisposeAsync()
         {

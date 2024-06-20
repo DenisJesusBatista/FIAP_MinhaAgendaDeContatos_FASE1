@@ -21,10 +21,10 @@ jobs:
         image: postgres:13
         ports:
           - 5432:5432
-        env:
-          POSTGRES_DB: testdb
-          POSTGRES_USER: testuser
-          POSTGRES_PASSWORD: testpassword
+        #env:
+        #  POSTGRES_DB: testdb
+        #  POSTGRES_USER: testuser
+        #  POSTGRES_PASSWORD: testpassword
         options: >-
           --health-cmd="pg_isready -U testuser -d testdb"
           --health-interval=10s
@@ -51,8 +51,8 @@ jobs:
       run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"
     
     - name: Integration Test
-      env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_HOST: localhost
+      #env:
+      #  POSTGRES_USER: postgres
+      #  POSTGRES_PASSWORD: postgres
+      #  POSTGRES_HOST: localhost
       run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~IntegrationTest"

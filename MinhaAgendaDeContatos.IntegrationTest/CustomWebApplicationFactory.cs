@@ -30,6 +30,8 @@ namespace MinhaAgendaDeContatos.IntegrationTest
                 s.Remove(s.SingleOrDefault(service => typeof(MinhaAgendaDeContatosContext) == service.ServiceType));
                 s.AddDbContext<MinhaAgendaDeContatosContext>(ctx =>
                 {
+                    Console.WriteLine("Adicionando injeçao de dependencia");
+                    Console.WriteLine(_fixture._database.GetConnectionString());
                     ctx.UseNpgsql(_fixture._database.GetConnectionString());
                 });
             });
@@ -48,6 +50,8 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
         public Task InitializeAsync()
         {
+            Console.WriteLine("Iniciando container");
+            Console.WriteLine(_database.GetConnectionString());
             return _database.StartAsync();
         }
     }

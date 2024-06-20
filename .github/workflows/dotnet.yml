@@ -44,10 +44,10 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Unit Test
-      env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_HOST: localhost
+      #env:
+      #  POSTGRES_USER: postgres
+      #  POSTGRES_PASSWORD: postgres
+      #  POSTGRES_HOST: localhost
       run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"
     
     - name: Integration Test

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using DotNet.Testcontainers.Builders;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,13 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
     public class PostgreSQLFakeDatabase : IAsyncLifetime
     {
-        public readonly PostgreSqlContainer _database = new PostgreSqlBuilder().WithImage("postgres:15-alpine").Build();
+        public readonly PostgreSqlContainer _database = new PostgreSqlBuilder()
+            .WithImage("postgres:15-alpine")
+            .WithPortBinding(5432)
+            .WithExposedPort(5432)
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5432))
+            .WithCleanUp(true)
+            .Build();
         public Task DisposeAsync()
         {
             return _database.DisposeAsync().AsTask();

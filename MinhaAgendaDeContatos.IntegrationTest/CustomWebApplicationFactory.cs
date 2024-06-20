@@ -39,6 +39,11 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             .WithImage("postgres:15-alpine")
             .WithPortBinding(5432)
             .WithExposedPort(5432)
+            .WithEnvironment(new Dictionary<string, string>()
+            {
+                {"POSTGRES_USER", "postgres"},
+                {"POSTGRES_PASSWORD", "postgres"}
+            })
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5432))
             .WithCleanUp(true)
             .Build();

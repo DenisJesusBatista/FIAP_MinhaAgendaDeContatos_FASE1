@@ -51,12 +51,12 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             .WithImage("testcontainers/helloworld:1.1.0")
             .WithPortBinding(8080, true)
             .WithExposedPort(5432)
-            //.WithEnvironment(new Dictionary<string, string>()
-            //{
-            //    {"POSTGRES_USER", "postgres"},
-            //    {"POSTGRES_PASSWORD", "postgres"}
-            //})
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080)))
+            .WithEnvironment(new Dictionary<string, string>()
+            {
+                {"POSTGRES_USER", "postgres"},
+                {"POSTGRES_PASSWORD", "postgres"}
+            })
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5432))
             .WithCleanUp(true)
             .Build();
         public Task DisposeAsync()

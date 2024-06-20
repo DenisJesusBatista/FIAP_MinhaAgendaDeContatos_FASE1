@@ -48,15 +48,9 @@ namespace MinhaAgendaDeContatos.IntegrationTest
     public class PostgreSQLFakeDatabase : IAsyncLifetime
     {
         public readonly PostgreSqlContainer _database = new PostgreSqlBuilder()
-            .WithImage("postgres:15-alpine")
-            .WithPortBinding(5432)
-            .WithExposedPort(5432)
-            .WithEnvironment(new Dictionary<string, string>()
-            {
-                {"POSTGRES_USER", "postgres"},
-                {"POSTGRES_PASSWORD", "postgres"}
-            })
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5432))
+            .WithImage("testcontainers/helloworld:1.1.0")
+            .WithPortBinding(8080, true)
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080)))
             .WithCleanUp(true)
             .Build();
         public Task DisposeAsync()

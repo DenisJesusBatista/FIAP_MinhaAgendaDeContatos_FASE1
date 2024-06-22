@@ -27,6 +27,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         }
         public readonly PostgreSqlContainer _database = new PostgreSqlBuilder()
             .WithPortBinding(5432)
+            .WithDatabase("minhaagenda")
             .WithPassword("postgres")
             .Build();
 
@@ -37,7 +38,12 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureServices(s =>
+            builder//.UseTestServer()
+            //    .ConfigureAppConfiguration((ctx, builder) =>
+            //{
+            //    builder.AddJsonFile("appsettings.test.json");
+            //})
+                .ConfigureServices(s =>
             {
                 var descriptorType =
                typeof(DbContextOptions<MinhaAgendaDeContatosContext>);
@@ -50,8 +56,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
                     s.Remove(descriptor);
                 }
 
-
-
                 s.AddDbContext<MinhaAgendaDeContatosContext>(ctx =>
                 {
                     ctx.UseNpgsql(_database.GetConnectionString());
@@ -61,7 +65,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
                 .AddScoped<IDDDRegiao, DDDRegiaoRepositorio>()
                 .AddScoped<IContatoUpdateOnlyRepositorio, ContatoRepositorio>();
             });
-            builder.UseTestServer();
         }
 
         Task IAsyncLifetime.DisposeAsync()

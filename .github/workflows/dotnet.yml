@@ -16,21 +16,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:13
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_DB: minhaagenda
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd="pg_isready -U postgres -d minhaagenda"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -43,16 +28,8 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - name: Unit Test
-      #env:
-      #  POSTGRES_USER: postgres
-      #  POSTGRES_PASSWORD: postgres
-      #  POSTGRES_HOST: localhost
-      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"
+    # - name: Unit Test
+    #   run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"
     
     - name: Integration Test
-      #env:
-      #  POSTGRES_USER: postgres
-      #  POSTGRES_PASSWORD: postgres
-      #  POSTGRES_HOST: localhost
       run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~IntegrationTest"

@@ -25,7 +25,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
     {
         public CustomWebApplicationFactory()
         {
-            var configuration  = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Appsettings.Development.json").Build();
+            var configuration  = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Appsettings.json").Build();
 
             var connectionString = configuration.GetSection("ConnectionStrings:Conexao").Value.Split(new[] { '=', ';' });
 

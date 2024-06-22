@@ -14,7 +14,7 @@ using System.Text.Json.Serialization;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {
-    public class RegistrarContatoTests : IClassFixture<CustomWebApplicationFactory>, IDisposable
+    public class RegistrarContatoTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly IServiceScope _scope;
         protected readonly MinhaAgendaDeContatosContext DbContext;
@@ -23,16 +23,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         {
             _scope = factory.Services.CreateScope();
 
-            DbContext = _scope.ServiceProvider
-                .GetRequiredService<MinhaAgendaDeContatosContext>();
-
             _client = factory.CreateClient();
-        }
-
-        public void Dispose()
-        {
-            _scope?.Dispose();
-            DbContext?.Dispose();
         }
 
         [Fact]

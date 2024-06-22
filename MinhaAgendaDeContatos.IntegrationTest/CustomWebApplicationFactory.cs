@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,27 +25,29 @@ namespace MinhaAgendaDeContatos.IntegrationTest
     {
         public CustomWebApplicationFactory()
         {
+            var configuration  = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Appsettings.Development.json").Build();
 
+            var connectionString = configuration.GetSection("ConnectionStrings:Conexao").Value.Split(new[] { '=', ';' });
+
+            var password = connectionString[connectionString.Length - 2];
+
+            _container = new PostgreSqlBuilder()
+                            .WithPortBinding(5432)
+                            .WithDatabase("minhaagenda")
+                            .WithPassword(password)
+                            .Build();
         }
-        public readonly PostgreSqlContainer _database = new PostgreSqlBuilder()
-            .WithPortBinding(5432)
-            .WithDatabase("minhaagenda")
-            .WithPassword("postgres")
-            .Build();
+
+        private readonly PostgreSqlContainer _container;
 
         public Task InitializeAsync()
         {
-            return _database.StartAsync();
+            return _container.StartAsync();
         }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder//.UseTestServer()
-            //    .ConfigureAppConfiguration((ctx, builder) =>
-            //{
-            //    builder.AddJsonFile("appsettings.test.json");
-            //})
-                .ConfigureServices(s =>
+            builder.ConfigureServices(s =>
             {
                 var descriptorType =
                typeof(DbContextOptions<MinhaAgendaDeContatosContext>);
@@ -58,7 +62,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
                 s.AddDbContext<MinhaAgendaDeContatosContext>(ctx =>
                 {
-                    ctx.UseNpgsql(_database.GetConnectionString());
+                    ctx.UseNpgsql(_container.GetConnectionString());
                 });
                 s.AddScoped<IContatoWriteOnlyRepositorio, ContatoRepositorio>()
                 .AddScoped<IContatoReadOnlyRepositorio, ContatoRepositorio>()
@@ -69,7 +73,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
         Task IAsyncLifetime.DisposeAsync()
         {
-            return _database.StopAsync();
+            return _container.StopAsync();
         }
     }
 

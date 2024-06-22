@@ -25,7 +25,16 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
 
     public async Task<bool> ExisteUsuarioComEmail(string email)
     {
+        try
+        {
+
         return await _contexto.Contatos.AnyAsync(c => c.Email.Equals(email));
+        }
+        catch (Exception ex)
+        {
+            var teste = ex;
+            throw;
+        }
     }
 
     public async Task<Contato> RecuperarPorEmail(string email)

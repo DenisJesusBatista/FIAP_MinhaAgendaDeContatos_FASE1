@@ -3,8 +3,10 @@ using Bogus;
 using Bogus.Extensions;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using MinhaAgendaDeContatos.Api.Response;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
+using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -12,23 +14,25 @@ using System.Text.Json.Serialization;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {
-    public class RegistrarContatoTests : IClassFixture<PostgreSQLFakeDatabase>, IDisposable
+    public class RegistrarContatoTests : IClassFixture<CustomWebApplicationFactory>, IDisposable
     {
-        private readonly WebApplicationFactory<Program> _factory;
-        private readonly HttpClient _client;
-        public RegistrarContatoTests(PostgreSQLFakeDatabase factory)
+        private readonly IServiceScope _scope;
+        protected readonly MinhaAgendaDeContatosContext DbContext;
+        protected readonly HttpClient _client;
+        public RegistrarContatoTests(CustomWebApplicationFactory factory)
         {
-            var clientOptions = new WebApplicationFactoryClientOptions();
-            clientOptions.AllowAutoRedirect = false;
+            _scope = factory.Services.CreateScope();
 
-            _factory = new CustomWebApplicationFactory(factory);
-            _client = _factory.CreateClient(clientOptions);
+            DbContext = _scope.ServiceProvider
+                .GetRequiredService<MinhaAgendaDeContatosContext>();
+
+            _client = factory.CreateClient();
         }
 
         public void Dispose()
         {
-            GC.SuppressFinalize(this);
-            _factory.Dispose();
+            _scope?.Dispose();
+            DbContext?.Dispose();
         }
 
         [Fact]

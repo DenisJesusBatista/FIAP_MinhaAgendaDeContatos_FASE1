@@ -25,16 +25,10 @@ namespace MinhaAgendaDeContatos.IntegrationTest
     {
         public CustomWebApplicationFactory()
         {
-            var configuration  = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Appsettings.json").Build();
-
-            var connectionString = configuration.GetSection("ConnectionStrings:Conexao").Value.Split(new[] { '=', ';' });
-
-            var password = connectionString[connectionString.Length - 2];
-
             _container = new PostgreSqlBuilder()
                             .WithPortBinding(5432)
                             .WithDatabase("minhaagenda")
-                            .WithPassword(password)
+                            .WithPassword("postgres")
                             .Build();
         }
 

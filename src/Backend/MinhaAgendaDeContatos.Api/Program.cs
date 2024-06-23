@@ -94,3 +94,6 @@ void AtualizarBaseDeDados()
 
         
 }
+
+
+public partial class Program { }

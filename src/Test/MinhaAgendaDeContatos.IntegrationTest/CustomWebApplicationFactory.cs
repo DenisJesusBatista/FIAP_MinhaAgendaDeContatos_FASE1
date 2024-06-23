@@ -28,7 +28,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             _container = new PostgreSqlBuilder()
                             .WithPortBinding(5432)
                             .WithDatabase("minhaagenda")
-                            .WithPassword("postgres")
                             .Build();
         }
 

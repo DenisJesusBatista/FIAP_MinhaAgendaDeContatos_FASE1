@@ -6,6 +6,7 @@ using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Infraestrutura;
 using MinhaAgendaDeContatos.Infraestrutura.Logging;
 using MinhaAgendaDeContatos.Infraestrutura.Migrations;
+using Prometheus;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,7 +56,14 @@ builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderCon
     LogLevel = LogLevel.Information
 }));
 
+//Adicona as métricas ao código para gerar métricas do Prometheus
+builder.Services.UseHttpClientMetrics();
+
 var app = builder.Build();
+
+//Adicona as métricas ao código para gerar métricas do Prometheus
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

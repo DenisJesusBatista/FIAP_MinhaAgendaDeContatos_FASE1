@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
+WORKDIR /
 COPY ["src/Backend/MinhaAgendaDeContatos.Api/MinhaAgendaDeContatos.Api.csproj", "src/Backend/MinhaAgendaDeContatos.Api/"]
 COPY ["src/Shared/MinhaAgendaDeContatos.Comunicacao/MinhaAgendaDeContatos.Comunicacao.csproj", "src/Shared/MinhaAgendaDeContatos.Comunicacao/"]
 COPY ["src/Backend/MinhaAgendaDeContatos.Domain/MinhaAgendaDeContatos.Domain.csproj", "src/Backend/MinhaAgendaDeContatos.Domain/"]
@@ -16,7 +16,7 @@ COPY ["src/Backend/MinhaAgendaDeContatos.Application/MinhaAgendaDeContatos.Appli
 COPY ["src/Backend/MinhaAgendaDeContatos.Infraestrutura/MinhaAgendaDeContatos.Infraestrutura.csproj", "src/Backend/MinhaAgendaDeContatos.Infraestrutura/"]
 RUN dotnet restore "./src/Backend/MinhaAgendaDeContatos.Api/MinhaAgendaDeContatos.Api.csproj"
 COPY . .
-WORKDIR "/src/src/Backend/MinhaAgendaDeContatos.Api"
+WORKDIR "/src/Backend/MinhaAgendaDeContatos.Api"
 RUN dotnet build "./MinhaAgendaDeContatos.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

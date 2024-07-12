@@ -1,7 +1,7 @@
 # my global config
 global:
   scrape_interval: 10s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  # evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  evaluation_interval: 10s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
@@ -20,10 +20,11 @@ global:
 # Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: "docker_teste-prometheus"
+  - job_name: "minhaagenda"
+  
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ["docker_teste:8080"]
+      - targets: ["172.25.192.1:8888"]

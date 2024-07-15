@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  postgres9:
+    image: postgres:latest
+    container_name: postgres_9
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: minhaagenda
+    ports:
+      - "5432:5432" # Mantenha a porta padrão para evitar conflitos
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  
+    networks:
+      - postgres_network
+    
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: pgadmin_4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "denis.si2011@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "etapa2"
+    ports:
+      - "15432:80"
+    networks:
+      - postgres_network
+
+networks: 
+  postgres_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

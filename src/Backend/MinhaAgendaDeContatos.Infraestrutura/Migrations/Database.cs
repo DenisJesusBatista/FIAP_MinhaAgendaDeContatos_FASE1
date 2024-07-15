@@ -39,6 +39,7 @@ public static class Database
         // ExecuteScalar retorna o número de registros retornados pela consulta
         int quantidadeDeRegistros = minhaConexao.ExecuteScalar<int>(consulta, parametros);
 
+
         // Se a quantidade de registros for maior que 0, o banco de dados existe
         return quantidadeDeRegistros > 0;
     }

@@ -53,7 +53,7 @@ public class ContatoController : ControllerBase
     /// < param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    [Route("id/{id}")]
+    [Route("{id}")]
     [ProducesResponseType(typeof(RespostaContatoRegistradoJson), StatusCodes.Status200OK)]
     public async Task<IActionResult> RecuperarPorId(
     [FromServices] IRecuperarPorIdUseCase useCase,

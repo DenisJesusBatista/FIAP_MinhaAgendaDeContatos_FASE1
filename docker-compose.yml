@@ -44,6 +44,7 @@ services:
 
   #PROMETHEUS
   prometheus:
+    container_name: prometheus
     image: prom/prometheus
     restart: always
     ports:

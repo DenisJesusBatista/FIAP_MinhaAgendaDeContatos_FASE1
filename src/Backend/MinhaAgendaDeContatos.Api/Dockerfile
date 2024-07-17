@@ -1,29 +1,32 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
+# Define a imagem base de SDK do .NET para construção
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /
+WORKDIR /app
+
+# Copia os arquivos do projeto e restaura as dependências
 COPY ["src/Backend/MinhaAgendaDeContatos.Api/MinhaAgendaDeContatos.Api.csproj", "src/Backend/MinhaAgendaDeContatos.Api/"]
 COPY ["src/Shared/MinhaAgendaDeContatos.Comunicacao/MinhaAgendaDeContatos.Comunicacao.csproj", "src/Shared/MinhaAgendaDeContatos.Comunicacao/"]
 COPY ["src/Backend/MinhaAgendaDeContatos.Domain/MinhaAgendaDeContatos.Domain.csproj", "src/Backend/MinhaAgendaDeContatos.Domain/"]
 COPY ["src/Shared/MinhaAgendaDeContatos.Exceptions/MinhaAgendaDeContatos.Exceptions.csproj", "src/Shared/MinhaAgendaDeContatos.Exceptions/"]
 COPY ["src/Backend/MinhaAgendaDeContatos.Application/MinhaAgendaDeContatos.Application.csproj", "src/Backend/MinhaAgendaDeContatos.Application/"]
 COPY ["src/Backend/MinhaAgendaDeContatos.Infraestrutura/MinhaAgendaDeContatos.Infraestrutura.csproj", "src/Backend/MinhaAgendaDeContatos.Infraestrutura/"]
-RUN dotnet restore "./src/Backend/MinhaAgendaDeContatos.Api/MinhaAgendaDeContatos.Api.csproj"
+
+# Executa o dotnet restore para restaurar as dependências
+RUN dotnet restore "src/Backend/MinhaAgendaDeContatos.Api/MinhaAgendaDeContatos.Api.csproj"
+
+# Copia o resto do código fonte
 COPY . .
-WORKDIR "/src/Backend/MinhaAgendaDeContatos.Api"
-RUN dotnet build "./MinhaAgendaDeContatos.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Executa o build do projeto
+RUN dotnet build "src/Backend/MinhaAgendaDeContatos.Api/MinhaAgendaDeContatos.Api.csproj" -c Release -o /app/build
+
+# Define a etapa de publicação
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./MinhaAgendaDeContatos.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "src/Backend/MinhaAgendaDeContatos.Api/MinhaAgendaDeContatos.Api.csproj" -c Release -o /app/publish
 
-FROM base AS final
+# Define a imagem final
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Define o comando de entrada para a aplicação
 ENTRYPOINT ["dotnet", "MinhaAgendaDeContatos.Api.dll"]

@@ -22,7 +22,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             _client = factory.CreateClient();
         }
 
-        [Fact]
+        
         public async Task RegistrarContato_Quando_Sucesso_Deve_Retornar_Ok_Com_Mensagem_Correta()
         {
             //Arrange

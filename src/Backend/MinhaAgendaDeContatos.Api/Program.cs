@@ -78,35 +78,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//AtualizarBaseDeDados();
-
-DatabaseSetup.AtualizarBaseDeDados(builder.Configuration, app);
+//DatabaseSetup.AtualizarBaseDeDados(builder.Configuration, app);
 
 app.Run();
-
-#region AtualizarBaseDeDados
-//void AtualizarBaseDeDados()
-//{
-//    var conexao = builder.Configuration.GetConexao();
-//    var nomeDatabase = builder.Configuration.GetNomeDataBase();
-
-//    // Verifica se o banco de dados existe
-//    bool bancoExiste = Database.VerificarExistenciaDatabase(conexao, nomeDatabase);
-
-//    if (bancoExiste == true)
-//    {
-//        app.MigrateBancoDados();
-//    }
-//    else
-//    {
-//        Database.CriarDatabase(conexao, nomeDatabase);
-//        app.MigrateBancoDados();
-//    }
-
-
-//}
-#endregion
-
-
 
 public partial class Program { }

@@ -67,6 +67,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             conn.Execute(command);
         }
 
+        #region CleanUpDatabase
 
         public async Task CleanUpDatabase()
         {
@@ -85,6 +86,42 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
             await conn.ExecuteAsync(command);
         }
+
+        #endregion
+
+
+
+        public async Task CleanUpDatabase(string emailToDelete = null)
+        {
+            var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
+            var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
+
+            using var conn = new NpgsqlConnection(connectionString);
+            await conn.OpenAsync();
+
+            var command = @"
+        BEGIN;";
+
+            if (emailToDelete != null)
+            {
+                command += @"
+            DELETE FROM public.""Contatos"" WHERE ""Email"" = @EmailToDelete;";
+            }
+
+            command += @"
+        DELETE FROM public.""DDDRegiao"";
+        END;";
+
+            if (emailToDelete != null)
+            {
+                await conn.ExecuteAsync(command, new { EmailToDelete = emailToDelete });
+            }
+            else
+            {
+                await conn.ExecuteAsync(command);
+            }
+        }
+
 
         public async Task InsertOneAsync()
         {

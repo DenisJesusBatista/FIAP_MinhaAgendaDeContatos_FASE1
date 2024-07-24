@@ -68,6 +68,8 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             //response.Contatos.Should().NotBeNull();
             //response.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
             //response.Contatos.Count().Should().Be(1); // Deve retornar exatamente um contato
+
+            _fixture.LimparConteineres();
         }
 
 

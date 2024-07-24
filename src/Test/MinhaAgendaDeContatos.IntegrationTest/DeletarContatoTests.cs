@@ -74,6 +74,8 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             //responseJson.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
             //responseJson.Contatos.Count().Should().Be(1);
 
+            _fixture.LimparConteineres();
+
         }
     }
 

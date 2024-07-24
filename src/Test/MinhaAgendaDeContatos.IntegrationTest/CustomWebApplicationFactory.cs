@@ -131,9 +131,50 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
         public override ValueTask DisposeAsync()
         {
+            LimparConteineres();
             GC.SuppressFinalize(this);
             return base.DisposeAsync();
         }
+
+        #region LimparConteineres
+        public async Task LimparConteineres()
+        {
+            await ExecutarComandoLimparAsync("docker-compose", "down -v --remove-orphans");
+            await ExecutarComandoLimparAsync("docker", "container rm -f net70-postgres-1");
+        }
+        #endregion
+     
+
+
+        #region ExecutarComandoLimparAsync
+        private async Task ExecutarComandoLimparAsync(string comando, string argumentos)
+        {
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = comando,
+                Arguments = argumentos,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using var process = new Process
+            {
+                StartInfo = processInfo
+            };
+
+            process.Start();
+
+            await process.WaitForExitAsync();
+
+            if (process.ExitCode != 0)
+            {
+                var errorMessage = await process.StandardError.ReadToEndAsync();
+                throw new Exception($"Erro ao executar o comando: {comando} {argumentos}. Erro: {errorMessage}");
+            }
+        }
+        #endregion
 
     }
 }

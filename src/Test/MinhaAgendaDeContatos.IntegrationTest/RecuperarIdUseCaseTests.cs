@@ -71,6 +71,8 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             var responseJson = JsonConvert.DeserializeObject<RespostaContatoJson>(json);
             //response.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
             //response.Contatos.Count().Should().Be(1);
+
+            _fixture.LimparConteineres();
         }
     }
 }

@@ -52,6 +52,10 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             var jsonResponse = await response.Content.ReadAsStringAsync();
             jsonResponse.Should().Be(ResponseMessages.ContatoCriado);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            _fixture.LimparConteineres();
+
+
         }
     }
 }

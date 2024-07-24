@@ -16,10 +16,13 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 {
     public class RegistrarContatoTests : IClassFixture<CustomWebApplicationFactory>
     {
-        protected readonly HttpClient _client;
-        public RegistrarContatoTests(CustomWebApplicationFactory factory)
+        private readonly CustomWebApplicationFactory _fixture;
+        private readonly HttpClient _client;
+
+        public RegistrarContatoTests(CustomWebApplicationFactory fixture)
         {
-            _client = factory.CreateClient();
+            _fixture = fixture;
+            //_client = _fixture.CreateClient();
         }
 
         [Fact]
@@ -34,8 +37,16 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
             StringContent body = new(JsonSerializer.Serialize(contato), Encoding.UTF8, "application/json");
 
+            // Limpa o banco de dados antes de cada execução do teste
+            //await _fixture.CleanUpDatabase();
+
+            var _client = _fixture.CreateClient();
+
             //Act
             var response = await _client.PostAsync("https://localhost:7196/api/contato", body);
+
+            // Verifica se o POST foi bem-sucedido
+            response.EnsureSuccessStatusCode();
 
             //Assert
             var jsonResponse = await response.Content.ReadAsStringAsync();

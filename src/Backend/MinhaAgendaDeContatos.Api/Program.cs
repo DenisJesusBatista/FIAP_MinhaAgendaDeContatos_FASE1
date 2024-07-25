@@ -1,12 +1,15 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using MinhaAgendaDeContatos.Api.Filtros;
 using MinhaAgendaDeContatos.Application;
 using MinhaAgendaDeContatos.Application.Servicoes.AutoMapper;
 using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Infraestrutura;
+using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using MinhaAgendaDeContatos.Infraestrutura.Logging;
 using MinhaAgendaDeContatos.Infraestrutura.Migrations;
 using Prometheus;
+using System.Configuration;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +37,17 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
+
+void ConfigureServices(IServiceCollection services)
+{
+    // Configuração do banco de dados
+    var connectionString = builder.Configuration.GetConexaoCompleta();
+    services.AddDbContext<MinhaAgendaDeContatosContext>(options =>
+        options.UseNpgsql(connectionString));
+
+    // Outros serviços
+}
+
 
 builder.Services.AddRepositorio(builder.Configuration);
 

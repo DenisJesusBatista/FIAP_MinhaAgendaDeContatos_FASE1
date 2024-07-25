@@ -28,60 +28,8 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         private ICompositeService _services;
 
         public CustomWebApplicationFactory()
-        {
-            #region Start Docker
-            //_services = new Builder()
-            //  .UseContainer()
-            //  .UseCompose()
-            //  .FromFile("docker-compose.yml")
-            //  .RemoveOrphans()
-            //  .WaitForPort("postgres", "5432/tcp", 30000)
-            //  .NoRecreate()
-            //  .Build().Start();
-
-            //Thread.Sleep(2000);
-
-            ////var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
-            //////var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
-            ////var connectionString = "Host=localhost;Port=5433;Database=minhaagenda;Username=postgres;Password=postgres;Timeout=60;";
-
-            //var dbService = _services.Services.FirstOrDefault(s => s.Name == "/minhaagenda-database"); // Procura pelo serviço usando o nome do container
-            //var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;"; // Conexão usando o nome do container
-
-
-
-            //using var conn = new NpgsqlConnection(connectionString);
-            //conn.Open();
-            #endregion
-
-            StartDockerComposeIfNotRunningAsync();
-           
-
-            #region Comentado a criação das tabelas
-
-            //var command = @"
-            //                        BEGIN;
-            //                        CREATE TABLE IF NOT EXISTS public.""Contatos""
-            //                        (
-            //                            ""Id"" SERIAL PRIMARY KEY,
-            //                            ""DataCriacao"" timestamp without time zone NOT NULL,
-            //                            ""Nome"" character varying(100)  NOT NULL,
-            //                            ""Email"" text  NOT NULL,
-            //                            ""Telefone"" character varying(14)  NOT NULL,
-            //                            ""Prefixo"" character varying(14)  NOT NULL
-            //                        );
-            //                        CREATE TABLE IF NOT EXISTS public.""DDDRegiao""
-            //                        (
-            //                            ""Id"" SERIAL PRIMARY KEY,
-            //                            ""DataCriacao"" timestamp without time zone NOT NULL,
-            //                            ""Prefixo"" text COLLATE pg_catalog.""default"" NOT NULL,
-            //                            ""Estado"" text COLLATE pg_catalog.""default"" NOT NULL,
-            //                            ""Regiao"" text COLLATE pg_catalog.""default"" NOT NULL
-            //                        );
-            //                        END;";
-            //conn.Execute(command);
-
-            #endregion
+        {           
+            StartDockerComposeIfNotRunningAsync();           
 
         }
 
@@ -92,25 +40,53 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
             if (!await IsContainerRunningAsync("minhaagenda-database"))
             {
-                var _services = new Builder()
+                var services = new Builder()
                     .UseContainer()
                     .UseCompose()
                     .FromFile(composeFilePath)
                     .RemoveOrphans()
-                    .WaitForPort("postgres", "5432/tcp", 30000)
+                    .WaitForPort("minhaagenda-database", "5432/tcp", 30000) // Use o nome correto do serviço
                     .NoRecreate()
-                    .Build().Start();
+                    .Build()
+                    .Start();
 
-                Thread.Sleep(2000);
+                // Aguarde o banco de dados ficar pronto
+                await Task.Delay(2000); // Melhor utilizar uma abordagem mais robusta para aguardar o serviço
 
-                var dbService = _services.Services.FirstOrDefault(s => s.Name == "/minhaagenda-database"); // Procura pelo serviço usando o nome do container
-                var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;"; // Conexão usando o nome do container
+                var connectionString = "Host=minhaagenda-database;Port=5432;Database=minhaagenda;Username=postgres;Password=postgres;"; // Corrija o nome do serviço
+
+                // Aguarde o banco de dados ficar pronto
+                await WaitForDatabaseReadyAsync(connectionString, 30000); // Timeout de 30 segundos
 
 
                 using var conn = new NpgsqlConnection(connectionString);
-                conn.Open();
+                await conn.OpenAsync(); // Use `OpenAsync` para operações assíncronas
             }
         }
+
+        #region Garantir que o banco esteja pronto.
+        public static async Task WaitForDatabaseReadyAsync(string connectionString, int timeoutMilliseconds)
+        {
+            var stopwatch = Stopwatch.StartNew();
+            while (stopwatch.ElapsedMilliseconds < timeoutMilliseconds)
+            {
+                try
+                {
+                    using var conn = new NpgsqlConnection(connectionString);
+                    await conn.OpenAsync();
+                    // Se conseguiu conectar, o banco de dados está pronto
+                    return;
+                }
+                catch (NpgsqlException)
+                {
+                    // Banco de dados ainda não está pronto, aguarde e tente novamente
+                    await Task.Delay(1000); // Espera de 1 segundo antes da próxima tentativa
+                }
+            }
+
+            throw new TimeoutException("O banco de dados não ficou disponível a tempo.");
+        }
+        #endregion
 
         private static async Task<bool> IsContainerRunningAsync(string containerName)
         {
@@ -120,63 +96,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
                 return containers.Any(c => c.Names.Any(n => n.Contains(containerName)) && c.State == "running");
             }
         }
-
-
-        #region CleanUpDatabase
-
-        //public async Task CleanUpDatabase()
-        //{
-
-        //    var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
-        //    var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
-
-
-        //    using var conn = new NpgsqlConnection(connectionString);
-        //    await conn.OpenAsync();
-
-        //    var command = @"BEGIN;
-        //                    DELETE FROM public.""Contatos"";
-        //                    DELETE FROM public.""DDDRegiao"";
-        //                    END;";
-
-        //    await conn.ExecuteAsync(command);
-        //}
-
-        #endregion
-
-        #region InsertOneAsync
-
-        //public async Task InsertOneAsync()
-        //{
-        //    var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
-        //    var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
-
-
-        //    using var conn = new NpgsqlConnection(connectionString);
-        //    await conn.OpenAsync();
-
-        //    var command = @"	
-        //                        BEGIN;
-        //                        INSERT INTO public.""Contatos""(
-        //                     ""DataCriacao"", ""Nome"", ""Email"", ""Telefone"", ""Prefixo"")
-        //                     VALUES (
-        //                                current_timestamp, 
-        //                                'incremental', 
-        //                                'moses.runte27@yahoo.com',
-        //                                88888888, 
-        //                                99
-        //                        );
-        //                        INSERT INTO public.""DDDRegiao""(
-        //                     ""DataCriacao"", ""Prefixo"", ""Estado"", ""Regiao"")
-        //                     VALUES (current_timestamp, 99, 'CE', 'NE');
-        //                        END;";
-
-
-        //    await conn.ExecuteAsync(command);
-        //}
-
-        #endregion
-
 
         public override ValueTask DisposeAsync()
         {

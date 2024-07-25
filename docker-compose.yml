@@ -1,26 +1,40 @@
-services:  
-  
- #DATABASE
+version: '3.8'
+
+services:
+  # DATABASE
   minhaagenda-database:
     container_name: minhaagenda-database
     image: postgres:latest
     ports:
       - 5432:5432
-    volumes: 
-    - postgres_data:/var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: postgres # The PostgreSQL user (useful to connect to the database)
-      POSTGRES_PASSWORD: postgres # The PostgreSQL password (useful to connect to the database)
-      POSTGRES_DB: minhaagenda # The PostgreSQL default database (automatically created at first launch)
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: minhaagenda
     networks:
-       - mynw
+      - mynw
     healthcheck:
-       test: ["CMD-SHELL", "pg_isready -U postgres"]       
-       interval: 30s 
-       timeout: 10s 
-       retries: 5
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-  #API
+  # PGADMIN4
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: pgadmin_4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: etapa2@fiap.com.br
+      PGADMIN_DEFAULT_PASSWORD: etapa2
+    ports:
+      - 15432:80
+    networks:
+      - mynw
+
+  # API
   minhaagenda:
     container_name: minhaagenda
     image: ${DOCKER_REGISTRY-}minhaagenda
@@ -30,19 +44,19 @@ services:
       context: .
       dockerfile: /src/Backend/MinhaAgendaDeContatos.Api/Dockerfile
     depends_on:
-     minhaagenda-database:
-      condition: service_healthy
+      minhaagenda-database:
+        condition: service_healthy
     environment:
-       ASPNETCORE_ENVIRONMENT: Development
-       DB_HOST: localhost
-       DB_PORT: 5432
-       DB_USER: postgres
-       DB_PASSWORD: postgres
-       DB_NAME: minhaagenda
+      ASPNETCORE_ENVIRONMENT: Development
+      DB_HOST: minhaagenda-database
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: minhaagenda
     networks:
       - mynw
 
-  #PROMETHEUS
+  # PROMETHEUS
   prometheus:
     container_name: prometheus
     image: prom/prometheus
@@ -54,12 +68,12 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     depends_on:
-     minhaagenda:
-      condition: service_started
+      minhaagenda:
+        condition: service_started
     networks:
       - mynw
 
-  #GRAFANA
+  # GRAFANA
   grafana:
     image: grafana/grafana
     ports:
@@ -74,8 +88,8 @@ services:
       - mynw
 
 volumes:
- postgres_data:
+  postgres_data:
 
 networks:
   mynw:
-   driver: bridge  
+    driver: bridge

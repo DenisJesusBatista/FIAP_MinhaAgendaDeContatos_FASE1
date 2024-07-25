@@ -1,10 +1,11 @@
 ﻿version: '3.8'
 services:
   postgres:
+    container_name: minhaagenda-database  # Nome do container especificado aqui
     image: postgres:latest
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: minhaagenda
-    ports:
-      - 5432:5432

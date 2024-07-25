@@ -17,6 +17,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Dapper;
 using Xunit;
+using Docker.DotNet.Models;
+using Docker.DotNet;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {
@@ -27,23 +29,33 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
         public CustomWebApplicationFactory()
         {
-            _services = new Builder()
-               .UseContainer()
-               .UseCompose()
-               .FromFile("docker-compose.yml")
-               .RemoveOrphans()
-               .WaitForPort("postgres", "5432/tcp", 30000)
-               .NoRecreate()
-               .Build().Start();
+            #region Start Docker
+            //_services = new Builder()
+            //  .UseContainer()
+            //  .UseCompose()
+            //  .FromFile("docker-compose.yml")
+            //  .RemoveOrphans()
+            //  .WaitForPort("postgres", "5432/tcp", 30000)
+            //  .NoRecreate()
+            //  .Build().Start();
 
-            Thread.Sleep(2000);
+            //Thread.Sleep(2000);
 
-            var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
-            var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
+            ////var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
+            //////var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
+            ////var connectionString = "Host=localhost;Port=5433;Database=minhaagenda;Username=postgres;Password=postgres;Timeout=60;";
+
+            //var dbService = _services.Services.FirstOrDefault(s => s.Name == "/minhaagenda-database"); // Procura pelo serviço usando o nome do container
+            //var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;"; // Conexão usando o nome do container
 
 
-            using var conn = new NpgsqlConnection(connectionString);
-            conn.Open();
+
+            //using var conn = new NpgsqlConnection(connectionString);
+            //conn.Open();
+            #endregion
+
+            StartDockerComposeIfNotRunningAsync();
+           
 
             #region Comentado a criação das tabelas
 
@@ -72,6 +84,43 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             #endregion
 
         }
+
+        public static async Task StartDockerComposeIfNotRunningAsync()
+        {
+            var projectRoot = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.Parent.FullName;
+            var composeFilePath = Path.Combine(projectRoot, "src", "Test", "MinhaAgendaDeContatos.IntegrationTest", "docker-compose.yml");
+
+            if (!await IsContainerRunningAsync("minhaagenda-database"))
+            {
+                var _services = new Builder()
+                    .UseContainer()
+                    .UseCompose()
+                    .FromFile(composeFilePath)
+                    .RemoveOrphans()
+                    .WaitForPort("postgres", "5432/tcp", 30000)
+                    .NoRecreate()
+                    .Build().Start();
+
+                Thread.Sleep(2000);
+
+                var dbService = _services.Services.FirstOrDefault(s => s.Name == "/minhaagenda-database"); // Procura pelo serviço usando o nome do container
+                var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;"; // Conexão usando o nome do container
+
+
+                using var conn = new NpgsqlConnection(connectionString);
+                conn.Open();
+            }
+        }
+
+        private static async Task<bool> IsContainerRunningAsync(string containerName)
+        {
+            using (var client = new DockerClientConfiguration(new Uri("unix:///var/run/docker.sock")).CreateClient())
+            {
+                var containers = await client.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
+                return containers.Any(c => c.Names.Any(n => n.Contains(containerName)) && c.State == "running");
+            }
+        }
+
 
         #region CleanUpDatabase
 
@@ -143,8 +192,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             await ExecutarComandoLimparAsync("docker", "container rm -f net70-postgres-1");
         }
         #endregion
-     
-
 
         #region ExecutarComandoLimparAsync
         private async Task ExecutarComandoLimparAsync(string comando, string argumentos)

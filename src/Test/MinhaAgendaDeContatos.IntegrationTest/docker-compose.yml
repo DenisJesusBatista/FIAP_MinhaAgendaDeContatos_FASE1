@@ -8,4 +8,16 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: minhaagenda
+      POSTGRES_DB: minhaagenda 
+
+  # PGADMIN4
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: pgadmin_4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: etapa2@fiap.com.br
+      PGADMIN_DEFAULT_PASSWORD: etapa2
+    ports:
+      - 15432:80
+    

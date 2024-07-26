@@ -19,6 +19,9 @@ using Dapper;
 using Xunit;
 using Docker.DotNet.Models;
 using Docker.DotNet;
+using Ductus.FluentDocker.Commands;
+using Docker.DotNet;
+using Docker.DotNet.Models;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {
@@ -28,8 +31,8 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         private ICompositeService _services;
 
         public CustomWebApplicationFactory()
-        {           
-            StartDockerComposeIfNotRunningAsync();           
+        {
+            StartDockerComposeIfNotRunningAsync();
 
         }
 
@@ -40,20 +43,30 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
             if (!await IsContainerRunningAsync("minhaagenda-database"))
             {
-                var services = new Builder()
+                var builder = new Builder()
                     .UseContainer()
                     .UseCompose()
                     .FromFile(composeFilePath)
                     .RemoveOrphans()
                     .WaitForPort("minhaagenda-database", "5432/tcp", 30000) // Use o nome correto do serviço
-                    .NoRecreate()
-                    .Build()
-                    .Start();
+                    .NoRecreate();
+                //.Build()
+                //.Start();
+
+                var compositeService = builder.Build();
+                var services = compositeService.Start();
 
                 // Aguarde o banco de dados ficar pronto
                 await Task.Delay(2000); // Melhor utilizar uma abordagem mais robusta para aguardar o serviço
 
-                var connectionString = "Host=minhaagenda-database;Port=5432;Database=minhaagenda;Username=postgres;Password=postgres;"; // Corrija o nome do serviço
+                var dbService = compositeService.Containers.FirstOrDefault(s => s.Name == "/minhaagenda-database"); // Procura pelo serviço usando o nome do container
+                var connectionString = GetConnectionString(dbService);
+
+                //var dbService = compositeService.Containers.FirstOrDefault(s => s.Name == "/minhaagenda-database"); // Procura pelo serviço usando o nome do container
+
+                //var connectionString = "Host=minhaagenda-database;Port=5432;Database=minhaagenda;Username=postgres;Password=postgres;"; // Corrija o nome do serviço
+
+                //var connectionString = GetConnectionString(dbService);
 
                 // Aguarde o banco de dados ficar pronto
                 await WaitForDatabaseReadyAsync(connectionString, 30000); // Timeout de 30 segundos
@@ -88,14 +101,30 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         }
         #endregion
 
+        private static string GetConnectionString(IContainerService containerService)
+        {
+            // Construct and return the connection string based on the service information
+            return $"Host=minhaagenda-database;Port=5432;Database=minhaagenda;Username=postgres;Password=postgres;";
+        }      
         private static async Task<bool> IsContainerRunningAsync(string containerName)
         {
-            using (var client = new DockerClientConfiguration(new Uri("unix:///var/run/docker.sock")).CreateClient())
+            try
             {
-                var containers = await client.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
-                return containers.Any(c => c.Names.Any(n => n.Contains(containerName)) && c.State == "running");
+                using (var client = new DockerClientConfiguration(new Uri("npipe://./pipe/docker_engine")).CreateClient())
+                {
+                    var containers = await client.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
+                    return containers.Any(c => c.Names.Any(n => n.Contains(containerName)) && c.State == "running");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return false;
             }
         }
+
+
 
         public override ValueTask DisposeAsync()
         {

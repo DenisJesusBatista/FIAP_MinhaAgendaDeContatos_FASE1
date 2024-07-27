@@ -27,20 +27,10 @@ jobs:
 
     - name: Build
       run: dotnet build -c Release --no-restore
-
-    - name: Start dependencies (docker-compose)
-      working-directory: ..
-      run: docker-compose up -d --build
-        
-    - name: Wait for services to be ready
-      run: sleep 30
     
     - name: Unit Test
-      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~UnitTest"
     
     - name: Integration Test
-      run: dotnet test --no-build --verbosity normal
-    
-    - name: Stop and remove containers
-      working-directory: ..
-      run: docker-compose down
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~IntegrationTest"
+

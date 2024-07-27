@@ -7,9 +7,7 @@ using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Infraestrutura;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using MinhaAgendaDeContatos.Infraestrutura.Logging;
-using MinhaAgendaDeContatos.Infraestrutura.Migrations;
 using Prometheus;
-using System.Configuration;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

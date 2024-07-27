@@ -1,16 +1,11 @@
 ﻿using AutoBogus;
 using Bogus;
-using Bogus.Extensions;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using MinhaAgendaDeContatos.Api.Response;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
-using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {
@@ -22,7 +17,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         public RegistrarContatoTests(CustomWebApplicationFactory fixture)
         {
             _fixture = fixture;
-            //_client = _fixture.CreateClient();
+            _client = _fixture.CreateClient();
         }
 
         [Fact]
@@ -36,11 +31,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
                 .Generate();
 
             StringContent body = new(JsonSerializer.Serialize(contato), Encoding.UTF8, "application/json");
-
-            // Limpa o banco de dados antes de cada execução do teste
-            //await _fixture.CleanUpDatabase();
-
-            var _client = _fixture.CreateClient();
+            
 
             //Act
             var response = await _client.PostAsync("https://localhost:7196/api/contato", body);
@@ -52,9 +43,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             var jsonResponse = await response.Content.ReadAsStringAsync();
             jsonResponse.Should().Be(ResponseMessages.ContatoCriado);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            _fixture.LimparConteineres();
-
 
         }
     }

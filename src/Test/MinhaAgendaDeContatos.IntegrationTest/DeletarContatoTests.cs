@@ -1,23 +1,9 @@
 ﻿using AutoBogus;
 using Bogus;
-using Bogus.Extensions;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MinhaAgendaDeContatos.Api.Response;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
-using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
-using Newtonsoft.Json;
-//using Org.BouncyCastle.Ocsp;
-using System;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
-using MinhaAgendaDeContatos.IntegrationTest;
-using Microsoft.AspNetCore.Hosting;
-using MinhaAgendaDeContatos.Comunicacao.Resposta;
-
 
 
 namespace MinhaAgendaDeContatos.IntegrationTest
@@ -30,7 +16,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         public DeletarContatoTests(CustomWebApplicationFactory fixture)
         {
             _fixture = fixture;
-            //_client = _fixture.CreateClient();
+            _client = _fixture.CreateClient();
         }
 
         [Fact]
@@ -43,13 +29,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
                 .RuleFor(x => x.Email, new Faker().Person.Email)
                 .Generate();
 
-            //await _fixture.CleanUpDatabase();
-
-            //await _fixture.InsertOneAsync();
-
-            var _client = _fixture.CreateClient();
-
-
+            //var _client = _fixture.CreateClient();
 
             StringContent body = new(System.Text.Json.JsonSerializer.Serialize(contato), Encoding.UTF8, "application/json");
 
@@ -65,16 +45,12 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             var deleteResponse = await _client.DeleteAsync($"https://localhost:7196/api/contato/{contato.Email}");
 
 
-            //await _fixture.CleanUpDatabase();
-
             //Assert
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
             var json = await deleteResponse.Content.ReadAsStringAsync();
             //var responseJson = JsonConvert.DeserializeObject<RespostaContatoJson>(json);
             //responseJson.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
             //responseJson.Contatos.Count().Should().Be(1);
-
-            _fixture.LimparConteineres();
 
         }
     }

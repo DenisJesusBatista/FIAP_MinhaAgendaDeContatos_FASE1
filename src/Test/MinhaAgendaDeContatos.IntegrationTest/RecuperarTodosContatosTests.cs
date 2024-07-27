@@ -1,19 +1,11 @@
 ﻿using AutoBogus;
 using Bogus;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
-using MinhaAgendaDeContatos.Domain.Entidades;
-using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
-using Testcontainers.PostgreSql;
-using Xunit.Sdk;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {
@@ -24,7 +16,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         public RecuperarTodosContatosTests(CustomWebApplicationFactory fixture)
         {
             _fixture = fixture;
-            //_client = _fixture.CreateClient();
+            _client = _fixture.CreateClient();
         }
 
         [Fact]
@@ -37,19 +29,11 @@ namespace MinhaAgendaDeContatos.IntegrationTest
                 .RuleFor(x => x.Email, new Faker().Person.Email)
                 .Generate();
 
-            // Limpa o banco de dados antes de cada execução do teste
-            //await _fixture.CleanUpDatabase();
-
-            //// Insere um único contato para testar a recuperação
-            //await _fixture.InsertOneAsync();
-
-            var _client = _fixture.CreateClient();
 
             StringContent body = new(System.Text.Json.JsonSerializer.Serialize(contato), Encoding.UTF8, "application/json");
 
 
-            // Act - POST para criar um novo contato
-            //Act
+            // Act - POST para criar um novo contato            
             var response = await _client.PostAsync("https://localhost:7196/api/contato", body);
 
             // Verifica se o POST foi bem-sucedido
@@ -69,7 +53,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             //response.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
             //response.Contatos.Count().Should().Be(1); // Deve retornar exatamente um contato
 
-            _fixture.LimparConteineres();
+            //_fixture.LimparConteineres();
         }
 
 

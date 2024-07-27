@@ -1,35 +1,35 @@
-name: .NET Build and Test
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-# Definindo quando o WorkFlow será disparado
+name: .NET
+
+#Definindo quando o WorkFlow será disparado
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
-# Definindo os jobs que o workFlow executará
+#Definindo os jobs que o workFlow executará
 jobs:
-  build-and-test:
+  build:
 
     runs-on: ubuntu-latest
 
-    steps:      
-    - name: Check out code
-      uses: actions/checkout@v2
-    
+    steps:
+    - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
-        
-    - name: Restore NuGet packages
-      run: dotnet restore
 
+    - name: Restore dependencies
+      run: dotnet restore
     - name: Build
-      run: dotnet build -c Release --no-restore
-    
+      run: dotnet build --no-restore
+
     - name: Unit Test
-      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~UnitTest"
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~MinhaAgendaDeContatos.IntegrationTest"
     
     - name: Integration Test
-      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~IntegrationTest
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~MinhaAgendaDeContatos.UnitTest"

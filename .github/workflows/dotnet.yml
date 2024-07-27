@@ -23,10 +23,10 @@ jobs:
         dotnet-version: 7.0.x
         
     - name: Restore NuGet packages
-      run: dotnet restore /FIAP_MinhaAgendaDeContatos_FASE1/MinhaAgendaDeContatos.sln
+      run: dotnet restore
 
     - name: Build
-      run: dotnet build /FIAP_MinhaAgendaDeContatos_FASE1/MinhaAgendaDeContatos.sln -c Release --no-restore
+      run: dotnet build -c Release --no-restore
 
     - name: Start dependencies (docker-compose)
       working-directory: ..
@@ -36,10 +36,10 @@ jobs:
       run: sleep 30
     
     - name: Unit Test
-      run: dotnet test /FIAP_MinhaAgendaDeContatos_FASE1/MinhaAgendaDeContatos.sln --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"
     
     - name: Integration Test
-      run: dotnet test /FIAP_MinhaAgendaDeContatos_FASE1/MinhaAgendaDeContatos.sln --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
     
     - name: Stop and remove containers
       working-directory: ..

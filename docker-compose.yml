@@ -1,0 +1,78 @@
+services:  
+  
+ #DATABASE
+  minhaagenda-database:
+    container_name: minhaagenda-database
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    volumes: 
+    - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: postgres # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: minhaagenda # The PostgreSQL default database (automatically created at first launch)
+    networks:
+       - mynw
+    healthcheck:
+       test: ["CMD-SHELL", "pg_isready -U postgres"]       
+       interval: 30s 
+       timeout: 10s 
+       retries: 5
+
+  #API
+  minhaagenda:
+    container_name: minhaagenda
+    image: ${DOCKER_REGISTRY-}minhaagenda
+    ports:
+      - 8888:80
+    build:
+      context: .
+      dockerfile: /src/Backend/MinhaAgendaDeContatos.Api/Dockerfile
+    depends_on:
+     minhaagenda-database:
+      condition: service_healthy
+    environment:
+       ASPNETCORE_ENVIRONMENT: Development
+       DB_HOST: localhost
+       DB_PORT: 5432
+       DB_USER: postgres
+       DB_PASSWORD: postgres
+       DB_NAME: minhaagenda
+    networks:
+      - mynw
+
+  #PROMETHEUS
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - mynw
+
+  #GRAFANA
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - mynw
+
+volumes:
+ postgres_data:
+
+networks:
+  mynw:
+   driver: bridge  

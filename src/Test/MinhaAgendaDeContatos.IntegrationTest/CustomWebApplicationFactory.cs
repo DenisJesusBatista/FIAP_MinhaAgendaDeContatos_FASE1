@@ -1,4 +1,5 @@
 using DotNet.Testcontainers.Builders;
+using Ductus.FluentDocker.Services;
 using FluentAssertions.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -6,68 +7,119 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Testcontainers.PostgreSql;
+using Ductus.FluentDocker.Builders;
+using Npgsql;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Builder;
+using Dapper;
 using Xunit;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {
-    public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
+
+    public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IDisposable
     {
+        private ICompositeService _services;
+
         public CustomWebApplicationFactory()
         {
-            _container = new PostgreSqlBuilder()
-                            .WithPortBinding(5432)
-                            .WithDatabase("minhaagenda")
-                            .Build();
+            _services = new Builder()
+               .UseContainer()
+               .UseCompose()
+               .FromFile("docker-compose.yml")
+               .RemoveOrphans()
+               .WaitForPort("postgres", "5432/tcp", 30000)
+               .NoRecreate()
+               .Build().Start();
+
+            Thread.Sleep(2000);
+
+            var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
+            var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
+
+
+            using var conn = new NpgsqlConnection(connectionString);
+            conn.Open();
+            var command = @"
+                                    BEGIN;
+                                    CREATE TABLE IF NOT EXISTS public.""Contatos""
+                                    (
+                                        ""Id"" SERIAL PRIMARY KEY,
+                                        ""DataCriacao"" timestamp without time zone NOT NULL,
+                                        ""Nome"" character varying(100)  NOT NULL,
+                                        ""Email"" text  NOT NULL,
+                                        ""Telefone"" character varying(14)  NOT NULL,
+                                        ""Prefixo"" character varying(14)  NOT NULL
+                                    );
+                                    CREATE TABLE IF NOT EXISTS public.""DDDRegiao""
+                                    (
+                                        ""Id"" SERIAL PRIMARY KEY,
+                                        ""DataCriacao"" timestamp without time zone NOT NULL,
+                                        ""Prefixo"" text COLLATE pg_catalog.""default"" NOT NULL,
+                                        ""Estado"" text COLLATE pg_catalog.""default"" NOT NULL,
+                                        ""Regiao"" text COLLATE pg_catalog.""default"" NOT NULL
+                                    );
+                                    END;";
+            conn.Execute(command);
         }
 
-        private readonly PostgreSqlContainer _container;
 
-        public Task InitializeAsync()
+        public async Task CleanUpDatabase()
         {
-            return _container.StartAsync();
+
+            var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
+            var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
+
+
+            using var conn = new NpgsqlConnection(connectionString);
+            await conn.OpenAsync();
+
+            var command = @"BEGIN;
+                            DELETE FROM public.""Contatos"";
+                            DELETE FROM public.""DDDRegiao"";
+                            END;";
+
+            await conn.ExecuteAsync(command);
         }
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        public async Task InsertOneAsync()
         {
-            builder.ConfigureServices(s =>
-            {
-                var descriptorType =
-               typeof(DbContextOptions<MinhaAgendaDeContatosContext>);
+            var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
+            var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
 
-                var descriptor = s
-                    .SingleOrDefault(se => se.ServiceType == descriptorType);
 
-                if (descriptor is not null)
-                {
-                    s.Remove(descriptor);
-                }
+            using var conn = new NpgsqlConnection(connectionString);
+            await conn.OpenAsync();
 
-                s.AddDbContext<MinhaAgendaDeContatosContext>(ctx =>
-                {
-                    ctx.UseNpgsql(_container.GetConnectionString());
-                });
-                s.AddScoped<IContatoWriteOnlyRepositorio, ContatoRepositorio>()
-                .AddScoped<IContatoReadOnlyRepositorio, ContatoRepositorio>()
-                .AddScoped<IDDDRegiao, DDDRegiaoRepositorio>()
-                .AddScoped<IContatoUpdateOnlyRepositorio, ContatoRepositorio>();
-            });
+            var command = @"	
+                                BEGIN;
+                                INSERT INTO public.""Contatos""(
+	                            ""DataCriacao"", ""Nome"", ""Email"", ""Telefone"", ""Prefixo"")
+	                            VALUES (
+                                        current_timestamp, 
+                                        'incremental', 
+                                        'moses.runte27@yahoo.com',
+                                        88888888, 
+                                        99
+                                );
+                                INSERT INTO public.""DDDRegiao""(
+	                            ""DataCriacao"", ""Prefixo"", ""Estado"", ""Regiao"")
+	                            VALUES (current_timestamp, 99, 'CE', 'NE');
+                                END;";
+
+
+            await conn.ExecuteAsync(command);
         }
 
-        Task IAsyncLifetime.DisposeAsync()
+        public override ValueTask DisposeAsync()
         {
-            return _container.StopAsync();
+            GC.SuppressFinalize(this);
+            return base.DisposeAsync();
         }
+
     }
-
 }

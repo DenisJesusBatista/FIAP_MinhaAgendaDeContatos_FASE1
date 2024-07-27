@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{50435F3B-1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinhaAgendaDeContatos.UnitTest", "src\Test\MinhaAgendaDeContatos.UnitTest\MinhaAgendaDeContatos.UnitTest.csproj", "{52EB7234-8EC9-46BF-B320-CE7519F9CF59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinhaAgendaDeContatos.IntegrationTest", "src\Test\MinhaAgendaDeContatos.IntegrationTest\MinhaAgendaDeContatos.IntegrationTest.csproj", "{6FFF4510-FEF5-4748-A09C-2A162534F902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinhaAgendaDeContatos.IntegrationTest", "src\Test\MinhaAgendaDeContatos.IntegrationTest\MinhaAgendaDeContatos.IntegrationTest.csproj", "{6FFF4510-FEF5-4748-A09C-2A162534F902}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

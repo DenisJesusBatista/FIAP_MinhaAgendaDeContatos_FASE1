@@ -5,15 +5,18 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MinhaAgendaDeContatos.Infraestrutura.Migrations;
 public static class MigrationExtension
 {
-    public static void MigrateBancoDados(this IApplicationBuilder app)
+    public static async Task MigrateBancoDadosAsync(this IApplicationBuilder app)
     {
-        using var scope = app.ApplicationServices.CreateScope();
-        var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
+        await Task.Delay(10000); // Atraso de 10 segundos
 
+        using (var scope = app.ApplicationServices.CreateScope())
+        {
+            var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
 
-        runner.ListMigrations();
-
-        runner.MigrateUp();
+            // Executar suas operações de migração aqui
+            runner.ListMigrations();
+            runner.MigrateUp();
+        }
 
     }
 }

@@ -26,18 +26,21 @@ public static class Database
         }
     }
 
-    public static bool VerificarExistenciaDatabase(string conexaoComBancoDeDados, string nomeDatabase)
+    public static async Task<bool> VerificarExistenciaDatabaseAsync(string conexaoComBancoDeDados, string nomeDatabase)
     {
         using var minhaConexao = new NpgsqlConnection(conexaoComBancoDeDados);
 
         var parametros = new DynamicParameters();
         parametros.Add("nome", nomeDatabase);
 
+        // Aguarda 10 segundos antes de continuar
+        //await Task.Delay(10000);
+
         // Consulta para verificar se o banco de dados já existe
         string consulta = "SELECT COUNT(*) FROM pg_database WHERE datname = @nome";
 
-        // ExecuteScalar retorna o número de registros retornados pela consulta
-        int quantidadeDeRegistros = minhaConexao.ExecuteScalar<int>(consulta, parametros);
+        // ExecuteScalarAsync retorna o número de registros retornados pela consulta
+        int quantidadeDeRegistros = await minhaConexao.ExecuteScalarAsync<int>(consulta, parametros);
 
         // Se a quantidade de registros for maior que 0, o banco de dados existe
         return quantidadeDeRegistros > 0;

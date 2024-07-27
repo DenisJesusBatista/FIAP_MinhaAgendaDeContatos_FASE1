@@ -16,20 +16,32 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v4
+    steps:      
+    - name: Check out code
+      uses: actions/checkout@v2
+    
+    - name: Start dependencies (docker-compose)
+      run: |
+              docker-compose up -d  
+              
+    - name: Wait for Postegre
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '5s'
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
-
-    - name: Restore dependencies
+        
+    - name: Restore NuGet packages
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
 
+    - name: Build
+      run: dotnet build -c Release --no-restore
+        
     - name: Unit Test
-      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~UnitTest"
     
     - name: Integration Test
-      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~IntegrationTest"
+      run: dotnet test --no-build --verbosity normal

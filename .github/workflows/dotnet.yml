@@ -22,7 +22,8 @@ jobs:
     
     - name: Start dependencies (docker-compose)
       run: |
-              docker-compose up -d  
+              cd ..
+              docker-compose up --build
               
     - name: Wait for Postegre
       uses: jakejarvis/wait-action@master

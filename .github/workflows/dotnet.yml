@@ -6,9 +6,9 @@ name: .NET
 #Definindo quando o WorkFlow será disparado
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "tests/refacDenis" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "tests/refacDenis" ]
 
 #Definindo os jobs que o workFlow executará
 jobs:
@@ -19,6 +19,15 @@ jobs:
     steps:      
     - name: Check out code
       uses: actions/checkout@v2
+    
+    - name: Start dependencies (docker-compose)
+      run: |
+              docker-compose up -d  
+              
+    - name: Wait for Postegre
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '5s'
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -32,4 +41,7 @@ jobs:
       run: dotnet build -c Release --no-restore
         
     - name: Unit Test
-      run: dotnet test --no-build
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~UnitTest"
+    
+    - name: Integration Test
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~IntegrationTest"

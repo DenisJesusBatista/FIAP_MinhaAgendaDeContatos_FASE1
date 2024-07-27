@@ -78,7 +78,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//DatabaseSetup.AtualizarBaseDeDados(builder.Configuration, app);
+DatabaseSetup.AtualizarBaseDeDados(builder.Configuration, app);
 
 app.Run();
 

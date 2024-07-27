@@ -6,9 +6,9 @@ name: .NET
 #Definindo quando o WorkFlow será disparado
 on:
   push:
-    branches: [ "tests/refacDenis" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "tests/refacDenis" ]
+    branches: [ "master" ]
 
 #Definindo os jobs que o workFlow executará
 jobs:

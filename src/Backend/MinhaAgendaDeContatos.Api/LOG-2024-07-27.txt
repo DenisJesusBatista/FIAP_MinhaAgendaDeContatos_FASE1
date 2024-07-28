@@ -158,3 +158,4 @@ Log de Execução Information: FluentMigrator.Runner - Committing Transaction
 Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrated
 Log de Execução Information: FluentMigrator.Runner - => 0,029256s
 Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)

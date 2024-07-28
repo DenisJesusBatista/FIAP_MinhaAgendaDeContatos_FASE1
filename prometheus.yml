@@ -27,4 +27,4 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ["minhaagenda:8888"]
+      - targets: ["172.21.128.1:8888"]

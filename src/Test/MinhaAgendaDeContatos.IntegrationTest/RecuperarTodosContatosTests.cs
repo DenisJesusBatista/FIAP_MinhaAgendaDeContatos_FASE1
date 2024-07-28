@@ -4,7 +4,6 @@ using FluentAssertions;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
 using Newtonsoft.Json;
-using System.Net;
 using System.Text;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
@@ -22,39 +21,38 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         [Fact]
         public async Task RecuperarTodosContatos_Quando_Sucesso_Deve_Retornar_Ok_Com_Quantidade_Correta()
         {
-            // Arrange - Criação do Contato            
+            // Arrange - Criação do Contato
             var contato = new AutoFaker<RequisicaoRegistrarContatoJson>()
                 .RuleFor(x => x.TelefoneProxy, 88888888)
                 .RuleFor(x => x.PrefixoProxy, 99)
                 .RuleFor(x => x.Email, new Faker().Person.Email)
                 .Generate();
 
-
             StringContent body = new(System.Text.Json.JsonSerializer.Serialize(contato), Encoding.UTF8, "application/json");
 
+            // Act - POST para criar um novo contato
+            var responsePost = await _client.PostAsync("https://localhost:7196/api/contato", body);
+            responsePost.EnsureSuccessStatusCode();
 
-            // Act - POST para criar um novo contato            
-            var response = await _client.PostAsync("https://localhost:7196/api/contato", body);
-
-            // Verifica se o POST foi bem-sucedido
-            response.EnsureSuccessStatusCode();
-
+            // Optional: Verificar o contato criado
+            var createdContactJson = await responsePost.Content.ReadAsStringAsync();
+            Console.WriteLine("Contato criado: " + createdContactJson);
 
             // Act - Recupera todos os contatos
-            var result = await _client.GetAsync("https://localhost:7196/api/contato");
+            var responseGet = await _client.GetAsync("https://localhost:7196/api/contato");
+            responseGet.EnsureSuccessStatusCode();
 
             // Assert
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
+            var resultJson = await responseGet.Content.ReadAsStringAsync();
+            Console.WriteLine("Resposta GET: " + resultJson);
 
-            // Verifica a resposta
-            var json = await result.Content.ReadAsStringAsync();
-            var responseJson = JsonConvert.DeserializeObject<RespostaContatoJson>(json);
-            //response.Contatos.Should().NotBeNull();
-            //response.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
-            //response.Contatos.Count().Should().Be(1); // Deve retornar exatamente um contato
-
-            //_fixture.LimparConteineres();
+            var responseJson = JsonConvert.DeserializeObject<RespostaContatoJson>(resultJson);
+            responseJson.Contatos.Should().NotBeNull();
+            responseJson.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
+            //responseJson.Contatos.Count().Should().Be(1); // Deve retornar exatamente um contato
         }
+
+
 
 
     }

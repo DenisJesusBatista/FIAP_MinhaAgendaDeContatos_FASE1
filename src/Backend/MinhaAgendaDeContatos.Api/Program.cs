@@ -2,10 +2,8 @@ using Microsoft.OpenApi.Models;
 using MinhaAgendaDeContatos.Api.Filtros;
 using MinhaAgendaDeContatos.Application;
 using MinhaAgendaDeContatos.Application.Servicoes.AutoMapper;
-using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Infraestrutura;
 using MinhaAgendaDeContatos.Infraestrutura.Logging;
-using MinhaAgendaDeContatos.Infraestrutura.Migrations;
 using Prometheus;
 using System.Reflection;
 

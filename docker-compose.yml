@@ -53,6 +53,9 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+     minhaagenda:
+      condition: service_started
     networks:
       - mynw
 

@@ -1,11 +1,5 @@
-﻿using FluentMigrator.Runner.Generators.Postgres;
-using FluentMigrator.Runner.Processors.Postgres;
-using FluentMigrator.Runner;
-using Microsoft.Extensions.Configuration;
-using MinhaAgendaDeContatos.Domain.Extension;
+﻿using Microsoft.Extensions.Configuration;
 using MinhaAgendaDeContatos.Infraestrutura.Migrations;
-using Npgsql;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 
 

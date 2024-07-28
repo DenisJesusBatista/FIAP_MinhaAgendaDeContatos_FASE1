@@ -1,22 +1,7 @@
-﻿using AutoBogus;
-using Bogus;
-using Bogus.Extensions;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using FluentAssertions;
 using MinhaAgendaDeContatos.Api.Response;
-using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
-using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using Newtonsoft.Json;
-//using Org.BouncyCastle.Ocsp;
-using System;
 using System.Net;
-using System.Text;
-using Newtonsoft.Json;
-using MinhaAgendaDeContatos.IntegrationTest;
-using Microsoft.AspNetCore.Hosting;
-using Ductus.FluentDocker.Common;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
 
 

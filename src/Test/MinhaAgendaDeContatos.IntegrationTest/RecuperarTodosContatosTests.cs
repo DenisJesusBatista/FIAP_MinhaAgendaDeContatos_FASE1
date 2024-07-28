@@ -1,14 +1,7 @@
-﻿using AutoBogus;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
+﻿using FluentAssertions;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
-using MinhaAgendaDeContatos.Domain.Entidades;
-using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using Newtonsoft.Json;
 using System.Net;
-using Testcontainers.PostgreSql;
-using Xunit.Sdk;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {

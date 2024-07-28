@@ -1,14 +1,7 @@
-﻿using AutoBogus;
-using Bogus;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
+﻿using FluentAssertions;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
-using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
 using Newtonsoft.Json;
 using System.Net;
-using System.Text;
 
 
 namespace MinhaAgendaDeContatos.IntegrationTest

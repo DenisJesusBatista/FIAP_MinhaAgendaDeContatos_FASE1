@@ -1,22 +1,8 @@
-using DotNet.Testcontainers.Builders;
 using Ductus.FluentDocker.Services;
-using FluentAssertions.Common;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using MinhaAgendaDeContatos.Domain.Repositorios;
-using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
-using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
-using Testcontainers.PostgreSql;
 using Ductus.FluentDocker.Builders;
 using Npgsql;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Builder;
 using Dapper;
-using Xunit;
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {

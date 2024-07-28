@@ -42,7 +42,7 @@ services:
       - 8888:80
     build:
       context: .
-      dockerfile: /src/Backend/MinhaAgendaDeContatos.Api/Dockerfile
+      dockerfile: ./src/Backend/MinhaAgendaDeContatos.Api/Dockerfile
     depends_on:
       minhaagenda-database:
         condition: service_healthy

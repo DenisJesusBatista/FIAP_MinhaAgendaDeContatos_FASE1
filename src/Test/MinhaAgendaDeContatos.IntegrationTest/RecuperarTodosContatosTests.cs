@@ -26,13 +26,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
         public async Task RecuperarTodosContatos_Quando_Sucesso_Deve_Retornar_Ok_Com_Quantidade_Correta()
         {
             //Arrange
-            var contato = new AutoFaker<Contato>()
-                .RuleFor(x => x.Email, "aleescossio@hotmail.com")
-                .RuleFor(x => x.DataCriacao, DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc))
-                .RuleFor(x => x.Telefone, "99999999")
-                .RuleFor(x => x.Prefixo, "66")
-                .Generate();
-
             await _fixture.CleanUpDatabase();
 
             await _fixture.InsertOneAsync();
@@ -44,8 +37,8 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             result.StatusCode.Should().Be(HttpStatusCode.OK);
             var json = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<RespostaContatoJson>(json);
-            response.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
-            response.Contatos.Count().Should().Be(1);
+            response?.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
+            response?.Contatos.Count().Should().Be(1);
         }
 
     }

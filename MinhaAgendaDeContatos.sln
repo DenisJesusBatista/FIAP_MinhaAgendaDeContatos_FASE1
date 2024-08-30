@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinhaAgendaDeContatos.UnitT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinhaAgendaDeContatos.IntegrationTest", "src\Test\MinhaAgendaDeContatos.IntegrationTest\MinhaAgendaDeContatos.IntegrationTest.csproj", "{6FFF4510-FEF5-4748-A09C-2A162534F902}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinhaAgendaDeContatos.Produtor", "src\Backend\MinhaAgendaDeContatos.Produtor\MinhaAgendaDeContatos.Produtor.csproj", "{00A96841-1C7F-46F2-A36E-C1C352F4083E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{6FFF4510-FEF5-4748-A09C-2A162534F902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FFF4510-FEF5-4748-A09C-2A162534F902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FFF4510-FEF5-4748-A09C-2A162534F902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00A96841-1C7F-46F2-A36E-C1C352F4083E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00A96841-1C7F-46F2-A36E-C1C352F4083E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00A96841-1C7F-46F2-A36E-C1C352F4083E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00A96841-1C7F-46F2-A36E-C1C352F4083E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{50435F3B-1663-49F8-AC33-A4DBBAEBE2D2} = {F18EFB53-A4D6-4170-B1F7-EA927006F1B6}
 		{52EB7234-8EC9-46BF-B320-CE7519F9CF59} = {50435F3B-1663-49F8-AC33-A4DBBAEBE2D2}
 		{6FFF4510-FEF5-4748-A09C-2A162534F902} = {50435F3B-1663-49F8-AC33-A4DBBAEBE2D2}
+		{00A96841-1C7F-46F2-A36E-C1C352F4083E} = {55952834-6610-4EFC-B3A7-6769AB64857F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {067B90E5-0A86-49E3-9650-848A429BF85B}

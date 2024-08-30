@@ -6,7 +6,9 @@ using MinhaAgendaDeContatos.Domain.Extension;
 using MinhaAgendaDeContatos.Infraestrutura;
 using MinhaAgendaDeContatos.Infraestrutura.Logging;
 using MinhaAgendaDeContatos.Infraestrutura.Migrations;
+using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 using Prometheus;
+using RabbitMQ.Client;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,11 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRouting(option => option.LowercaseUrls = true);
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-
-//Registar a documentação no Swagger
+// Registrar a documentação no Swagger
 builder.Services.AddSwaggerGen(c =>
 {
     // Defina a versão como uma string
@@ -35,16 +37,18 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
+// Configurar o RabbitMQ
+builder.Services.AddSingleton<IRabbitMqProducer, RabbitMqProducer>();
+
 builder.Services.AddRepositorio(builder.Configuration);
 
 builder.Services.AddApplication(builder.Configuration);
 
-
-//Registrar o filtro para qualquer excessao chamar a classe
+// Registrar o filtro para exceções
 builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltroDasExceptions)))
     .AddJsonOptions(options => options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull);
 
-//Configurando AutoMapper na injeção de dependência
+// Configurando AutoMapper na injeção de dependência
 builder.Services.AddScoped(provider => new AutoMapper.MapperConfiguration(cfg =>
 {
     cfg.AddProfile(new AutoMapperConfiguracao());
@@ -56,12 +60,33 @@ builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderCon
     LogLevel = LogLevel.Information
 }));
 
-//Adicona as métricas ao código para gerar métricas do Prometheus
+// Adicionar as métricas ao código para gerar métricas do Prometheus
 builder.Services.UseHttpClientMetrics();
+
+//builder.Services.AddSingleton<IConnection>(sp =>
+//{
+//    var factory = sp.GetRequiredService<IConnectionFactory>();
+//    return factory.CreateConnection();
+//});
+//builder.Services.AddSingleton<IModel>(sp =>
+//{
+
+builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
+builder.Services.AddSingleton<IConnection>(sp =>
+{
+    var factory = sp.GetRequiredService<IConnectionFactory>();
+    return factory.CreateConnection();
+});
+builder.Services.AddSingleton<IModel>(sp =>
+{
+    var connection = sp.GetRequiredService<IConnection>();
+    return connection.CreateModel();
+});
+
 
 var app = builder.Build();
 
-//Adicona as métricas ao código para gerar métricas do Prometheus
+// Adicionar as métricas ao código para gerar métricas do Prometheus
 app.UseMetricServer();
 app.UseHttpMetrics();
 

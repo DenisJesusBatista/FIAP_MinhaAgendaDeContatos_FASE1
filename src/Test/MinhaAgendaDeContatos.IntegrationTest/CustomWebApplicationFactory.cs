@@ -17,6 +17,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Dapper;
 using Xunit;
+using MinhaAgendaDeContatos.Api; // Atualize para o namespace correto
 
 namespace MinhaAgendaDeContatos.IntegrationTest
 {

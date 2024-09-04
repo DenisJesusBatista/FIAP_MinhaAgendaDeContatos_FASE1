@@ -13,14 +13,12 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-//Deixar todas as URLs com letra minusculas.
+// Deixar todas as URLs com letra minúsculas.
 builder.Services.AddRouting(option => option.LowercaseUrls = true);
 
 builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Saiba mais sobre como configurar Swagger/OpenAPI em https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 // Registrar a documentação no Swagger
@@ -63,14 +61,7 @@ builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderCon
 // Adicionar as métricas ao código para gerar métricas do Prometheus
 builder.Services.UseHttpClientMetrics();
 
-//builder.Services.AddSingleton<IConnection>(sp =>
-//{
-//    var factory = sp.GetRequiredService<IConnectionFactory>();
-//    return factory.CreateConnection();
-//});
-//builder.Services.AddSingleton<IModel>(sp =>
-//{
-
+// Registrar a fábrica de conexão e os canais RabbitMQ
 builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
 builder.Services.AddSingleton<IConnection>(sp =>
 {
@@ -83,14 +74,13 @@ builder.Services.AddSingleton<IModel>(sp =>
     return connection.CreateModel();
 });
 
-
 var app = builder.Build();
 
 // Adicionar as métricas ao código para gerar métricas do Prometheus
 app.UseMetricServer();
 app.UseHttpMetrics();
 
-// Configure the HTTP request pipeline.
+// Configurar o pipeline de requisições HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -20,10 +20,10 @@ namespace MinhaAgendaDeContatos.Produtor.RabbitMqProducer
 
         public async Task PublishMessageAsync<T>(string queueName, T message)
         {
-            // Declare the queue inside the method to ensure it exists
+            // Declare a fila dentro do método para garantir que ela exista
             _channel.QueueDeclare(
                 queue: queueName,
-                durable: true, // Consider setting to true if you need queue durability
+                durable: true, // Considere definir como true se precisar da durabilidade da fila
                 exclusive: false,
                 autoDelete: false,
                 arguments: null
@@ -35,7 +35,7 @@ namespace MinhaAgendaDeContatos.Produtor.RabbitMqProducer
                 var jsonMessage = JsonSerializer.Serialize(new { Id = uniqueId, Payload = message });
                 var body = Encoding.UTF8.GetBytes(jsonMessage);
 
-                // Publish the message
+                // Publicar a mensagem
                 _channel.BasicPublish(
                     exchange: "",
                     routingKey: queueName,
@@ -48,7 +48,7 @@ namespace MinhaAgendaDeContatos.Produtor.RabbitMqProducer
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao publicar a mensagem na fila {QueueName}", queueName);
-                throw; // Re-throw the exception to ensure it bubbles up
+                throw; // Relançar a exceção para garantir que ela se propague
             }
         }
     }

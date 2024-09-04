@@ -17,10 +17,10 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
-                // Load RabbitMQ settings from appsettings.json
+                // Carregar as configurações do RabbitMQ do appsettings.json
                 services.Configure<RabbitMqSettings>(context.Configuration.GetSection("RabbitMQ"));
 
-                // Register RabbitMQ connection and channel
+                // Registrar a conexão e o canal do RabbitMQ
                 services.AddSingleton<IModel>(sp =>
                 {
                     var settings = sp.GetRequiredService<IOptions<RabbitMqSettings>>().Value;
@@ -36,19 +36,19 @@ public class Program
                     try
                     {
                         var connection = factory.CreateConnection();
-                        return connection.CreateModel(); // Create and return the channel (IModel)
+                        return connection.CreateModel(); // Criar e retornar o canal (IModel)
                     }
                     catch (Exception ex)
                     {
-                        // Log error and rethrow if necessary
+                        // Registrar o erro e relançar se necessário
                         var logger = sp.GetRequiredService<ILogger<Program>>();
-                        logger.LogError(ex, "Failed to create RabbitMQ channel");
+                        logger.LogError(ex, "Falha ao criar o canal RabbitMQ");
                         throw;
                     }
-                    
+
                 });
 
-                // Register RabbitMqProducer
+                // Registrar o RabbitMqProducer
                 services.AddSingleton<IRabbitMqProducer>(sp =>
                 {
                     var channel = sp.GetRequiredService<IModel>();
@@ -56,7 +56,8 @@ public class Program
                     return new RabbitMqProducer(channel, logger);
                 });
 
-                // Register other services
+                // Registrar um serviço de fundo ( execução de segundo plano ) que será executado continuamente ou periodicamente
                 services.AddHostedService<Worker>();
+
             });
 }

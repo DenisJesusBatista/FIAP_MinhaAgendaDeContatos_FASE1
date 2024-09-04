@@ -41,7 +41,7 @@ namespace MinhaAgendaDeContatos.Produtor
                 };
 
                 channel.BasicConsume(queue: _queueName,
-                    autoAck: true,
+                    autoAck: false, // Use autoAck: false para reconhecimento manual
                     consumer: consumer);
 
                 await Task.Delay(Timeout.Infinite, stoppingToken);

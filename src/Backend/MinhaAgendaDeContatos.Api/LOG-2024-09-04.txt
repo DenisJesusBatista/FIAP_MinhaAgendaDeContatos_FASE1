@@ -1,0 +1,25 @@
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"20d15f32-e22b-41de-8a42-f67f7b30bd88-638610861715882353","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"718375dd-0e24-47fc-a78c-b79022ded4ec-638610862212212341","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"9c1b3a71-bb94-405d-8375-9a2e38849ec6-638610867819600679","Payload":{"Acao":"Registro","Dados":{"Nome":"Denis de Jesus Batista","Email":"denis.si2011@gmail.com","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"2bf538e9-31e2-4093-927e-a51d8e0a58b3-638610868139610665","Payload":{"Acao":"Registro","Dados":{"Nome":"Denis de Jesus Batista","Email":"denis.si2011@gmail.com","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"05e67add-2281-4354-8bb1-0807bab6ebef-638610869397959938","Payload":{"Acao":"Registro","Dados":{"Nome":"Denis de Jesus Batista","Email":"denis.si2011@gmail.com","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"d8ca0184-741f-47d9-b618-817c7448e37e-638610870644936498","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"8173a984-5f00-4092-97f1-d3ad2a695c4a-638610871152578503","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"c9d91875-3833-4cc6-99b6-f4dc4ebdef10-638610872468788269","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"86de5c1f-cd93-4e46-a590-c97451524bb5-638610873782953553","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"805fee6b-3a9a-4b97-9903-79340d6fca98-638610875333074760","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"5701638c-4598-48bc-bc31-c6bf52642768-638610877199655241","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"079b36bb-417b-4d98-8c76-54e49588d871-638610878840040268","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"3813ba17-e20b-4c2f-b0fa-2586595c76e7-638610879009255920","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"4fe03ae6-34d3-4d70-beaf-88f710f1d813-638610879593282775","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"6ed63be9-1dd6-492b-ab23-275a326777ef-638610880223210501","Payload":{"Acao":"Registro","Dados":{"Nome":"string","Email":"string","TelefoneProxy":0,"PrefixoProxy":0}}}

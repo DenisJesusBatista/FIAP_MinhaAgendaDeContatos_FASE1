@@ -1,4 +1,7 @@
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MinhaAgendaDeContatos.Api.Filtros;
 using MinhaAgendaDeContatos.Application;
 using MinhaAgendaDeContatos.Application.Servicoes.AutoMapper;
@@ -10,59 +13,51 @@ using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 using Prometheus;
 using RabbitMQ.Client;
 using System.Reflection;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Deixar todas as URLs com letra minúsculas.
-builder.Services.AddRouting(option => option.LowercaseUrls = true);
-
-builder.Services.AddControllers();
-
-// Saiba mais sobre como configurar Swagger/OpenAPI em https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-
-// Registrar a documentação no Swagger
-builder.Services.AddSwaggerGen(c =>
-{
-    // Defina a versão como uma string
-    string version = "1.0";
-
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha agenda de contato", Version = version });
-
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
-});
-
-// Configurar o RabbitMQ
-builder.Services.AddSingleton<IRabbitMqProducer, RabbitMqProducer>();
-
-builder.Services.AddRepositorio(builder.Configuration);
-
-builder.Services.AddApplication(builder.Configuration);
-
-// Registrar o filtro para exceções
-builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltroDasExceptions)))
-    .AddJsonOptions(options => options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull);
-
-// Configurando AutoMapper na injeção de dependência
-builder.Services.AddScoped(provider => new AutoMapper.MapperConfiguration(cfg =>
-{
-    cfg.AddProfile(new AutoMapperConfiguracao());
-}).CreateMapper());
-
+// Configurar os serviços e o logging
 builder.Logging.ClearProviders();
+builder.Logging.AddConsole(); // Adicionar logging para console
+builder.Logging.AddDebug(); // Adicionar logging para debug
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration
 {
     LogLevel = LogLevel.Information
 }));
+builder.Logging.AddFilter("RabbitMQ.Client", LogLevel.Debug); // Adicionar logging detalhado para RabbitMQ
 
-// Adicionar as métricas ao código para gerar métricas do Prometheus
-builder.Services.UseHttpClientMetrics();
+// Configurar rotas
+builder.Services.AddRouting(option => option.LowercaseUrls = true);
 
-// Registrar a fábrica de conexão e os canais RabbitMQ
-builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
+// Configurar controllers
+builder.Services.AddControllers();
+
+// Configurar Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    string version = "1.0";
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha agenda de contato", Version = version });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
+
+// Configurar RabbitMQ
+builder.Services.AddSingleton<IRabbitMqProducer, RabbitMqProducer>();
+
+// Configurar o factory e conexão RabbitMQ
+builder.Services.AddSingleton<IConnectionFactory>(sp =>
+{
+    return new ConnectionFactory
+    {
+        HostName = "localhost", // Configurações do RabbitMQ
+        UserName = "guest",
+        Password = "guest"
+    };
+});
 builder.Services.AddSingleton<IConnection>(sp =>
 {
     var factory = sp.GetRequiredService<IConnectionFactory>();
@@ -74,13 +69,26 @@ builder.Services.AddSingleton<IModel>(sp =>
     return connection.CreateModel();
 });
 
+// Configurar outros serviços e AutoMapper
+builder.Services.AddRepositorio(builder.Configuration);
+builder.Services.AddApplication(builder.Configuration);
+builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltroDasExceptions)))
+    .AddJsonOptions(options => options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull);
+builder.Services.AddScoped(provider => new AutoMapper.MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new AutoMapperConfiguracao());
+}).CreateMapper());
+
+// Adicionar métricas do Prometheus
+builder.Services.UseHttpClientMetrics();
+
 var app = builder.Build();
 
-// Adicionar as métricas ao código para gerar métricas do Prometheus
+// Adicionar métricas do Prometheus
 app.UseMetricServer();
 app.UseHttpMetrics();
 
-// Configurar o pipeline de requisições HTTP.
+// Configurar o pipeline de requisições HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -88,11 +96,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
+// Configurar e atualizar o banco de dados
 DatabaseSetup.AtualizarBaseDeDados(builder.Configuration, app);
 
 app.Run();

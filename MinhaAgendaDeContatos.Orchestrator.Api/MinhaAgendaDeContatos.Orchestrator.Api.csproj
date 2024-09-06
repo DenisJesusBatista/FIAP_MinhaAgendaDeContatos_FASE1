@@ -13,4 +13,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\src\Backend\MinhaAgendaDeContatos.Consumidor\MinhaAgendaDeContatos.Consumidor.csproj" />
+    <ProjectReference Include="..\src\Backend\MinhaAgendaDeContatos.Produtor\MinhaAgendaDeContatos.Produtor.csproj" />
+  </ItemGroup>
+
 </Project>

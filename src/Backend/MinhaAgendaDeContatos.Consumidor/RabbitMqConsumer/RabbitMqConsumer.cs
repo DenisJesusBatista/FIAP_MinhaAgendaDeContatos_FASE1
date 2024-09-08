@@ -17,14 +17,14 @@ namespace MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             // Declare the queue to ensure it exists
-            _channel.QueueDeclare(queue: "nome-da-fila",
+            _channel.QueueDeclare(queue: "registrarContato",
                                  durable: false,
                                  exclusive: false,
                                  autoDelete: false,
                                  arguments: null);
         }
 
-        public void ConsumeMessage()
+        public Object ConsumeMessage()
         {
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += (model, ea) =>
@@ -50,7 +50,7 @@ namespace MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer
 
             try
             {
-                _channel.BasicConsume(queue: "nome-da-fila",
+                _channel.BasicConsume(queue: "registrarContato",
                                      autoAck: true,
                                      consumer: consumer);
                 _logger.LogInformation("Iniciando o consumo de mensagens da fila 'nome-da-fila'.");
@@ -60,6 +60,8 @@ namespace MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer
                 _logger.LogError(ex, "Erro ao iniciar o consumo da fila 'nome-da-fila'.");
                 throw; // Relançar a exceção para garantir que ela se propague
             }
+
+            return null;
         }
     }
 }

@@ -8,6 +8,6 @@ namespace MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer
 {
     public interface IRabbitMqConsumer
     {
-        void ConsumeMessage();
+        public Object ConsumeMessage();
     }
 }

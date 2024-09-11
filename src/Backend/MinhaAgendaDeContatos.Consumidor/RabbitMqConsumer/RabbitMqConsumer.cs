@@ -16,13 +16,15 @@ namespace MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer
             _channel = channel ?? throw new ArgumentNullException(nameof(channel));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            // Declare the queue to ensure it exists
+            // Certifique-se de usar a configuração correta da fila
             _channel.QueueDeclare(queue: "registrarContato",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+                                  durable: true,  // Ajuste conforme necessário
+                                  exclusive: false,
+                                  autoDelete: false,
+                                  arguments: null);
         }
+
+
 
         public Object ConsumeMessage()
         {

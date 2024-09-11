@@ -23,7 +23,7 @@ namespace MinhaAgendaDeContatos.Orchestrator.Api.Controllers
         [HttpGet(Name = "Start")]
         public IActionResult Get()
         {
-           // _rabbitMqConsumer.ConsumeMessage();
+            _rabbitMqConsumer.ConsumeMessage();
 
             return Ok();
         }

@@ -26,7 +26,7 @@ namespace MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer
 
 
 
-        public Object ConsumeMessage()
+        public void ConsumeMessage()
         {
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += (model, ea) =>
@@ -62,8 +62,6 @@ namespace MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer
                 _logger.LogError(ex, "Erro ao iniciar o consumo da fila 'nome-da-fila'.");
                 throw; // Relançar a exceção para garantir que ela se propague
             }
-
-            return null;
         }
     }
 }

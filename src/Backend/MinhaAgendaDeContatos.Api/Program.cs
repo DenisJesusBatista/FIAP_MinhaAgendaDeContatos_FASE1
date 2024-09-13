@@ -53,9 +53,14 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
 {
     return new ConnectionFactory
     {
+        
         HostName = "localhost", // Configurações do RabbitMQ
         UserName = "guest",
-        Password = "guest"
+        Password = "guest",
+        VirtualHost = "/" //"VirtualHost": "/",
+        
+
+        
     };
 });
 builder.Services.AddSingleton<IConnection>(sp =>

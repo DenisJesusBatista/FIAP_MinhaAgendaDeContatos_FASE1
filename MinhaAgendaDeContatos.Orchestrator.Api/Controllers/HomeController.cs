@@ -1,31 +1,43 @@
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer;
+using MinhaAgendaDeContatos.Orchestrator.Api.BO;
 using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 
 namespace MinhaAgendaDeContatos.Orchestrator.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class HomeController : ControllerBase
-    {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IRabbitMqProducer _rabbitMqProducer;
-        private readonly IRabbitMqConsumer _rabbitMqConsumer;
+    public class HomeController : ControllerBase, IConsumer<RegistrarContatoBO>
+    {        
+        private readonly IRabbitMqProducer _rabbitMqProducer;        
+        private readonly IBus _bus;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger,
-                                         IRabbitMqConsumer rabbitMqConsumer,
-                                         IRabbitMqProducer rabbitMqProducer)
+        public HomeController(IRabbitMqProducer rabbitMqProducer, IBus bus, IConfiguration configuration)
         {
-            _logger = logger;
-            _rabbitMqConsumer = rabbitMqConsumer;
+            _rabbitMqProducer = rabbitMqProducer;
+            _configuration = configuration;
+            _bus = bus;
         }
 
         [HttpGet(Name = "Start")]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            _rabbitMqConsumer.ConsumeMessage();
+            var nomeFila = _configuration
+                .GetSection("MassTransit")["NomeFila"] ?? string.Empty;
 
-            return Ok();
+
+            var endpoint = await _bus
+                .GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+
+
+            return Ok("Service is Running");
+        }
+
+        public Task Consume(ConsumeContext<RegistrarContatoBO> context)
+        {
+            Console.WriteLine(context.Message);
+            return Task.CompletedTask;
         }
     }
 }

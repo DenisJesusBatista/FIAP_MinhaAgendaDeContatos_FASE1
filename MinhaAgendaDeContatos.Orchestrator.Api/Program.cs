@@ -15,6 +15,9 @@ using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 using MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer;
 using RabbitMQ.Client;
 using System;
+using MassTransit;
+using MinhaAgendaDeContatos.Orchestrator.Api.BO;
+using MinhaAgendaDeContatos.Orchestrator.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +81,33 @@ builder.Services.AddScoped(provider => new AutoMapper.MapperConfiguration(cfg =>
 {
     cfg.AddProfile(new AutoMapperConfiguracao());
 }).CreateMapper());
+
+
+var configuration = builder.Configuration;
+var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
+var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
+var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
+
+builder.Services.AddMassTransit(x =>
+ {
+     x.UsingRabbitMq((context, cfg) =>
+     {
+         cfg.Host(servidor, "/", h =>
+         {
+             h.Username(usuario);
+             h.Password(senha);
+         });
+
+         cfg.ReceiveEndpoint("registraContato", e =>
+         {
+             //e.Consumer<HomeController>();
+
+         });
+
+         cfg.ConfigureEndpoints(context);
+     });
+     x.AddConsumer<HomeController>();
+ });
 
 var app = builder.Build();
 

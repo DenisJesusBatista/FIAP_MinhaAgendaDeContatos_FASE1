@@ -140,8 +140,8 @@ namespace MinhaAgendaDeContatos.Consumidor
                         {
                             switch (ea.RoutingKey)
                             {
-                                case "registrarContato":
-                                    //await registrarContatoUseCase.Executar(requisicao);
+                                case "registrarContato":                                    
+                                    await registrarContatoUseCase.Executar(requisicao);
                                     break;
                                     // Adicionar outros casos conforme necessário
                             }

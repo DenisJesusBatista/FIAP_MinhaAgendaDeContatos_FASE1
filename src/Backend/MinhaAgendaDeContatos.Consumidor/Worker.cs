@@ -135,13 +135,13 @@ namespace MinhaAgendaDeContatos.Consumidor
                     try
                     {
                         // Processar a mensagem conforme a fila
-                        var requisicao = JsonSerializer.Deserialize<RequisicaoRegistrarContatoJson>(message);
+                        var requisicao = JsonSerializer.Deserialize<RootObject>(message);
                         if (requisicao != null)
                         {
                             switch (ea.RoutingKey)
                             {
                                 case "registrarContato":                                    
-                                    await registrarContatoUseCase.Executar(requisicao);
+                                    await registrarContatoUseCase.Executar(requisicao.Payload.Dados);
                                     break;
                                     // Adicionar outros casos conforme necessário
                             }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Infraestrutura.RabbitMqClient;
+using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -18,8 +19,11 @@ namespace MinhaAgendaDeContatos.Consumidor
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ILogger<Worker> _logger;
 
-        public Worker(IServiceScopeFactory serviceScopeFactory, ILogger<Worker> logger)
+        private readonly IRabbitMqProducer _rabbitMqProducer;
+
+        public Worker(IRabbitMqProducer rabbitMqProducer, IServiceScopeFactory serviceScopeFactory, ILogger<Worker> logger)
         {
+            _rabbitMqProducer = rabbitMqProducer;
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
         }
@@ -140,8 +144,15 @@ namespace MinhaAgendaDeContatos.Consumidor
                         {
                             switch (ea.RoutingKey)
                             {
-                                case "registrarContato":                                    
-                                    await registrarContatoUseCase.Executar(requisicao.Payload.Dados);
+                                case "registrarContato":
+
+                                    var result = await registrarContatoUseCase.Executar(requisicao.Payload.Dados);
+
+                                    var messageResult = new { Id = requisicao.Id, result };
+                                    var queueName = "contatosRegistrados";
+
+                                    await _rabbitMqProducer.PublishMessageAsync(queueName, message);
+
                                     break;
                                     // Adicionar outros casos conforme necessário
                             }

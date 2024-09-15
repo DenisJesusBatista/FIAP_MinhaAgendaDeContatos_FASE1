@@ -15,5 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MinhaAgendaDeContatos.Application\MinhaAgendaDeContatos.Application.csproj" />
     <ProjectReference Include="..\MinhaAgendaDeContatos.Infraestrutura\MinhaAgendaDeContatos.Infraestrutura.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Produtor\MinhaAgendaDeContatos.Produtor.csproj" />
   </ItemGroup>
 </Project>

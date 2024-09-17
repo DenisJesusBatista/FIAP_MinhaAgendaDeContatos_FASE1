@@ -154,7 +154,10 @@ namespace MinhaAgendaDeContatos.Consumidor
                                     await _rabbitMqProducer.PublishMessageAsync(queueName, message);
 
                                     break;
-                                    // Adicionar outros casos conforme necessário
+
+                                case "recuperarPorId":
+
+                                    break;
                             }
                             channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                         }

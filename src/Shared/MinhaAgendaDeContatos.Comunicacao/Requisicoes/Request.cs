@@ -19,13 +19,4 @@ namespace MinhaAgendaDeContatos.Comunicacao.Requisicoes
         public string Acao { get; set; } // Propriedade "Acao" do tipo string
         public RequisicaoRegistrarContatoJson Dados { get; set; } // Propriedade do tipo Dados
     }
-
-    // Classe Dados que contém os detalhes pessoais
-    //public class Dados
-    //{
-    //    public string Nome { get; set; } // Propriedade "Nome" do tipo string
-    //    public string Email { get; set; } // Propriedade "Email" do tipo string
-    //    public int TelefoneProxy { get; set; } // Propriedade "TelefoneProxy" do tipo int
-    //    public long PrefixoProxy { get; set; } // Propriedade "PrefixoProxy" do tipo long
-    //}
 }

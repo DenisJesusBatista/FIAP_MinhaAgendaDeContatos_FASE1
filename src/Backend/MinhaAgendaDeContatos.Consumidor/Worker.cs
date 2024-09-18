@@ -138,8 +138,12 @@ namespace MinhaAgendaDeContatos.Consumidor
 
                     try
                     {
+
+                        //REGEX = MESSAGE
+
                         // Processar a mensagem conforme a fila
                         var requisicao = JsonSerializer.Deserialize<RootObject>(message);
+
                         if (requisicao != null)
                         {
                             switch (ea.RoutingKey)

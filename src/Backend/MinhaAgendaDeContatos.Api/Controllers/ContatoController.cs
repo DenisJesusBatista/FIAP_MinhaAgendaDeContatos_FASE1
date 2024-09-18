@@ -60,7 +60,7 @@ namespace MinhaAgendaDeContatos.Api.Controllers
         {
             try
             {
-                var message = new { Acao = "RecuperarPorPrefixo", Dados = prefixo };
+                var message = new { Acao = "RecuperarPorPrefixo", Dados = new RequisicaoRegistrarContatoJson { PrefixoProxy = int.Parse(prefixo) } };
                 var queueName = "recuperarPorPrefixo";
 
                 await _rabbitMqProducer.PublishMessageAsync(queueName, message);
@@ -86,7 +86,7 @@ namespace MinhaAgendaDeContatos.Api.Controllers
         {
             try
             {
-                var message = new { Acao = "RecuperarPorId", Dados = id };
+                var message = new { Acao = "RecuperarPorId", Dados = new RequisicaoRegistrarContatoJson { Id = id } };
                 var queueName = "recuperarPorId";
 
                 await _rabbitMqProducer.PublishMessageAsync(queueName, message);
@@ -110,7 +110,7 @@ namespace MinhaAgendaDeContatos.Api.Controllers
         {
             try
             {
-                var message = new { Acao = "RecuperarTodosContatos", Dados = (object)null };
+                var message = new { Acao = "RecuperarTodosContatos", Dados = new RequisicaoRegistrarContatoJson { } };
                 var queueName = "recuperarTodosContatos";
 
                 await _rabbitMqProducer.PublishMessageAsync(queueName, message);
@@ -136,7 +136,7 @@ namespace MinhaAgendaDeContatos.Api.Controllers
         {
             try
             {
-                var message = new { Acao = "Delecao", Dados = email };
+                var message = new { Acao = "Delecao", Dados = new RequisicaoRegistrarContatoJson { Email = email } };
                 var queueName = "DelecaoContato";
 
                 await _rabbitMqProducer.PublishMessageAsync(queueName, message);
@@ -160,7 +160,13 @@ namespace MinhaAgendaDeContatos.Api.Controllers
         {
             try
             {
-                var message = new { Acao = "Alteracao", Dados = request };
+                var message = new { Acao = "Alteracao", Dados = new RequisicaoRegistrarContatoJson 
+                {
+                    Email = request.EmailAtual,
+                    EmailNovo = request.EmailNovo,
+                    Nome = request.ContatoAtual,
+                    NomeNovo = request.ContatoNovo 
+                } };
                 var queueName = "AlteracaoContato";
 
                 await _rabbitMqProducer.PublishMessageAsync(queueName, message);

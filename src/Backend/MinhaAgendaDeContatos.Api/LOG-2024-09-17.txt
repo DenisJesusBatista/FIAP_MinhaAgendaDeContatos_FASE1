@@ -1,0 +1,1 @@
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)

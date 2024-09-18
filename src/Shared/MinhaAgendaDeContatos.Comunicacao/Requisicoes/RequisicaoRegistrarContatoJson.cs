@@ -6,6 +6,7 @@ public class RequisicaoRegistrarContatoJson
     [JsonIgnore]
     public int Id { get; set; }    
     public string Nome { get; set; } = string.Empty;
+    public string NomeNovo { get; set; } = string.Empty;
     private string _email = string.Empty;
     public string Email
     {
@@ -16,6 +17,19 @@ public class RequisicaoRegistrarContatoJson
         set
         {
             _email = value.ToLower().Trim();
+        }
+    }
+
+    private string _emailNovo = string.Empty;
+    public string EmailNovo
+    {
+        get
+        {
+            return _emailNovo;
+        }
+        set
+        {
+            _emailNovo = value.ToLower().Trim();
         }
     }
     [JsonIgnore]

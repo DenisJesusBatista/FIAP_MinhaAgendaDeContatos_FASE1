@@ -1,0 +1,51 @@
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+{
+  "manifestVersion": "2.0.0",
+  "signatureType": "community",
+  "signedByOrg": "maormil",
+  "signedByOrgName": "maormil",
+  "plugin": "maormil-rabbitmq-datasource",
+  "version": "1.0.0",
+  "time": 1725553004044,
+  "keyId": "7e4d0c6a708866e7",
+  "files": {
+    "module.js": "ec65faf1be62f22df7e93f9780f99425fb44d12c91565a4e55fa66710a413494",
+    "gpx_rabbitmq_darwin_arm64": "38311f8a86851abd0526305d9e6dc116d4b4d2ef315690c5213fa2704235765e",
+    "gpx_rabbitmq_linux_arm64": "9970f9634f0563db6728fefedce38fa91c45a648aa4a425ed1df7fffe67c433e",
+    "LICENSE": "f9675c95830c12e8627e6c61b5ba4f0db5a296385c6c7b63f5f4e98941fab101",
+    "go_plugin_build_manifest": "a7636eff83caf6aada3a2cad19542fc614887eae4f38fe2d5961b18059698509",
+    "module.js.map": "e01a36f44d139692263267b5692e8b6ab062a1c1b2e8a9dfb5fe289408427d31",
+    "img/rabbitmq_logo.svg": "d728adfccc2c48a1146643f56341d31fdc9bc0c3072d273d5f81e6542b3cbfcc",
+    "CHANGELOG.md": "dc3ff0058a37747547be9a4db6c5a0d65b7f50b40c6d79d9805ea0d0a5799f6a",
+    "gpx_rabbitmq_linux_arm": "13dfd60b3069ac046716c507598e6152637e9956e15c98394a70aaa5945c1565",
+    "gpx_rabbitmq_linux_amd64": "f612c27d3b45f0c67d09dc2eff07cd84646dbab85ecb4db37bd1fc2584f808f6",
+    "gpx_rabbitmq_darwin_amd64": "adce44ce2a0af384bf0bdfa2c6a81f74d8703b909ba12ab85d1677776f1718e1",
+    "gpx_rabbitmq_windows_amd64.exe": "1f6871a533b8433f0ec0122d351f91afdd7b56113c17eccf94521bcb4b955e05",
+    "screenshots/new_rabbitmq_datasource/authentication_section.png": "8bb7989ca0e2092efea6dfe529d6e21a2b934ae84f5733490ad254bcc2a52a7c",
+    "screenshots/new_rabbitmq_datasource/exchanges_section.png": "258e9b34e769ef2eccd9a9e627716270cfa3483da143f665a1b582348ae876b9",
+    "screenshots/new_rabbitmq_datasource/bindings_section.png": "622a766e0ff59c698c9a387420f32ec61e7a81e85428c90bf6c9bd3a4b0e1926",
+    "screenshots/new_rabbitmq_datasource/connection_section.png": "2f3392cb27a124ccb52e86dfdb60b615a84ced6d510491e43452b5a5355745b6",
+    "screenshots/new_rabbitmq_datasource/stream_settings_section.png": "10341066a889cb83bc804cdf1df319dc8a3e4abd31d7a7fc171c6b6c0b331798",
+    "screenshots/new_rabbitmq_datasource/advanced_rabbitmq_stream_settings_section.png": "ae7f66f833bac8e551c51c9288c8f5055c97dd31ceebfb90e3ba8d7871fdcc0c",
+    "screenshots/rabbitmq_datasource.png": "c1b24a7fc312681d68f8cf82aba5a011caa497023350bc4e6d983894a158d07e",
+    "screenshots/rabbitmq_query_editor.png": "d7bd5a975e5bfebe6bea1cb6c22c824dd76c461404f1b0822156a0b707344e27",
+    "screenshots/known_errors/connection_refused.png": "15b722909c13a59798f08cdf22e2702c0efa29caf1763ee7396d238e3735207e",
+    "screenshots/known_errors/timeout_error.png": "bbff8ac8c3f9624aabc12c8a4a9d20cb085c69076c82807a8d6328ff530b084d",
+    "README.md": "d6c2cf4f05fe763128024de9e14d531c2668f0094a7a7e42ce6672246afb77c1",
+    "plugin.json": "62e6b349e8f707fb0ccb015c383f56adb7aa7e9a15d614aa7b833c2065e44e57"
+  }
+}
+-----BEGIN PGP SIGNATURE-----
+Version: OpenPGP.js v4.10.11
+Comment: https://openpgpjs.org
+
+wrkEARMKAAYFAmbZ2WwAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm577dAgkA5lxk2jdVUNzz6ADqPDxr2tpAzt1xhYz+kk/5PQS1rcjYVTEh
+Skh8gL34OoNGMO+4b3eGMXfJ7xVdCtUHPkMQWuYCCQCLdO/h/ri9KGoqrczk
+zHJYRjGoYgAov98PKlFrlPhCvd4xRf0kr9F920/qcC/iZpykFbQm9oUzNlD6
+TiPlMmV/nA==
+=u24T
+-----END PGP SIGNATURE-----

@@ -27,4 +27,8 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ["localhost:8888"]
+      - targets: ["192.168.0.109:8888"]
+  
+  - job_name: "rabbitmq"
+    static_configs:
+      - targets: ["192.168.0.109:15692"]

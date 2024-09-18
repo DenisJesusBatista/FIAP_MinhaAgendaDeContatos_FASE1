@@ -20,13 +20,14 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
+ 
+  # API
   minhaagendadecontatos.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
-      - "80"
+      - "8888:80"
       - "443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
@@ -55,10 +56,11 @@ services:
     image: rabbitmq:management
     ports:
       - 5672:5672
-      - 15672:15672
+      - 15692:15692
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_PROMETHEUS_EXPORTER: true
     networks:
       - mynw
     healthcheck:

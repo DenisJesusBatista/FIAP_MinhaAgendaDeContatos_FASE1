@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="ResourceMensagensDeErro.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -53,9 +53,10 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
 {
     return new ConnectionFactory
     {
-        HostName = "localhost", // Configurações do RabbitMQ
+        HostName = "host.docker.internal", // Configurações do RabbitMQ
         UserName = "guest",
-        Password = "guest"
+        Password = "guest",
+        Port = 5672
     };
 });
 builder.Services.AddSingleton<IConnection>(sp =>

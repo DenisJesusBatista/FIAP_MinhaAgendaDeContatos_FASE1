@@ -20,6 +20,10 @@ using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 using MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer;
 using Microsoft.Extensions.Logging;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorId;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.Deletar;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarTodos;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorPrefixo;
 
 class Program
 {
@@ -111,6 +115,10 @@ class Program
                 services.AddScoped<IUnidadeDeTrabalho, UnidadeDeTrabalho>();
                 services.AddScoped<IRegistrarContatoUseCase, RegistrarContatoUseCase>();
                 services.AddScoped<IRecuperarPorIdUseCase, RecuperarPorIdUseCase>();
+                services.AddScoped<IDeletarContatoUseCase, DeletarContatoUseCase>();                
+                services.AddScoped<IRecuperarTodosContatosUseCase, RecuperarTodosContatosUseCase>();
+                services.AddScoped<IUpdateContatoUseCase, UpdateContatoUseCase>();
+                services.AddScoped<IRecuperarPorPrefixoUseCase, RecuperarPorPrefixoUseCase>();
 
                 services.AddHostedService<Worker>();
 

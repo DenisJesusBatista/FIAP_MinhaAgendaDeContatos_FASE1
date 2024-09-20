@@ -1,7 +1,11 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.Deletar;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorId;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorPrefixo;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarTodos;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Infraestrutura.RabbitMqClient;
 using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
@@ -38,6 +42,10 @@ namespace MinhaAgendaDeContatos.Consumidor
                 var rabbitMqService = scope.ServiceProvider.GetRequiredService<IRabbitMqService>();
                 var registrarContatoUseCase = scope.ServiceProvider.GetRequiredService<IRegistrarContatoUseCase>();
                 var recuperarPorIdUseCase = scope.ServiceProvider.GetRequiredService<IRecuperarPorIdUseCase>();                
+                var deletarContatoUseCase = scope.ServiceProvider.GetRequiredService<IDeletarContatoUseCase>();                
+                var recuperarTodosUseCase = scope.ServiceProvider.GetRequiredService<IRecuperarTodosContatosUseCase>();                
+                var updateContatoUseCase = scope.ServiceProvider.GetRequiredService<IUpdateContatoUseCase>();
+                var recuperarPrefixoUseCase = scope.ServiceProvider.GetRequiredService<IRecuperarPorPrefixoUseCase>();
 
                 using var channel = rabbitMqService.CreateChannel();
 
@@ -80,15 +88,41 @@ namespace MinhaAgendaDeContatos.Consumidor
                                     var resultRegistrar = await registrarContatoUseCase.Executar(requisicao.Payload.Dados);
                                     var messageResult = new { Id = requisicao.Id, resultRegistrar };
 
-                                    await _rabbitMqProducer.PublishMessageAsync("contatosRegistrados", message);
+                                    await _rabbitMqProducer.PublishMessageAsync("contatosRegistrados", messageResult);
 
                                     break;
 
                                 case "recuperarPorId":
 
                                    var resultRecuperarId = await recuperarPorIdUseCase.Executar(requisicao.Payload.Dados.Id);
+                                   await _rabbitMqProducer.PublishMessageAsync("contatosPorId", resultRecuperarId.Contatos); ///TODO: VERIFICAR RETORNO NA FILA
 
-                                   await _rabbitMqProducer.PublishMessageAsync("contatoPorId", message);
+                                    break;
+
+                                case "DelecaoContato":
+
+                                    await deletarContatoUseCase.Executar(requisicao.Payload.Dados.Email); ///TODO: MUDAR RETORNO PARA BOOL PARA CONFIRMACAO DO DELETE                                    
+                                    await _rabbitMqProducer.PublishMessageAsync("contatosDeletados", new { Id = requisicao.Id, requisicao.Payload.Dados });
+
+                                    break;
+
+                                case "recuperarTodosContatos":
+
+                                    var resultRecuperarTodos = await recuperarTodosUseCase.Executar();
+                                    await _rabbitMqProducer.PublishMessageAsync("contatosTodos", new { Id = requisicao.Id, resultRecuperarTodos.Contatos });
+
+                                    break;
+
+                                case "AlteracaoContato":
+
+                                    //await updateContatoUseCase.Executar(requisicao.Payload.Dados); ///TODO: enviar objeto solicitado pelo metodo 
+                                    await _rabbitMqProducer.PublishMessageAsync("contatosAtualizados", new { Id = requisicao.Id, requisicao.Payload.Dados });///TODO: MUDAR RETORNO PARA BOOL PARA CONFIRMACAO DO UPDATE
+                                    break;
+
+                                case "recuperarPorPrefixo":
+
+                                    var resultPrefixo = await recuperarPrefixoUseCase.Executar(requisicao.Payload.Dados.PrefixoProxy.ToString());
+                                    await _rabbitMqProducer.PublishMessageAsync("contatosPorPrefixo", new { Id = requisicao.Id, resultPrefixo.Contatos });///TODO: VERIFICAR RETORNO
 
                                     break;
                             }

@@ -53,10 +53,9 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
 {
     return new ConnectionFactory
     {
-        HostName = "host.docker.internal",
+        HostName = "localhost",
         UserName = "guest",
-        Password = "guest",
-        Port = 5672
+        Password = "guest"   
     };
 });
 builder.Services.AddSingleton<IConnection>(sp =>

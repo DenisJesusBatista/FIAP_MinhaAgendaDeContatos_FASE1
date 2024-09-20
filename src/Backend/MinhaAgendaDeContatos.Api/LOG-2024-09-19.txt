@@ -1,0 +1,2 @@
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila recuperarPorId: {"Id":"a8b8b19f-ca12-44fa-a797-0a7d52babcd2-638623881091605310","Payload":{"Acao":"RecuperarPorId","Dados":{"Id":1,"Nome":"","NomeNovo":"","Email":"","EmailNovo":"","TelefoneProxy":0,"PrefixoProxy":0}}}

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorId;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Infraestrutura.RabbitMqClient;
@@ -27,82 +28,7 @@ namespace MinhaAgendaDeContatos.Consumidor
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
         }
-
-        #region ExecuteAsync antigo
-        //protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        //{
-        //    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-
-        //    using (var scope = _serviceScopeFactory.CreateScope())
-        //    {
-        //        var rabbitMqService = scope.ServiceProvider.GetRequiredService<IRabbitMqService>();
-        //        var registrarContatoUseCase = scope.ServiceProvider.GetRequiredService<IRegistrarContatoUseCase>();
-
-        //        using var channel = rabbitMqService.CreateChannel();
-
-        //        // Declare all queues
-        //        var queues = new[] { "registrarContato", "recuperarPorPrefixo", "recuperarPorId", "recuperarTodosContatos", "DelecaoContato", "AlteracaoContato" };
-        //        foreach (var queue in queues)
-        //        {
-        //            channel.QueueDeclare(
-        //                queue: queue,
-        //                durable: false,
-        //                exclusive: false,
-        //                autoDelete: false,
-        //                arguments: null
-        //            );
-        //        }
-
-        //        var consumer = new EventingBasicConsumer(channel);
-
-        //        consumer.Received += async (model, ea) =>
-        //        {
-        //            var body = ea.Body.ToArray();
-        //            var message = Encoding.UTF8.GetString(body);
-
-        //            _logger.LogInformation("Mensagem recebida: {message}", message);
-
-        //            try
-        //            {
-        //                // Processar a mensagem conforme a fila
-        //                var requisicao = JsonSerializer.Deserialize<RequisicaoRegistrarContatoJson>(message);
-        //                if (requisicao != null)
-        //                {
-        //                    switch (ea.RoutingKey)
-        //                    {
-        //                        case "registrarContato":
-        //                            await registrarContatoUseCase.Executar(requisicao);
-        //                            break;
-        //                            // Adicionar outros casos conforme necessário
-        //                    }
-        //                    channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-        //                }
-        //                else
-        //                {
-        //                    _logger.LogWarning("Mensagem recebida é nula ou inválida.");
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                _logger.LogError(ex, "Erro ao processar mensagem.");
-        //                channel.BasicNack(deliveryTag: ea.DeliveryTag, multiple: false, requeue: true);
-        //            }
-        //        };
-
-        //        foreach (var queue in queues)
-        //        {
-        //            channel.BasicConsume(
-        //                queue: queue,
-        //                autoAck: false, // Use autoAck: false para reconhecimento manual
-        //                consumer: consumer
-        //            );
-        //        }
-
-        //        await Task.Delay(Timeout.Infinite, stoppingToken);
-        //    }
-        //}
-        #endregion
-
+       
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Worker iniciado às: {time}", DateTimeOffset.Now);
@@ -111,6 +37,7 @@ namespace MinhaAgendaDeContatos.Consumidor
             {
                 var rabbitMqService = scope.ServiceProvider.GetRequiredService<IRabbitMqService>();
                 var registrarContatoUseCase = scope.ServiceProvider.GetRequiredService<IRegistrarContatoUseCase>();
+                var recuperarPorIdUseCase = scope.ServiceProvider.GetRequiredService<IRecuperarPorIdUseCase>();                
 
                 using var channel = rabbitMqService.CreateChannel();
 
@@ -150,16 +77,18 @@ namespace MinhaAgendaDeContatos.Consumidor
                             {
                                 case "registrarContato":
 
-                                    var result = await registrarContatoUseCase.Executar(requisicao.Payload.Dados);
+                                    var resultRegistrar = await registrarContatoUseCase.Executar(requisicao.Payload.Dados);
+                                    var messageResult = new { Id = requisicao.Id, resultRegistrar };
 
-                                    var messageResult = new { Id = requisicao.Id, result };
-                                    var queueName = "contatosRegistrados";
-
-                                    await _rabbitMqProducer.PublishMessageAsync(queueName, message);
+                                    await _rabbitMqProducer.PublishMessageAsync("contatosRegistrados", message);
 
                                     break;
 
                                 case "recuperarPorId":
+
+                                   var resultRecuperarId = await recuperarPorIdUseCase.Executar(requisicao.Payload.Dados.Id);
+
+                                   await _rabbitMqProducer.PublishMessageAsync("contatoPorId", message);
 
                                     break;
                             }

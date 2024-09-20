@@ -3,9 +3,10 @@
 namespace MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 public class RequisicaoRegistrarContatoJson
 {
-    [JsonIgnore]
+    //[JsonIgnore]
     public int Id { get; set; }    
     public string Nome { get; set; } = string.Empty;
+    //[JsonIgnore]
     public string NomeNovo { get; set; } = string.Empty;
     private string _email = string.Empty;
     public string Email
@@ -21,6 +22,7 @@ public class RequisicaoRegistrarContatoJson
     }
 
     private string _emailNovo = string.Empty;
+    //[JsonIgnore]
     public string EmailNovo
     {
         get

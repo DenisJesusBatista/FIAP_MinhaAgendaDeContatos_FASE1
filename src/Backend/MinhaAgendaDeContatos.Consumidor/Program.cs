@@ -19,6 +19,7 @@ using RabbitMQ.Client;
 using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 using MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer;
 using Microsoft.Extensions.Logging;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorId;
 
 class Program
 {
@@ -109,6 +110,7 @@ class Program
                 services.AddScoped<IContatoWriteOnlyRepositorio, ContatoRepositorio>();
                 services.AddScoped<IUnidadeDeTrabalho, UnidadeDeTrabalho>();
                 services.AddScoped<IRegistrarContatoUseCase, RegistrarContatoUseCase>();
+                services.AddScoped<IRecuperarPorIdUseCase, RecuperarPorIdUseCase>();
 
                 services.AddHostedService<Worker>();
 

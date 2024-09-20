@@ -19,15 +19,24 @@ public class DeletarContatoUseCase : IDeletarContatoUseCase
         _unidadeDeTrabalho = unidadeDeTrabalho;
     }
 
-    public async Task Executar(string email)
+    public async Task<bool> Executar(string email)
     {
-        var contato = await _repositorioReadOnly.RecuperarPorEmail(email);
+        try
+        {
+            var contato = await _repositorioReadOnly.RecuperarPorEmail(email);
 
-        Validar(contato);
+            Validar(contato);
 
-        await _repositorioWriteOnly.Deletar(email);
+            await _repositorioWriteOnly.Deletar(email);
 
-        await _unidadeDeTrabalho.Commit();
+            await _unidadeDeTrabalho.Commit();
+
+            return true;
+        }
+        catch 
+        {
+            return false;
+        }        
     }
 
     public static void Validar(Domain.Entidades.Contato contato)

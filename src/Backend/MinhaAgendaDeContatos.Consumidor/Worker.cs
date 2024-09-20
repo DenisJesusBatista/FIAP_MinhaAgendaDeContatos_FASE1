@@ -101,8 +101,8 @@ namespace MinhaAgendaDeContatos.Consumidor
 
                                 case "DelecaoContato":
 
-                                    await deletarContatoUseCase.Executar(requisicao.Payload.Dados.Email); ///TODO: MUDAR RETORNO PARA BOOL PARA CONFIRMACAO DO DELETE                                    
-                                    await _rabbitMqProducer.PublishMessageAsync("contatosDeletados", new { Id = requisicao.Id, requisicao.Payload.Dados });
+                                    var resultDelete = await deletarContatoUseCase.Executar(requisicao.Payload.Dados.Email); 
+                                    await _rabbitMqProducer.PublishMessageAsync("contatosDeletados", new { Id = requisicao.Id, resultDelete });
 
                                     break;
 
@@ -115,8 +115,15 @@ namespace MinhaAgendaDeContatos.Consumidor
 
                                 case "AlteracaoContato":
 
-                                    //await updateContatoUseCase.Executar(requisicao.Payload.Dados); ///TODO: enviar objeto solicitado pelo metodo 
-                                    await _rabbitMqProducer.PublishMessageAsync("contatosAtualizados", new { Id = requisicao.Id, requisicao.Payload.Dados });///TODO: MUDAR RETORNO PARA BOOL PARA CONFIRMACAO DO UPDATE
+                                    await updateContatoUseCase.Executar(new RequisicaoAlterarContatoJson
+                                    {
+                                        ContatoAtual = requisicao.Payload.Dados.Nome,
+                                        ContatoNovo = requisicao.Payload.Dados.NomeNovo,
+                                        EmailAtual = requisicao.Payload.Dados.Email,
+                                        EmailNovo = requisicao.Payload.Dados.EmailNovo
+
+                                    }); 
+                                    await _rabbitMqProducer.PublishMessageAsync("contatosAtualizados", new { Id = requisicao.Id, requisicao.Payload.Dados });
                                     break;
 
                                 case "recuperarPorPrefixo":

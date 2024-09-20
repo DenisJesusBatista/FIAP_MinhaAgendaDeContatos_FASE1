@@ -1,0 +1,4 @@
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila recuperarPorId: {"Id":"24d5e408-3359-4ed0-a6c1-95d11bb36991-638624498610241411","Payload":{"Acao":"RecuperarPorId","Dados":{"Id":1,"Nome":"","NomeNovo":"","Email":"","EmailNovo":"","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"18492529-45e7-4854-bafe-756cc89fcc89-638624504121424009","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"filipe","NomeNovo":"string","Email":"filipe1@gmail.com","EmailNovo":"string","TelefoneProxy":11,"PrefixoProxy":98036651}}}

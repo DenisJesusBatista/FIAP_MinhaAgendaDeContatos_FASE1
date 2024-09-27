@@ -2,3 +2,101 @@ Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
 Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"7827a7a2-7264-40e3-9c23-9e4bf49286a6-638630465692457434","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"gislaine","NomeNovo":"","Email":"gislaine@gmail.com","EmailNovo":"","TelefoneProxy":999887755,"PrefixoProxy":31}}}
 Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"8ef43029-8846-46f5-b723-18cc5cf7eb73-638630466504255062","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"denis","NomeNovo":"","Email":"denis@gmail.com","EmailNovo":"","TelefoneProxy":999887555,"PrefixoProxy":31}}}
 Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"1d6d01ea-9a21-44ec-84bc-e148526abc6e-638630467207117175","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"denisTeste","NomeNovo":"","Email":"denisteste@gmail.com","EmailNovo":"","TelefoneProxy":999587555,"PrefixoProxy":31}}}
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 (not applied)
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrating
+Log de Execução Information: FluentMigrator.Runner - Beginning Transaction
+Log de Execução Information: 0 - Tabela 'Contatos' criada com sucesso.
+Log de Execução Information: 0 - Tabela 'DDDRegiao' criada com sucesso.
+Log de Execução Information: 0 - Dados de casdastro de DDDRegiao inserido com sucesso.
+Log de Execução Information: FluentMigrator.Runner - CreateTable Contatos
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+Log de Execução Error: 0 - An error occurred executing the following sql:
+CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+The error was 42P07: relation "Contatos" already exists
+
+Log de Execução Information: FluentMigrator.Runner - Rolling back transaction
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 (not applied)
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrating
+Log de Execução Information: FluentMigrator.Runner - Beginning Transaction
+Log de Execução Information: 0 - Tabela 'Contatos' criada com sucesso.
+Log de Execução Information: 0 - Tabela 'DDDRegiao' criada com sucesso.
+Log de Execução Information: 0 - Dados de casdastro de DDDRegiao inserido com sucesso.
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila contatosTodos: {"Id":"af0c6df7-6674-4728-ae1a-3182bd4f78a3-638630761458352567","Payload":{"Id":"82c1c9f7-8ba7-492c-9e44-30e1e370cb97-638630734725440405","Contatos":[{"Id":-832666413,"DataCriacao":"2024-09-27T23:17:00.125773","Nome":"Books","Email":"bridget_monahan@hotmail.com","Telefone":"88888888","Prefixo":null,"DDDRegiao":{"Id":31,"Prefixo":"99","Regiao":"NE","Estado":"CE"}}]}}
+Log de Execução Information: FluentMigrator.Runner - CreateTable Contatos
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+Log de Execução Error: 0 - An error occurred executing the following sql:
+CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+The error was 42P07: relation "Contatos" already exists
+
+Log de Execução Information: FluentMigrator.Runner - Rolling back transaction
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 (not applied)
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrating
+Log de Execução Information: FluentMigrator.Runner - Beginning Transaction
+Log de Execução Information: 0 - Tabela 'Contatos' criada com sucesso.
+Log de Execução Information: 0 - Tabela 'DDDRegiao' criada com sucesso.
+Log de Execução Information: 0 - Dados de casdastro de DDDRegiao inserido com sucesso.
+Log de Execução Information: FluentMigrator.Runner - CreateTable Contatos
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+Log de Execução Error: 0 - An error occurred executing the following sql:
+CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+The error was 42P07: relation "Contatos" already exists
+
+Log de Execução Information: FluentMigrator.Runner - Rolling back transaction
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 (not applied)
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrating
+Log de Execução Information: FluentMigrator.Runner - Beginning Transaction
+Log de Execução Information: 0 - Tabela 'Contatos' criada com sucesso.
+Log de Execução Information: 0 - Tabela 'DDDRegiao' criada com sucesso.
+Log de Execução Information: 0 - Dados de casdastro de DDDRegiao inserido com sucesso.
+Log de Execução Information: FluentMigrator.Runner - CreateTable Contatos
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+Log de Execução Error: 0 - An error occurred executing the following sql:
+CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+The error was 42P07: relation "Contatos" already exists
+
+Log de Execução Information: FluentMigrator.Runner - Rolling back transaction
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 (not applied)
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrating
+Log de Execução Information: FluentMigrator.Runner - Beginning Transaction
+Log de Execução Information: 0 - Tabela 'Contatos' criada com sucesso.
+Log de Execução Information: 0 - Tabela 'DDDRegiao' criada com sucesso.
+Log de Execução Information: 0 - Dados de casdastro de DDDRegiao inserido com sucesso.
+Log de Execução Information: FluentMigrator.Runner - CreateTable Contatos
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+Log de Execução Error: 0 - An error occurred executing the following sql:
+CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+The error was 42P07: relation "Contatos" already exists
+
+Log de Execução Information: FluentMigrator.Runner - Rolling back transaction
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 (not applied)
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrating
+Log de Execução Information: FluentMigrator.Runner - Beginning Transaction
+Log de Execução Information: 0 - Tabela 'Contatos' criada com sucesso.
+Log de Execução Information: 0 - Tabela 'DDDRegiao' criada com sucesso.
+Log de Execução Information: 0 - Dados de casdastro de DDDRegiao inserido com sucesso.
+Log de Execução Information: FluentMigrator.Runner - CreateTable Contatos
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+Log de Execução Error: 0 - An error occurred executing the following sql:
+CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+The error was 42P07: relation "Contatos" already exists
+
+Log de Execução Information: FluentMigrator.Runner - Rolling back transaction
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 (not applied)
+Log de Execução Information: FluentMigrator.Runner - 1: Versao0000001 migrating
+Log de Execução Information: FluentMigrator.Runner - Beginning Transaction
+Log de Execução Information: 0 - Tabela 'Contatos' criada com sucesso.
+Log de Execução Information: 0 - Tabela 'DDDRegiao' criada com sucesso.
+Log de Execução Information: 0 - Dados de casdastro de DDDRegiao inserido com sucesso.
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\Users\jessi\Desktop\Alexandre\Warmup Pos\FIAP_MinhaAgendaDeContatos_FASE1\src\Backend\MinhaAgendaDeContatos.Api
+Log de Execução Information: FluentMigrator.Runner - CreateTable Contatos
+Log de Execução Information: FluentMigrator.Runner - CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+Log de Execução Error: 0 - An error occurred executing the following sql:
+CREATE TABLE "public"."Contatos" ("Id" bigserial NOT NULL, "DataCriacao" timestamp NOT NULL, "Nome" varchar(100) NOT NULL, "Email" text NOT NULL, "Telefone" varchar(14) NOT NULL, "Prefixo" varchar(14) NOT NULL, CONSTRAINT "PK_Contatos" PRIMARY KEY ("Id"));
+The error was 42P07: relation "Contatos" already exists
+
+Log de Execução Information: FluentMigrator.Runner - Rolling back transaction
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila contatosDeletados: {"Id":"90d94801-0990-48e0-8c42-3535abbd9fd9-638630768395060558","Payload":{"Id":"2fb43aac-fde4-4569-9ee5-b111b7db55ab-638630767179143564","resultDelete":true}}

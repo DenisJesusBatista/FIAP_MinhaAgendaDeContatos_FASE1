@@ -14,6 +14,21 @@ using Prometheus;
 using RabbitMQ.Client;
 using System.Reflection;
 using System;
+using FluentMigrator.Runner;
+using Microsoft.Extensions.Options;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.Deletar;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorId;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorPrefixo;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarTodos;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
+using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
+using MinhaAgendaDeContatos.Consumidor.RabbitMqConsumer;
+using MinhaAgendaDeContatos.Consumidor;
+using MinhaAgendaDeContatos.Domain.Repositorios;
+using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
+using MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio;
+using MinhaAgendaDeContatos.Infraestrutura.RabbitMqClient;
+using MinhaAgendaDeContatos.Produtor.RabbitMqSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +62,74 @@ builder.Services.AddSwaggerGen(c =>
 
 // Configurar RabbitMQ
 builder.Services.AddSingleton<IRabbitMqProducer, RabbitMqProducer>();
+builder.Services.AddHostedService<MinhaAgendaDeContatos.Consumidor.Worker>();
+
+
+
+// Registrar as configurações do RabbitMQ
+builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection("RabbitMQ"));
+
+// Registrar serviços do RabbitMQ
+builder.Services.AddSingleton<IRabbitMqService, RabbitMqService>();
+
+// Registrar o canal RabbitMQ (IModel) após configurar o RabbitMQSettings
+builder.Services.AddSingleton<IModel>(sp =>
+{
+    var settings = sp.GetRequiredService<IOptions<RabbitMqSettings>>().Value;
+    var factory = new ConnectionFactory
+    {
+        HostName = settings.HostName,
+        Port = settings.Port,
+        UserName = settings.UserName,
+        Password = settings.Password,
+        VirtualHost = settings.VirtualHost
+    };
+
+    try
+    {
+        var connection = factory.CreateConnection();
+        return connection.CreateModel(); // Criar e retornar o canal (IModel)
+    }
+    catch (Exception ex)
+    {
+        // Registrar o erro e relançar se necessário
+        var logger = sp.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Falha ao criar o canal RabbitMQ");
+        throw;
+    }
+});
+
+// Registrar o RabbitMqProducer
+builder.Services.AddSingleton<IRabbitMqProducer>(sp =>
+{
+    var channel = sp.GetRequiredService<IModel>();
+    var logger = sp.GetRequiredService<ILogger<RabbitMqProducer>>();
+    return new RabbitMqProducer(channel, logger);
+});
+
+// Registrar o RabbitMqConsumer
+builder.Services.AddSingleton<IRabbitMqConsumer>(sp =>
+{
+    var channel = sp.GetRequiredService<IModel>();
+    var logger = sp.GetRequiredService<ILogger<RabbitMqConsumer>>();
+    return new RabbitMqConsumer(channel, logger);
+});
+
+// Registrar outros serviços
+builder.Services.AddScoped<IContatoReadOnlyRepositorio, ContatoRepositorio>();
+builder.Services.AddScoped<IContatoWriteOnlyRepositorio, ContatoRepositorio>();
+builder.Services.AddScoped<IUnidadeDeTrabalho, UnidadeDeTrabalho>();
+builder.Services.AddScoped<IRegistrarContatoUseCase, RegistrarContatoUseCase>();
+builder.Services.AddScoped<IRecuperarPorIdUseCase, RecuperarPorIdUseCase>();
+builder.Services.AddScoped<IDeletarContatoUseCase, DeletarContatoUseCase>();
+builder.Services.AddScoped<IRecuperarTodosContatosUseCase, RecuperarTodosContatosUseCase>();
+builder.Services.AddScoped<IUpdateContatoUseCase, UpdateContatoUseCase>();
+builder.Services.AddScoped<IRecuperarPorPrefixoUseCase, RecuperarPorPrefixoUseCase>();
+
+builder.Services.AddHostedService<Worker>();
+
+// Configurar AutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 // Configurar o factory e conexão RabbitMQ
 builder.Services.AddSingleton<IConnectionFactory>(sp =>

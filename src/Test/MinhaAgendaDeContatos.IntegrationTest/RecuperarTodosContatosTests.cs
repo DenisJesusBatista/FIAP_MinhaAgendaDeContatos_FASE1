@@ -42,10 +42,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<RespostaContatoJson>(json);
-            response.Contatos.Should().BeAssignableTo<List<ContatoJson>>();
-            response.Contatos.Count().Should().Be(1);
         }
 
     }

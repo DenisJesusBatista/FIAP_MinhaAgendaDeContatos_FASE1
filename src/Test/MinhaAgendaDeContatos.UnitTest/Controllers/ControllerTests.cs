@@ -1,7 +1,9 @@
 ﻿using AutoBogus;
 using Bogus;
+using Castle.Core.Logging;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MinhaAgendaDeContatos.Api.Controllers;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Deletar;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.RecuperarPorId;
@@ -12,6 +14,7 @@ using MinhaAgendaDeContatos.Application.UseCases.Contato.Update;
 using MinhaAgendaDeContatos.Application.UseCases.DDDRegiao.RecuperarPorPrefixo;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Comunicacao.Resposta;
+using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 using Moq;
 using System.Net;
 
@@ -27,6 +30,7 @@ namespace MinhaAgendaDeContatos.UnitTest.Controllers
         private readonly Mock<IUpdateContatoUseCase> _updateUseCase;
         private readonly Mock<IRecuperarDDDRegiaoPorPrefixoUseCase> _recuperarRegiaoUseCase;
         private readonly ContatoController _controller;
+        private readonly Mock<IRabbitMqProducer> _producer;
 
         public ControllerTests()
         {
@@ -37,7 +41,8 @@ namespace MinhaAgendaDeContatos.UnitTest.Controllers
             _deletarUseCase = new Mock<IDeletarContatoUseCase>();
             _updateUseCase = new Mock<IUpdateContatoUseCase>();
             _recuperarRegiaoUseCase = new Mock<IRecuperarDDDRegiaoPorPrefixoUseCase>();
-            _controller = new ContatoController();
+            _producer = new Mock<IRabbitMqProducer>();
+            _controller = new ContatoController(_producer.Object, new Mock<ILogger<ContatoController>>().Object);
         }
 
         [Fact]
@@ -47,10 +52,10 @@ namespace MinhaAgendaDeContatos.UnitTest.Controllers
             var request = new AutoFaker<RequisicaoRegistrarContatoJson>().Generate();
 
             //Act
-            var result = await _controller.RegistrarContato(_registrarUseCase.Object, request);
+            var result = await _controller.RegistrarContato(request);
 
             //Assert
-            _registrarUseCase.Verify(x => x.Executar(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Once);
+            _producer.Verify(x => x.PublishMessageAsync(It.IsAny<string>(), It.IsAny<Object>()), Times.Once);
         }
 
 
@@ -58,18 +63,14 @@ namespace MinhaAgendaDeContatos.UnitTest.Controllers
         public async Task RecuperarPorPrefixo_Deve_Chamar_UseCase_E_Retornar_Ok_Com_Tipo_Correto()
         {
             //Arrange
-            var prefixo = new Faker().Random.String();
-
-            var useCaseResult = new AutoFaker<RespostaContatoJson>().Generate();
-            _recuperarUseCase.Setup(x => x.Executar(It.IsAny<string>())).ReturnsAsync(useCaseResult);
+            var prefixo = new Faker().Random.Int().ToString();
 
             //Act
-            var result = (OkObjectResult)await _controller.RecuperarPorPrefixo(_recuperarUseCase.Object, prefixo);
+            var result = (OkObjectResult)await _controller.RecuperarPorPrefixo(prefixo);
 
             //Assert
-            _recuperarUseCase.Verify(x => x.Executar(It.IsAny<string>()), Times.Once);
+            _producer.Verify(x => x.PublishMessageAsync(It.IsAny<string>(), It.IsAny<Object>()), Times.Once);
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            result.Value.Should().BeOfType<RespostaContatoJson>();
         }
 
         [Fact]
@@ -78,47 +79,39 @@ namespace MinhaAgendaDeContatos.UnitTest.Controllers
             //Arrange
             int id = new Faker().Random.Int();
 
-            var useCaseResult = new AutoFaker<RespostaContatoJson>().Generate();
-            _recuperarIdUseCase.Setup(x => x.Executar(It.IsAny<int>())).ReturnsAsync(useCaseResult);
-
             //Act
-            var result = (OkObjectResult)await _controller.RecuperarPorId(_recuperarIdUseCase.Object, id);
-
+            var result = (OkObjectResult)await _controller.RecuperarPorId(id);
 
             //Assert
-            _recuperarIdUseCase.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _producer.Verify(x => x.PublishMessageAsync(It.IsAny<string>(), It.IsAny<Object>()), Times.Once);
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            result.Value.Should().BeOfType<RespostaContatoJson>();
         }
 
         [Fact]
         public async Task RecuperarTodosContatos_Deve_Chamar_UseCase_E_Retornar_Ok_Com_Tipo_Correto()
         {
             //Arrange
-            var useCaseResult = new AutoFaker<RespostaContatoJson>().Generate();
-            _recuperarTodosUseCase.Setup(x => x.Executar()).ReturnsAsync(useCaseResult);
 
             //Act
-            var result = (OkObjectResult)await _controller.RecuperarTodosContatos(_recuperarTodosUseCase.Object);
+            var result = (OkObjectResult)await _controller.RecuperarTodosContatos();
 
             //Assert
-            _recuperarTodosUseCase.Verify(x => x.Executar(), Times.Once);
+            _producer.Verify(x => x.PublishMessageAsync(It.IsAny<string>(), It.IsAny<Object>()), Times.Once);
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            result.Value.Should().BeOfType<RespostaContatoJson>();
         }
 
         [Fact]
-        public async Task Deletar_Deve_Chamar_UseCase_E_Retornar_NoContent()
+        public async Task Deletar_Deve_Produzir_Evento_E_Retornar_NoContent()
         {
             //Arrange
             var email = new Faker().Random.String();
 
             //Act
-            var result = (OkObjectResult)await _controller.Deletar(_deletarUseCase.Object, email);
+            var result = (NoContentResult)await _controller.Deletar(email);
 
             //Assert
-            _deletarUseCase.Verify(x => x.Executar(It.IsAny<string>()), Times.Once);
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            _producer.Verify(x => x.PublishMessageAsync(It.IsAny<string>(), It.IsAny<Object>()), Times.Once);
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
         }
 
         [Fact]
@@ -128,10 +121,10 @@ namespace MinhaAgendaDeContatos.UnitTest.Controllers
             var request = new AutoFaker<RequisicaoAlterarContatoJson>().Generate();
 
             //Act
-            var result = (NoContentResult)await _controller.UpdateContato(_updateUseCase.Object, request);
+            var result = (NoContentResult)await _controller.UpdateContato(request);
 
             //Assert
-            _updateUseCase.Verify(x => x.Executar(It.IsAny<RequisicaoAlterarContatoJson>()), Times.Once);
+            _producer.Verify(x => x.PublishMessageAsync(It.IsAny<string>(), It.IsAny<Object>()), Times.Once);
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
         }
     }

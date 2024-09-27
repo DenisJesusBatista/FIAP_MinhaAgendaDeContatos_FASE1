@@ -17,8 +17,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Dapper;
 using Xunit;
-using MinhaAgendaDeContatos.Api; // Atualize para o namespace correto
-
+using MinhaAgendaDeContatos.Api;
+using MinhaAgendaDeContatos.Domain.Entidades;
 namespace MinhaAgendaDeContatos.IntegrationTest
 {
 
@@ -114,6 +114,25 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 
 
             await conn.ExecuteAsync(command);
+        }
+
+        public async Task<IEnumerable<Contato>> GetByEmail(string email)
+        {
+            var dbService = _services.Services.FirstOrDefault(s => s.Name == "/postgres");
+            var connectionString = "Server=localhost;Port=5432;Database=minhaagenda;User Id=postgres;Password=postgres;";
+
+
+            using var conn = new NpgsqlConnection(connectionString);
+            await conn.OpenAsync();
+
+            var command = @"	
+                                SELECT * 
+                                FROM  public.""Contatos""
+                                WHERE ""Contatos"".""Email"" = @email
+                            ";
+
+
+            return await conn.QueryAsync<Contato>(command, new {email = email});
         }
 
         public override ValueTask DisposeAsync()

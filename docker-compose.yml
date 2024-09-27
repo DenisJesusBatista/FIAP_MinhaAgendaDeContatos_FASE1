@@ -48,7 +48,8 @@ services:
  # RABBITMQ
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:management
+    ##image: rabbitmq:management
+    image: rabbitmq:3.13.7-management
     ports:
       - 5672:5672
       - 15672:15672
@@ -62,6 +63,34 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+      
+  # PGADMIN4  
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: pgadmin_4
+    restart: unless-stopped # A não ser que o container pare, restart nas falhas
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: dev
+      PGADMIN_SERVER_MODE: "False" # Desabilita o modo servidor para configuração automática
+      PGADMIN_SERVER_JSON_CONFIG: | # Configuração automática do servidor
+        {
+          "Servers": {
+            "1": {
+              "Name": "minhaagenda",
+              "Group": "Grupo 1",
+              "Host": "minhaagenda-database",
+              "Port": 5432,
+              "Username": "postgres",
+              "Password": "postgres",
+              "SSLMode": "prefer"
+            }
+          }
+        }
+    ports: 
+      - 15432:80
+    networks: 
+      - mynw
 
   # PROMETHEUS
   prometheus:

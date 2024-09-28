@@ -42,5 +42,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             jsonResponse.Should().Be(ResponseMessages.ContatoCriado);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
     }
 }

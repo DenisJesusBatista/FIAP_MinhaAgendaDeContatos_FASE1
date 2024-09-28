@@ -143,9 +143,11 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
 });
 builder.Services.AddSingleton<IConnection>(sp =>
 {
+    Thread.Sleep(20000);
     var factory = sp.GetRequiredService<IConnectionFactory>();
     return factory.CreateConnection();
 });
+
 builder.Services.AddSingleton<IModel>(sp =>
 {
     var connection = sp.GetRequiredService<IConnection>();

@@ -132,7 +132,7 @@ namespace MinhaAgendaDeContatos.IntegrationTest
                             ";
 
 
-            return await conn.QueryAsync<Contato>(command, new {email = email});
+            return await conn.QueryAsync<Contato>(command, new {email = email.ToLower()});
         }
 
         public override ValueTask DisposeAsync()

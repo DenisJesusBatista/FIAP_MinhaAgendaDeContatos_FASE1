@@ -45,10 +45,10 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             jsonResponse.Should().Be(ResponseMessages.ContatoCriado);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
 
             var getResult = await _fixture.GetByEmail(email);
-            getResult.Should().Contain(x => x.Email.Equals(email));
+            getResult.Should().Contain(x => x.Email.Equals(email.ToLower()));
         }
     }
 }

@@ -32,7 +32,9 @@
     <ProjectReference Include="..\..\Shared\MinhaAgendaDeContatos.Comunicacao\MinhaAgendaDeContatos.Comunicacao.csproj" />
     <ProjectReference Include="..\..\Shared\MinhaAgendaDeContatos.Exceptions\MinhaAgendaDeContatos.Exceptions.csproj" />
     <ProjectReference Include="..\MinhaAgendaDeContatos.Application\MinhaAgendaDeContatos.Application.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Consumidor\MinhaAgendaDeContatos.Consumidor.csproj" />
     <ProjectReference Include="..\MinhaAgendaDeContatos.Infraestrutura\MinhaAgendaDeContatos.Infraestrutura.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Produtor\MinhaAgendaDeContatos.Produtor.csproj" />
   </ItemGroup>
 
   <ItemGroup>

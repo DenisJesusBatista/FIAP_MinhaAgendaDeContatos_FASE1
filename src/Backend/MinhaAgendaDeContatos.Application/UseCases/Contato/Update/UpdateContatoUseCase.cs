@@ -21,21 +21,30 @@ public class UpdateContatoUseCase : IUpdateContatoUseCase
         _unidadeDeTrabalho = unidadeDeTrabalho;
     }
 
-    public async Task Executar(RequisicaoAlterarContatoJson requisicao)
+    public async Task<bool> Executar(RequisicaoAlterarContatoJson requisicao)
     {
+        try
+        {
+            var contato = await _repositorioReadOnly.RecuperarPorEmail(requisicao.EmailAtual);
 
-        var contato = await _repositorioReadOnly.RecuperarPorEmail(requisicao.EmailAtual);
+            Validar(contato);
 
-        Validar(contato);
+            contato.Email = (string.IsNullOrEmpty(requisicao.EmailNovo) || requisicao.EmailNovo == "string") ? contato.Email : requisicao.EmailNovo;
+            contato.Telefone = (string.IsNullOrEmpty(requisicao.ContatoNovo) || requisicao.ContatoNovo == "string") ? contato.Telefone : requisicao.ContatoNovo;
 
-        contato.Email = (string.IsNullOrEmpty(requisicao.EmailNovo) || requisicao.EmailNovo == "string") ? contato.Email : requisicao.EmailNovo;
-        contato.Telefone = (string.IsNullOrEmpty(requisicao.ContatoNovo) || requisicao.ContatoNovo == "string") ? contato.Telefone : requisicao.ContatoNovo;
+            contato.DataCriacao = contato.DataCriacao.ToUniversalTime();
 
-        contato.DataCriacao = contato.DataCriacao.ToUniversalTime();
+            await _repositorioWriteOnly.Update(contato);
 
-        await _repositorioWriteOnly.Update(contato);
+            await _unidadeDeTrabalho.Commit();
 
-        await _unidadeDeTrabalho.Commit();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+       
     }
 
     public static void Validar(Domain.Entidades.Contato contato)

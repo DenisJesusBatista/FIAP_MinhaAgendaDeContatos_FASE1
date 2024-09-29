@@ -1,26 +1,25 @@
-services:  
-  
- #DATABASE
+services:
+  # DATABASE
   minhaagenda-database:
     container_name: minhaagenda-database
     image: postgres:latest
     ports:
       - 5432:5432
     volumes: 
-    - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: postgres # The PostgreSQL user (useful to connect to the database)
-      POSTGRES_PASSWORD: postgres # The PostgreSQL password (useful to connect to the database)
-      POSTGRES_DB: minhaagenda # The PostgreSQL default database (automatically created at first launch)
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: minhaagenda
     networks:
-       - mynw
+      - mynw
     healthcheck:
-       test: ["CMD-SHELL", "pg_isready -U postgres"]       
-       interval: 30s 
-       timeout: 10s 
-       retries: 5
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-  #API
+  # API
   minhaagenda:
     container_name: minhaagenda
     image: ${DOCKER_REGISTRY-}minhaagenda
@@ -30,19 +29,70 @@ services:
       context: .
       dockerfile: /src/Backend/MinhaAgendaDeContatos.Api/Dockerfile
     depends_on:
-     minhaagenda-database:
-      condition: service_healthy
+      minhaagenda-database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     environment:
-       ASPNETCORE_ENVIRONMENT: Development
-       DB_HOST: localhost
-       DB_PORT: 5432
-       DB_USER: postgres
-       DB_PASSWORD: postgres
-       DB_NAME: minhaagenda
+      ASPNETCORE_ENVIRONMENT: Development
+      DB_HOST: minhaagenda-database
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: minhaagenda
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
     networks:
       - mynw
 
-  #PROMETHEUS
+ # RABBITMQ
+  rabbitmq:
+    container_name: rabbitmq
+    ##image: rabbitmq:management
+    image: rabbitmq:3.13.7-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - mynw
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmqctl status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      
+  # PGADMIN4  
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: pgadmin_4
+    restart: unless-stopped # A não ser que o container pare, restart nas falhas
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: dev
+      PGADMIN_SERVER_MODE: "False" # Desabilita o modo servidor para configuração automática
+      PGADMIN_SERVER_JSON_CONFIG: | # Configuração automática do servidor
+        {
+          "Servers": {
+            "1": {
+              "Name": "minhaagenda",
+              "Group": "Grupo 1",
+              "Host": "minhaagenda-database",
+              "Port": 5432,
+              "Username": "postgres",
+              "Password": "postgres",
+              "SSLMode": "prefer"
+            }
+          }
+        }
+    ports: 
+      - 15432:80
+    networks: 
+      - mynw
+
+  # PROMETHEUS
   prometheus:
     container_name: prometheus
     image: prom/prometheus
@@ -56,7 +106,7 @@ services:
     networks:
       - mynw
 
-  #GRAFANA
+  # GRAFANA
   grafana:
     image: grafana/grafana
     ports:
@@ -71,8 +121,8 @@ services:
       - mynw
 
 volumes:
- postgres_data:
+  postgres_data:
 
 networks:
   mynw:
-   driver: bridge  
+    driver: bridge

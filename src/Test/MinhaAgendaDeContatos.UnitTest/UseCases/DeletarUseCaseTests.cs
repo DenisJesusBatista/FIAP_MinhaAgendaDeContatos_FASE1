@@ -41,17 +41,17 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
         }
 
         [Fact]
-        public async Task Executar_Deve_Retornar_Erro_Quando_Contato_Nao_Existe()
+        public async Task Executar_Deve_Retornar_False_Quando_Contato_Nao_Existe()
         {
             //Arrange
             var email = new Faker().Random.String();
             _repositorioReadOnly.Setup(x => x.RecuperarPorEmail(It.IsAny<string>())).ReturnsAsync(null as Contato);
 
             //Act
-            var action = async () => await _useCase.Executar(email);
+            var result = await _useCase.Executar(email);
 
             //Assert
-            await action.Should().ThrowAsync<ErrosDeValidacaoException>();
+            result.Should().BeFalse();
             _repositorioReadOnly.Verify(x => x.RecuperarPorEmail(It.IsAny<string>()), Times.Once);
             _repositorioWriteOnly.Verify(x => x.Deletar(It.IsAny<string>()), Times.Never);
             _unidadeDeTrabalho.Verify(x => x.Commit(), Times.Never);

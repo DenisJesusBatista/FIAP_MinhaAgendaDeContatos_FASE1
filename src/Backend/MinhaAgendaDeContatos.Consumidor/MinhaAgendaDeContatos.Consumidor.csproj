@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-MinhaAgendaDeContatos.Consumidor-08a69adb-6772-4939-bb5f-47f6cc9f03d2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Application\MinhaAgendaDeContatos.Application.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Infraestrutura\MinhaAgendaDeContatos.Infraestrutura.csproj" />
+    <ProjectReference Include="..\MinhaAgendaDeContatos.Produtor\MinhaAgendaDeContatos.Produtor.csproj" />
+  </ItemGroup>
+</Project>

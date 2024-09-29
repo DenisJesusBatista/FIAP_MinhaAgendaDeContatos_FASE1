@@ -23,6 +23,11 @@ jobs:
       with:
         dotnet-version: 7.0.x
 
+    - name: Install Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker-compose
+
     - name: Restore dependencies
       run: dotnet restore
     - name: Build

@@ -54,7 +54,7 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
         }
 
         [Fact]
-        public async Task Executar_Deve_Retornar_Erro_Quando_Contato_Ja_Existente()
+        public async Task Executar_Deve_Retornar_Falso_Quando_Contato_Ja_Existente()
         {
             //Arrange
             var requisicao = new AutoFaker<RequisicaoRegistrarContatoJson>()
@@ -65,10 +65,10 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
             _contatoReadOnlyRepositorio.Setup(x => x.ExisteUsuarioComEmail(It.IsAny<string>())).ReturnsAsync(true);
 
             //Act
-            var action = async () => await _useCase.Executar(requisicao);
+            var result = await _useCase.Executar(requisicao);
 
             //Assert
-            await action.Should().ThrowAsync<ErrosDeValidacaoException>();
+            result.Should().BeFalse();
             _mapper.Verify(x => x.Map<Contato>(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Never);
             _contatoReadOnlyRepositorio.Verify(x => x.ExisteUsuarioComEmail(It.IsAny<string>()), Times.Once);
             _contatoWriteOnlyRepositorio.Verify(x => x.Adicionar(It.IsAny<Contato>()), Times.Never);
@@ -76,7 +76,7 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
         }
 
         [Fact]
-        public async Task Executar_Deve_Retornar_Erro_Quando_Nome_Em_Branco()
+        public async Task Executar_Deve_Retornar_False_Quando_Nome_Em_Branco()
         {
             //Arrange
             var requisicao = new AutoFaker<RequisicaoRegistrarContatoJson>()
@@ -88,10 +88,10 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
             _contatoReadOnlyRepositorio.Setup(x => x.ExisteUsuarioComEmail(It.IsAny<string>())).ReturnsAsync(false);
 
             //Act
-            var action = async () => await _useCase.Executar(requisicao);
+            var result = await _useCase.Executar(requisicao);
 
             //Assert
-            await action.Should().ThrowAsync<ErrosDeValidacaoException>();
+            result.Should().BeFalse();
             _mapper.Verify(x => x.Map<Contato>(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Never);
             _contatoReadOnlyRepositorio.Verify(x => x.ExisteUsuarioComEmail(It.IsAny<string>()), Times.Once);
             _contatoWriteOnlyRepositorio.Verify(x => x.Adicionar(It.IsAny<Contato>()), Times.Never);
@@ -99,7 +99,7 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
         }
 
         [Fact]
-        public async Task Executar_Deve_Retornar_Erro_Quando_Email_Em_Branco()
+        public async Task Executar_Deve_Retornar_Falso_Quando_Email_Em_Branco()
         {
             //Arrange
             var requisicao = new AutoFaker<RequisicaoRegistrarContatoJson>()
@@ -110,10 +110,10 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
             _contatoReadOnlyRepositorio.Setup(x => x.ExisteUsuarioComEmail(It.IsAny<string>())).ReturnsAsync(false);
 
             //Act
-            var action = async () => await _useCase.Executar(requisicao);
+            var result =  await _useCase.Executar(requisicao);
 
             //Assert
-            await action.Should().ThrowAsync<ErrosDeValidacaoException>();
+            result.Should().BeFalse();
             _mapper.Verify(x => x.Map<Contato>(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Never);
             _contatoReadOnlyRepositorio.Verify(x => x.ExisteUsuarioComEmail(It.IsAny<string>()), Times.Once);
             _contatoWriteOnlyRepositorio.Verify(x => x.Adicionar(It.IsAny<Contato>()), Times.Never);
@@ -121,7 +121,7 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
         }
 
         [Fact]
-        public async Task Executar_Deve_Retornar_Erro_Quando_Telefone_Em_Branco()
+        public async Task Executar_Deve_Retornar_Falso_Quando_Telefone_Em_Branco()
         {
             //Arrange
             var requisicao = new AutoFaker<RequisicaoRegistrarContatoJson>()
@@ -132,10 +132,10 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
             _contatoReadOnlyRepositorio.Setup(x => x.ExisteUsuarioComEmail(It.IsAny<string>())).ReturnsAsync(false);
 
             //Act
-            var action = async () => await _useCase.Executar(requisicao);
+            var result =  await _useCase.Executar(requisicao);
 
             //Assert
-            await action.Should().ThrowAsync<ErrosDeValidacaoException>();
+            result.Should().BeFalse();
             _mapper.Verify(x => x.Map<Contato>(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Never);
             _contatoReadOnlyRepositorio.Verify(x => x.ExisteUsuarioComEmail(It.IsAny<string>()), Times.Once);
             _contatoWriteOnlyRepositorio.Verify(x => x.Adicionar(It.IsAny<Contato>()), Times.Never);
@@ -143,7 +143,7 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
         }
 
         [Fact]
-        public async Task Executar_Deve_Retornar_Erro_Quando_Email_Fora_Do_Padrao()
+        public async Task Executar_Deve_Retornar_Falso_Quando_Email_Fora_Do_Padrao()
         {
             //Arrange
             var requisicao = new AutoFaker<RequisicaoRegistrarContatoJson>()
@@ -154,10 +154,10 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
             _contatoReadOnlyRepositorio.Setup(x => x.ExisteUsuarioComEmail(It.IsAny<string>())).ReturnsAsync(false);
 
             //Act
-            var action = async () => await _useCase.Executar(requisicao);
+            var result = await _useCase.Executar(requisicao);
 
             //Assert
-            await action.Should().ThrowAsync<ErrosDeValidacaoException>();
+            result.Should().BeFalse();
             _mapper.Verify(x => x.Map<Contato>(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Never);
             _contatoReadOnlyRepositorio.Verify(x => x.ExisteUsuarioComEmail(It.IsAny<string>()), Times.Once);
             _contatoWriteOnlyRepositorio.Verify(x => x.Adicionar(It.IsAny<Contato>()), Times.Never);
@@ -165,7 +165,7 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
         }
 
         [Fact]
-        public async Task Executar_Deve_Retornar_Erro_Quando_Telefone_Fora_Do_Padrao()
+        public async Task Executar_Deve_Retornar_Falso_Quando_Telefone_Fora_Do_Padrao()
         {
             //Arrange
             var requisicao = new AutoFaker<RequisicaoRegistrarContatoJson>()
@@ -176,10 +176,10 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
             _contatoReadOnlyRepositorio.Setup(x => x.ExisteUsuarioComEmail(It.IsAny<string>())).ReturnsAsync(false);
 
             //Act
-            var action = async () => await _useCase.Executar(requisicao);
+            var result = await _useCase.Executar(requisicao);
 
             //Assert
-            await action.Should().ThrowAsync<ErrosDeValidacaoException>();
+            result.Should().BeFalse();
             _mapper.Verify(x => x.Map<Contato>(It.IsAny<RequisicaoRegistrarContatoJson>()), Times.Never);
             _contatoReadOnlyRepositorio.Verify(x => x.ExisteUsuarioComEmail(It.IsAny<string>()), Times.Once);
             _contatoWriteOnlyRepositorio.Verify(x => x.Adicionar(It.IsAny<Contato>()), Times.Never);

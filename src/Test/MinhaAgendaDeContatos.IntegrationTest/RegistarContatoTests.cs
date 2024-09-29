@@ -16,20 +16,23 @@ namespace MinhaAgendaDeContatos.IntegrationTest
 {
     public class RegistrarContatoTests : IClassFixture<CustomWebApplicationFactory>
     {
+        protected readonly CustomWebApplicationFactory _fixture;
         protected readonly HttpClient _client;
-        public RegistrarContatoTests(CustomWebApplicationFactory factory)
+        public RegistrarContatoTests(CustomWebApplicationFactory fixture)
         {
-            _client = factory.CreateClient();
+            _fixture = fixture;
+            _client = _fixture.CreateClient();
         }
 
         [Fact]
         public async Task RegistrarContato_Quando_Sucesso_Deve_Retornar_Ok_Com_Mensagem_Correta()
         {
             //Arrange
+            var email = new Faker().Person.Email;
             var contato = new AutoFaker<RequisicaoRegistrarContatoJson>()
                 .RuleFor(x => x.TelefoneProxy, 88888888)
                 .RuleFor(x => x.PrefixoProxy, 99)
-                .RuleFor(x => x.Email, new Faker().Person.Email)
+                .RuleFor(x => x.Email, email)
                 .Generate();
 
             StringContent body = new(JsonSerializer.Serialize(contato), Encoding.UTF8, "application/json");
@@ -41,6 +44,11 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             var jsonResponse = await response.Content.ReadAsStringAsync();
             jsonResponse.Should().Be(ResponseMessages.ContatoCriado);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            Thread.Sleep(10000);
+
+            var getResult = await _fixture.GetByEmail(email);
+            getResult.Should().Contain(x => x.Email.Equals(email.ToLower()));
         }
     }
 }

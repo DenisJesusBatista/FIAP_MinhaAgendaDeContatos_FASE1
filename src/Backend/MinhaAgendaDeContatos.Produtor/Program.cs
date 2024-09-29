@@ -6,7 +6,7 @@ using MinhaAgendaDeContatos.Produtor.RabbitMqProducer;
 using MinhaAgendaDeContatos.Produtor.RabbitMqSettings;
 using MinhaAgendaDeContatos.Produtor;
 
-public class Program
+class Program
 {
     public static void Main(string[] args)
     {

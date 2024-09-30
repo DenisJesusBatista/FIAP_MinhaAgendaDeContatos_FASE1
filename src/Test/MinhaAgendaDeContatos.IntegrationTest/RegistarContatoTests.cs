@@ -50,5 +50,6 @@ namespace MinhaAgendaDeContatos.IntegrationTest
             var getResult = await _fixture.GetByEmail(email);
             getResult.Should().Contain(x => x.Email.Equals(email.ToLower()));
         }
+
     }
 }

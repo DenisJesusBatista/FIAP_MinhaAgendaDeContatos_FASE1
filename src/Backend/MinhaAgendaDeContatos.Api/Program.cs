@@ -62,7 +62,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Configurar RabbitMQ
 builder.Services.AddSingleton<IRabbitMqProducer, RabbitMqProducer>();
-builder.Services.AddHostedService<MinhaAgendaDeContatos.Consumidor.Worker>();
+//builder.Services.AddHostedService<Worker>();
 
 
 
@@ -128,6 +128,7 @@ builder.Services.AddScoped<IRecuperarPorPrefixoUseCase, RecuperarPorPrefixoUseCa
 
 builder.Services.AddHostedService<Worker>();
 
+
 // Configurar AutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -136,9 +137,10 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
 {
     return new ConnectionFactory
     {
-        HostName = "localhost",
+        HostName = "host.docker.internal", // Configurações do RabbitMQ
         UserName = "guest",
-        Password = "guest"   
+        Password = "guest",
+        Port = 5672
     };
 });
 builder.Services.AddSingleton<IConnection>(sp =>
@@ -153,6 +155,7 @@ builder.Services.AddSingleton<IModel>(sp =>
     var connection = sp.GetRequiredService<IConnection>();
     return connection.CreateModel();
 });
+
 
 // Configurar outros serviços e AutoMapper
 builder.Services.AddRepositorio(builder.Configuration);

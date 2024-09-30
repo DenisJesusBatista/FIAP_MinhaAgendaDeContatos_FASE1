@@ -11,7 +11,7 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <UserSecretsId>651245d7-b5e2-4725-9d12-0abc754f643f</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerfileContext>.</DockerfileContext>
     <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <ContainerRuntimeIdentifier>win10-x64</ContainerRuntimeIdentifier>

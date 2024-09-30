@@ -14,7 +14,10 @@ public class RabbitMqService : IRabbitMqService
     {
         var factory = new ConnectionFactory
         {
-            HostName = "localhost"
+            HostName = "host.docker.internal", // Configurações do RabbitMQ
+            UserName = "guest",
+            Password = "guest",
+            Port = 5672
             // Outras configurações, se necessário
         };
 

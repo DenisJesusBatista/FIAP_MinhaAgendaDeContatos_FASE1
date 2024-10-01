@@ -1,0 +1,43 @@
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Worker iniciado às: 10/01/2024 20:24:48 -03:00
+Log de Execução Information: 0 - Aguardando 5 segundos antes de continuar a execução.
+Log de Execução Information: 0 - Mensagem recebida: {"Id":"c4c64680-a3b7-4a72-8005-98e13d561e74-638634207752317842","Payload":{"Acao":"RecuperarTodosContatos","Dados":{"Id":0,"Nome":"","NomeNovo":"","Email":"","EmailNovo":"","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\POSTECH\ETAPA3\FIAP_ETAPA4_MICROSERVICOS\FIAP_MinhaAgendaDeContatos_FASE1\src\Backend\MinhaAgendaDeContatos.Api
+Log de Execução Information: 0 - Mensagem recebida: {"Id":"4c6a8530-3413-495e-80c2-e437e2a13c23-638634214315099751","Payload":{"Acao":"RecuperarTodosContatos","Dados":{"Id":0,"Nome":"","NomeNovo":"","Email":"","EmailNovo":"","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila contatosTodos: {"Id":"0664fd42-4220-4f86-a0c8-e3143e0663f9-638634218930282213","Payload":{"Id":"c4c64680-a3b7-4a72-8005-98e13d561e74-638634207752317842","Contatos":[]}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila contatosTodos: {"Id":"453af654-3476-4660-9870-c152a8f24101-638634218930332268","Payload":{"Id":"4c6a8530-3413-495e-80c2-e437e2a13c23-638634214315099751","Contatos":[]}}
+Log de Execução Information: 0 - Atraso concluído. Continuando a execução.
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"647d077f-2705-4c23-98dd-7f2867edacb8-638634219566621418","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"string","NomeNovo":"string","Email":"string","EmailNovo":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Worker iniciado às: 10/01/2024 20:28:44 -03:00
+Log de Execução Information: 0 - Aguardando 5 segundos antes de continuar a execução.
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\POSTECH\ETAPA3\FIAP_ETAPA4_MICROSERVICOS\FIAP_MinhaAgendaDeContatos_FASE1\src\Backend\MinhaAgendaDeContatos.Api
+Log de Execução Information: 0 - Atraso concluído. Continuando a execução.
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"bb64f4b4-764d-48e0-806e-3fd362ebf187-638634221591548381","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"Teste","NomeNovo":"","Email":"teste@gmail.com","EmailNovo":"","TelefoneProxy":999775566,"PrefixoProxy":32}}}
+Log de Execução Information: 0 - Mensagem recebida: {"Id":"bb64f4b4-764d-48e0-806e-3fd362ebf187-638634221591548381","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"Teste","NomeNovo":"","Email":"teste@gmail.com","EmailNovo":"","TelefoneProxy":999775566,"PrefixoProxy":32}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila contatosRegistrados: {"Id":"60c86475-5867-4128-abda-3337640a2b9b-638634221615583602","Payload":{"Id":"bb64f4b4-764d-48e0-806e-3fd362ebf187-638634221591548381","resultRegistrar":true}}
+Log de Execução Warning: FluentMigrator.Runner - 1: Versao0000001 (current)
+Log de Execução Information: 0 - Worker iniciado às: 10/01/2024 20:40:38 -03:00
+Log de Execução Information: 0 - Aguardando 5 segundos antes de continuar a execução.
+Log de Execução Information: 0 - Mensagem recebida: {"Id":"085cecb2-c90e-48b1-8854-5bb4d89c4cfe-638634224216097430","Payload":{"Acao":"RecuperarTodosContatos","Dados":{"Id":0,"Nome":"","NomeNovo":"","Email":"","EmailNovo":"","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: ListeningOnAddress - Now listening on: https://localhost:7196
+Log de Execução Information: ListeningOnAddress - Now listening on: http://localhost:5099
+Log de Execução Information: 0 - Application started. Press Ctrl+C to shut down.
+Log de Execução Information: 0 - Hosting environment: Development
+Log de Execução Information: 0 - Content root path: C:\POSTECH\ETAPA3\FIAP_ETAPA4_MICROSERVICOS\FIAP_MinhaAgendaDeContatos_FASE1\src\Backend\MinhaAgendaDeContatos.Api
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila contatosTodos: {"Id":"5c4aba31-42c6-4370-9066-ab125e0015ee-638634228431484900","Payload":{"Id":"085cecb2-c90e-48b1-8854-5bb4d89c4cfe-638634224216097430","Contatos":[{"Id":1,"DataCriacao":"2024-10-01T23:29:21.282737","Nome":"Teste","Email":"teste@gmail.com","Telefone":"999775566","Prefixo":null,"DDDRegiao":{"Id":16,"Prefixo":"32","Regiao":"Barbacena/Juiz de Fora/Muria\u00E9/S\u00E3o Jo\u00E3o del-Rei/Ub\u00E1","Estado":"Minas Gerais"}}]}}
+Log de Execução Information: 0 - Atraso concluído. Continuando a execução.
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"de778bea-1bea-4df9-bbf6-66c7f4b30a74-638634228626485808","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"string","NomeNovo":"string","Email":"string","EmailNovo":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: 0 - Mensagem recebida: {"Id":"de778bea-1bea-4df9-bbf6-66c7f4b30a74-638634228626485808","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"string","NomeNovo":"string","Email":"string","EmailNovo":"string","TelefoneProxy":0,"PrefixoProxy":0}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila contatosRegistrados: {"Id":"f30d4e15-e607-407b-8174-a4e1e5302a1c-638634228636057255","Payload":{"Id":"de778bea-1bea-4df9-bbf6-66c7f4b30a74-638634228626485808","resultRegistrar":false}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila registrarContato: {"Id":"04942aa0-2bb7-4b12-ab63-dc1c7dbee050-638634229502961269","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"Tese","NomeNovo":"","Email":"tese@gmail.com","EmailNovo":"","TelefoneProxy":999552211,"PrefixoProxy":32}}}
+Log de Execução Information: 0 - Mensagem recebida: {"Id":"04942aa0-2bb7-4b12-ab63-dc1c7dbee050-638634229502961269","Payload":{"Acao":"Registro","Dados":{"Id":0,"Nome":"Tese","NomeNovo":"","Email":"tese@gmail.com","EmailNovo":"","TelefoneProxy":999552211,"PrefixoProxy":32}}}
+Log de Execução Information: 0 - Mensagem publicada com sucesso na fila contatosRegistrados: {"Id":"6f9a870a-b8c7-44e0-ab55-38be2ae109a8-638634229506258548","Payload":{"Id":"04942aa0-2bb7-4b12-ab63-dc1c7dbee050-638634229502961269","resultRegistrar":true}}

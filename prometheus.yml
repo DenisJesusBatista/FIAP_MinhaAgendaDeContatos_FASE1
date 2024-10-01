@@ -25,10 +25,10 @@ scrape_configs:
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
-
     static_configs:
-      - targets: ["192.168.0.109:10080"]
-  
+      - targets: ["192.168.0.109:10443"]
+    scheme: https
+
   - job_name: "rabbitmq"
     static_configs:
       - targets: ["192.168.0.109:15692"]

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+  "autoEnabled": true,
+  "dependencies": {
+    "grafanaDependency": "\u003e=11.3.0",
+    "plugins": []
+  },
+  "extensions": {
+    "addedLinks": [
+      {
+        "description": "Open current query in the Explore Logs view",
+        "targets": [
+          "grafana/dashboard/panel/menu",
+          "grafana/explore/toolbar/action"
+        ],
+        "title": "Open in Explore Logs"
+      }
+    ]
+  },
+  "id": "grafana-lokiexplore-app",
+  "includes": [
+    {
+      "action": "datasources:explore",
+      "addToNav": true,
+      "defaultNav": true,
+      "name": "Logs",
+      "path": "/a/grafana-lokiexplore-app/explore",
+      "type": "page"
+    }
+  ],
+  "info": {
+    "author": {
+      "name": "Grafana"
+    },
+    "build": {
+      "time": 1729761125065,
+      "repo": "https://github.com/grafana/explore-logs",
+      "branch": "main",
+      "hash": "9aa874137b4b4c2bd7401d4c79fa60164d608c3d",
+      "build": 1064
+    },
+    "description": "Query-less exploration of log data stored in Loki",
+    "keywords": [
+      "app",
+      "loki",
+      "explore",
+      "logs"
+    ],
+    "links": [
+      {
+        "name": "Github",
+        "url": "https://github.com/grafana/explore-logs"
+      },
+      {
+        "name": "Report bug",
+        "url": "https://github.com/grafana/explore-logs/issues/new"
+      }
+    ],
+    "logos": {
+      "large": "img/logo.svg",
+      "small": "img/logo.svg"
+    },
+    "screenshots": [
+      {
+        "name": "patterns",
+        "path": "img/patterns.png"
+      },
+      {
+        "name": "fields",
+        "path": "img/fields.png"
+      },
+      {
+        "name": "table",
+        "path": "img/table.png"
+      }
+    ],
+    "updated": "2024-10-24",
+    "version": "1.0.2"
+  },
+  "name": "Explore Logs",
+  "preload": true,
+  "roles": [],
+  "type": "app"
+}

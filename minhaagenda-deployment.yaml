@@ -16,6 +16,13 @@ spec:
       containers:
       - name: minhaagenda-api
         image: denisjesus/minhaagenda-api:dev
+        resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
         ports:
         - containerPort: 5001
         env:

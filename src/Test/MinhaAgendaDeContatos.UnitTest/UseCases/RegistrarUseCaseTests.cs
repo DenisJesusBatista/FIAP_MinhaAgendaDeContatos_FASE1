@@ -2,6 +2,7 @@
 using AutoMapper;
 using Bogus;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using MinhaAgendaDeContatos.Application.UseCases.Contato.Registrar;
 using MinhaAgendaDeContatos.Comunicacao.Requisicoes;
 using MinhaAgendaDeContatos.Domain.Entidades;
@@ -18,6 +19,7 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
         private readonly Mock<IMapper> _mapper;
         private readonly Mock<IUnidadeDeTrabalho> _unidadeDeTrabalho;
         private readonly IRegistrarContatoUseCase _useCase;
+        private readonly ILogger<RegistrarContatoUseCase> _logger;
 
         public RegistrarUseCaseTests()
         {
@@ -25,7 +27,7 @@ namespace MinhaAgendaDeContatos.UnitTest.UseCases
             _contatoWriteOnlyRepositorio = new Mock<IContatoWriteOnlyRepositorio>();
             _mapper = new Mock<IMapper>();
             _unidadeDeTrabalho = new Mock<IUnidadeDeTrabalho>();
-            _useCase = new RegistrarContatoUseCase(_contatoWriteOnlyRepositorio.Object, _mapper.Object, _unidadeDeTrabalho.Object, _contatoReadOnlyRepositorio.Object);
+            _useCase = new RegistrarContatoUseCase(_contatoWriteOnlyRepositorio.Object, _mapper.Object, _unidadeDeTrabalho.Object, _contatoReadOnlyRepositorio.Object, _logger);
         }
 
         [Fact]

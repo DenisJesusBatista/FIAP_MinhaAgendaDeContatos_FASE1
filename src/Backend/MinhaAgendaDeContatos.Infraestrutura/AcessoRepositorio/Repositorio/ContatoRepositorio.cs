@@ -3,6 +3,7 @@ using MinhaAgendaDeContatos.Domain.Entidades;
 using MinhaAgendaDeContatos.Domain.Repositorios;
 
 namespace MinhaAgendaDeContatos.Infraestrutura.AcessoRepositorio.Repositorio;
+
 public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnlyRepositorio, IContatoUpdateOnlyRepositorio
 {
     private readonly MinhaAgendaDeContatosContext _contexto;
@@ -10,8 +11,8 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
     public ContatoRepositorio(MinhaAgendaDeContatosContext contexto)
     {
         _contexto = contexto;
-
     }
+
     public async Task Adicionar(Contato contato)
     {
         await _contexto.Contatos.AddAsync(contato);
@@ -20,7 +21,10 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
     public async Task Deletar(string email)
     {
         var contato = await _contexto.Contatos.FirstOrDefaultAsync(c => c.Email == email);
-        _contexto.Contatos.Remove(contato);
+        if (contato != null)  // Verificação para garantir que o contato não seja null
+        {
+            _contexto.Contatos.Remove(contato);
+        }
     }
 
     public async Task<bool> ExisteUsuarioComEmail(string email)
@@ -28,7 +32,7 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
         return await _contexto.Contatos.AnyAsync(c => c.Email.Equals(email));
     }
 
-    public async Task<Contato> RecuperarPorEmail(string email)
+    public async Task<Contato?> RecuperarPorEmail(string email)
     {
         return await _contexto.Contatos
             .Include(c => c.Regiao)
@@ -42,7 +46,6 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
             .Include(c => c.Regiao)
             .ToListAsync();
     }
-
 
     public async Task<IEnumerable<Contato>> RecuperarTodosContatos()
     {
@@ -64,9 +67,11 @@ public class ContatoRepositorio : IContatoWriteOnlyRepositorio, IContatoReadOnly
         _contexto.Contatos.Update(contato);
     }
 
-    async Task IContatoWriteOnlyRepositorio.Update(Contato contato)
+    // Corrigido o método Update da interface IContatoWriteOnlyRepositorio
+    // Removendo o async, pois não há operações assíncronas nesse método
+    Task IContatoWriteOnlyRepositorio.Update(Contato contato)
     {
         _contexto.Contatos.Update(contato);
+        return Task.CompletedTask; // Retornando uma tarefa concluída, como método assíncrono sem await
     }
-
 }

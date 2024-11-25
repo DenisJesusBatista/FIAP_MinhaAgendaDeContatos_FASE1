@@ -141,12 +141,37 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
         Password = "guest"   
     };
 });
+
+//builder.Services.AddHealthChecks()
+//    .AddRabbitMQ("amqp://guest:guest@localhost", name: "RabbitMQ")
+//    .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection"), name: "Database");
+
+//app.UseHealthChecks("/health");
+
+
 builder.Services.AddSingleton<IConnection>(sp =>
 {
-    Thread.Sleep(20000);
     var factory = sp.GetRequiredService<IConnectionFactory>();
-    return factory.CreateConnection();
+    var retryCount = 5;
+
+    while (retryCount > 0)
+    {
+        try
+        {
+            return factory.CreateConnection();
+        }
+        catch (Exception ex)
+        {
+            var logger = sp.GetRequiredService<ILogger<Program>>();
+            logger.LogWarning(ex, "Falha ao conectar ao RabbitMQ. Tentativas restantes: {retryCount}", retryCount);
+            retryCount--;
+            Thread.Sleep(5000);
+        }
+    }
+
+    throw new Exception("Não foi possível conectar ao RabbitMQ após várias tentativas.");
 });
+
 
 builder.Services.AddSingleton<IModel>(sp =>
 {
@@ -187,6 +212,17 @@ app.MapControllers();
 // Configurar e atualizar o banco de dados
 DatabaseSetup.AtualizarBaseDeDados(builder.Configuration, app);
 
-app.Run();
+var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
+logger.LogInformation("Iniciando a configuração da aplicação...");
+
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "Erro crítico ao executar a aplicação.");
+    throw;
+}
 
 public partial class Program { }

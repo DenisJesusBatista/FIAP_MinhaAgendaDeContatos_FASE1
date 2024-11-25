@@ -15,6 +15,15 @@
         ],
         "title": "Open in Explore Logs"
       }
+    ],
+    "extensionPoints": [
+      {
+        "id": "grafana-lokiexplore-app/metric-exploration/v1"
+      },
+      {
+        "id": "grafana-lokiexplore-app/toolbar-open-related/v1",
+        "title": "Open related signals like metrics/traces/profiles"
+      }
     ]
   },
   "id": "grafana-lokiexplore-app",
@@ -33,11 +42,11 @@
       "name": "Grafana"
     },
     "build": {
-      "time": 1729761125065,
+      "time": 1732219578279,
       "repo": "https://github.com/grafana/explore-logs",
       "branch": "main",
-      "hash": "9aa874137b4b4c2bd7401d4c79fa60164d608c3d",
-      "build": 1064
+      "hash": "eb2effa22a252a175601aad740c37de1f3dd2515",
+      "build": 1243
     },
     "description": "Query-less exploration of log data stored in Loki",
     "keywords": [
@@ -74,8 +83,8 @@
         "path": "img/table.png"
       }
     ],
-    "updated": "2024-10-24",
-    "version": "1.0.2"
+    "updated": "2024-11-21",
+    "version": "1.0.4"
   },
   "name": "Explore Logs",
   "preload": true,

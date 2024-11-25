@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minhaagenda-api-deployment
+  namespace: minhaagenda-namespace  # Adicionar o campo namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: minhaagenda-api
+  template:
+    metadata:
+      labels:
+        app: minhaagenda-api
+    spec:
+      containers:
+      - name: minhaagenda-api
+        image: denisjesus/minhaagenda-api:dev
+        ports:
+        - containerPort: 5001
+        env:
+        - name: DATABASE_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: minhaagenda-db-secret
+              key: connectionString
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production

@@ -40,11 +40,10 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{C34F2B24-0319-4C88-94B2-D382B9AC174D}"
 	ProjectSection(SolutionItems) = preProject
-		app.yaml = app.yaml
-		configmap.yaml = configmap.yaml
-		postgres.yaml = postgres.yaml
-		secrets.yaml = secrets.yaml
-		volumes.yaml = volumes.yaml
+		minhaagenda-db-secret.yaml = minhaagenda-db-secret.yaml
+		minhaagenda-deployment.yaml = minhaagenda-deployment.yaml
+		minhaagenda-namespace.yaml = minhaagenda-namespace.yaml
+		minhaagenda-service.yaml = minhaagenda-service.yaml
 	EndProjectSection
 EndProject
 Global

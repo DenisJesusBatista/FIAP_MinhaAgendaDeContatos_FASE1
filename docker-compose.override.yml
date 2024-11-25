@@ -24,6 +24,8 @@ services:
  
   # API
   minhaagendadecontatos.api:
+    container_name: minhaagenda
+    image: minhaagenda-api:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
@@ -58,7 +60,7 @@ services:
   # RABBITMQ
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3.8-management
+    image: rabbitmq:management
     ports:
       - 5672:5672
       - 15692:15692
@@ -74,8 +76,8 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "rabbitmqctl status"]
       interval: 30s
-      timeout: 10s
-      retries: 5
+      timeout: 30s
+      retries: 10
 
   # GRAFANA
   grafana:

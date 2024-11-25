@@ -40,10 +40,23 @@ public class CustomLogger : ILogger
     {
         /*Escrevendo log no arquivo txt*/
         string caminhoArquivo = Environment.CurrentDirectory + @$"\LOG-{DateTime.Now:yyyy-MM-dd}.txt";
+        string? directoryPath = Path.GetDirectoryName(caminhoArquivo);
+
+        if (directoryPath != null)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+        }
+        else
+        {
+            // Caso o diretório não seja encontrado, você pode lançar uma exceção ou logar o erro
+            throw new InvalidOperationException("O caminho do diretório para o arquivo de log é inválido.");
+        }
 
         if (!File.Exists(caminhoArquivo))
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(caminhoArquivo));
             File.Create(caminhoArquivo).Dispose();
         }
 
@@ -51,4 +64,5 @@ public class CustomLogger : ILogger
         stream.WriteLine(message);
         stream.Close();
     }
+
 }

@@ -62,7 +62,7 @@ services:
     container_name: rabbitmq
     image: rabbitmq:management
     ports:
-      - 5672:5672
+      - 5673:5672
       - 15692:15692
     volumes:
       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/

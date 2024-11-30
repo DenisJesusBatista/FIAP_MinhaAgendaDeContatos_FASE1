@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: minhaagenda-api-deployment
 spec:
-  replicas: 1
+  replicas: 10
   selector:
     matchLabels:
       app: minhaagenda-api
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: minhaagenda-api
-        image: 192.168.49.2:31324/minhaagenda-api:dev  # Atualize com o IP correto do Minikube
+        image: denisjesus/minhaagenda-api:dev  # Usando imagem diretamente
         resources:
             requests:
               memory: "64Mi"
@@ -26,6 +26,6 @@ spec:
         - containerPort: 5001
         env:
         - name: DATABASE_CONNECTION_STRING
-          value: "Host=localhost;Port=5432;Database=minhaagenda;Username=postgres;Password=postgres;Timeout=60;"
+          value: "Host=minhaagenda-db-service;Port=5432;Database=minhaagenda;Username=postgres;Password=postgres;Timeout=60;"  # Ajuste para o nome correto do serviço do DB
         - name: ASPNETCORE_ENVIRONMENT
           value: Production

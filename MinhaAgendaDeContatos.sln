@@ -30,6 +30,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinhaAgendaDeContatos.Integ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinhaAgendaDeContatos.UnitTest", "MinhaAgendaDeContatos\Test\MinhaAgendaDeContatos.UnitTest\MinhaAgendaDeContatos.UnitTest.csproj", "{67C363B7-DF23-41FD-A344-121959C4DF57}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{8696FBBA-C34A-43C4-A160-C2AC80610931}"
+	ProjectSection(SolutionItems) = preProject
+		kubernetes\deployment.yaml = kubernetes\deployment.yaml
+		kubernetes\kind-config.yaml = kubernetes\kind-config.yaml
+		kubernetes\postgres-deployment.yaml = kubernetes\postgres-deployment.yaml
+		kubernetes\rabbitmq-deployment.yaml = kubernetes\rabbitmq-deployment.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

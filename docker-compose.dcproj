@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>20873165-9fa8-4a5a-a8b8-6036f2942b81</ProjectGuid>
+    <ProjectGuid>18bfc0ac-e5b3-40f7-941a-d330cf292c5c</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>minhaagendadecontatos.api</DockerServiceName>

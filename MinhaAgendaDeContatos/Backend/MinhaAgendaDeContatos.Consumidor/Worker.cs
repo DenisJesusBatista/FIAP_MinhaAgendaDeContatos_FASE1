@@ -107,9 +107,17 @@ namespace MinhaAgendaDeContatos.Consumidor
                                     break;
 
                                 case "recuperarTodosContatos":
-
-                                    var resultRecuperarTodos = await recuperarTodosUseCase.Executar();
-                                    await _rabbitMqProducer.PublishMessageAsync("contatosTodos", new { Id = requisicao.Id, resultRecuperarTodos.Contatos });
+                                    try
+                                    {
+                                        var resultRecuperarTodos = await recuperarTodosUseCase.Executar();
+                                        await _rabbitMqProducer.PublishMessageAsync("contatosTodos", new { Id = requisicao.Id, resultRecuperarTodos.Contatos });
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        _logger.LogError(ex, ex.Message);
+                                        var teste = ex;
+                                        throw;
+                                    }
 
                                     break;
 

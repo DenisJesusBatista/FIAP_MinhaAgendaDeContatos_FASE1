@@ -1,8 +1,44 @@
 version: '3.4'
 
 services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: minhaagenda
+    networks:
+      - mynw
+    ports:
+      - 5432:5432
+  rabbitmq:
+    container_name: rabbitmq
+    ##image: rabbitmq:management
+    image: rabbitmq:3.13.7-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - mynw
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmqctl status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    depends_on: [postgres]
   minhaagendadecontatos.api:
     image: ${DOCKER_REGISTRY-}minhaagendadecontatosapi
     build:
       context: .
-      dockerfile: src/Backend/MinhaAgendaDeContatos.Api/Dockerfile
+      dockerfile: MinhaAgendaDeContatos/Backend/MinhaAgendaDeContatos.Api/Dockerfile
+    networks:
+      - mynw
+    depends_on: [rabbitmq]
+
+networks:
+   mynw:
+     driver: bridge

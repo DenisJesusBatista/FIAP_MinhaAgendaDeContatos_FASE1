@@ -136,9 +136,10 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
 {
     return new ConnectionFactory
     {
-        HostName = "localhost",
+        HostName = "rabbitmq",
         UserName = "guest",
-        Password = "guest"   
+        Password = "guest",
+        Port = 5672
     };
 });
 builder.Services.AddSingleton<IConnection>(sp =>
@@ -174,12 +175,9 @@ app.UseMetricServer();
 app.UseHttpMetrics();
 
 // Configurar o pipeline de requisições HTTP
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

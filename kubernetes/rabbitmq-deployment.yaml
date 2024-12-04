@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - env:
+            - name: RABBITMQ_DEFAULT_PASS
+              value: guest
+            - name: RABBITMQ_DEFAULT_USER
+              value: guest
+          image: rabbitmq:3.13.7-management
+          livenessProbe:
+            exec:
+              command:
+                - rabbitmqctl status
+            failureThreshold: 5
+            periodSeconds: 30
+            timeoutSeconds: 10
+          name: rabbitmq
+          ports:
+            - containerPort: 5672
+              protocol: TCP
+            - containerPort: 15672
+              protocol: TCP
+      restartPolicy: Always
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  ports:
+    - name: "5672"
+      port: 5672
+      targetPort: 5672
+      nodePort: 31002
+    - name: "15672"
+      port: 15672
+      targetPort: 15672
+      nodePort: 31001
+  selector:
+    app: rabbitmq
+  type: NodePort

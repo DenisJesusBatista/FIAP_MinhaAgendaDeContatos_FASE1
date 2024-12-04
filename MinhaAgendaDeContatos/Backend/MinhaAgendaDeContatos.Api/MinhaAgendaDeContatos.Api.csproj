@@ -17,6 +17,7 @@
     <ContainerRuntimeIdentifier>win10-x64</ContainerRuntimeIdentifier>
     <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:7.0</ContainerBaseImage>
     <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
+	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
   <ItemGroup>

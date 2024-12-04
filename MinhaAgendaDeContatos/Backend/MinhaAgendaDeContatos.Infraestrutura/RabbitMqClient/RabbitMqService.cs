@@ -14,7 +14,7 @@ public class RabbitMqService : IRabbitMqService
     {
         var factory = new ConnectionFactory
         {
-            HostName = "localhost"
+            HostName = "rabbitmq"
             // Outras configurações, se necessário
         };
 

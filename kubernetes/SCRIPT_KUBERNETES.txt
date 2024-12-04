@@ -1,0 +1,69 @@
+1-- Rodar a parte do banco de dados
+
+kubectl apply -f persistentvolume.yaml
+kubectl apply -f persistentvolumeclaim.yaml
+kubectl apply -f postgres-deployment.yaml
+
+2- Validar se o pod da aplicação está rodando
+
+kubectl get pods
+
+
+3- Validar a persistência do dados e a criação dos replicasSets.
+  - Neste momento são executados as migrations do banco e as tabelas serão criadas.
+  
+kubectl apply -f rabbitmq-deployment.yaml
+kubectl apply -f deployment.yaml
+
+
+4- Validar as execuções dos pods
+
+kubectl get pods
+
+- Validar o retorno do pod 
+kubectl delete pods postgres
+kubectl get pods
+
+
+Parte do AutoScaler
+
+5- Instalar o servidor de metricas, buscando do gitHub
+
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+Validar o funcionamento
+
+kubectl get apiservices.api registration.k8s.io
+
+6- Subir o HPA para estabelecer o minimo e máximo de replicas, e a escalabilidade com mais de 10% da CPU
+
+kubectl apply -f hpa.yaml
+kubectl top nodes
+kubectl top pods
+
+Validar a CPF, minimo e máximo de replicas
+kubectl get hpa
+
+
+7- Fazer um DDOs dos pods para ver o HPA escalando
+
+Acessar o bash
+kubectl exec -it minhaagendadecontatosapi-86f46595b4-sfxvz -- sh
+
+# apt-get update && apt-get install curl -y
+
+Fazer requisições HTTP
+
+while true; do
+  curl -X POST http://minhaagendadecontatosapi:80/api/contatos \
+     -H "Content-Type: application/json" \
+     -d '{"nome": "João", "email": "joao@example.com"}'
+  sleep 1 # Aguarda 1 segundo entre as requisições
+done
+
+
+
+Verificar a quantidade de PODs, HPA e a aplicação escalando
+
+kubectl get pods
+kubectl get hpa
